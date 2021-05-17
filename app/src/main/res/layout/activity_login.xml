@@ -122,5 +122,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpBtn" />
 
-    <include layout="@layout/loader_"/>
+    <include layout="@layout/loader_"
+        android:id="@+id/loader"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,4 +74,6 @@
     <string name="required">Required</string>
     <string name="blogIsAdded">your Blog is added successully</string>
     <string name="joinedDate">Joined date:</string>
+    <string name="usernameError">Needt to insert valid email or mobile</string>
+    <string name="passwordError">Password should be more than 6 charchters</string>
 </resources>
