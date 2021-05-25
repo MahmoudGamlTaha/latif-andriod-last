@@ -16,6 +16,7 @@ data class AdsModel(
     val short_description: String?,
     val price: String?,
     val image: String?,
+    val city:String?,
     val images: List<ImagesModel>?,
     val breed: String?,
     val stock: String?,

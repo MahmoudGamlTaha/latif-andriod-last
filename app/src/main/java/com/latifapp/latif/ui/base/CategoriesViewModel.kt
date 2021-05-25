@@ -26,9 +26,11 @@ open class CategoriesViewModel(appPrefsStorage: AppPrefsStorage, val repo: DataR
         loader.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val result = repo.getCategoriesList(type)
+
             Utiles.log_D("dndnndnddnndnd", " $result")
             when (result) {
                 is ResultWrapper.Success -> flow_.value = result.value.response.data!!
+
                 else -> getErrorMsg(result)
             }
             loader.value = false

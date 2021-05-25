@@ -15,6 +15,7 @@ import javax.inject.Inject
         return withContext(Dispatchers.IO) {
             try {
                 ResultWrapper.Success(apiCall.invoke())
+
             } catch (throwable: Throwable) {
                 Utiles.log_D("dndndndndndnd","$throwable")
                 when (throwable) {

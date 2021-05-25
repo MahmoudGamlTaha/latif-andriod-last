@@ -55,8 +55,16 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), NavCont
             intent.putExtra("type", type)
             startActivity(intent)
         }
+
     }
 
+    override fun onResume() {
+        super.onResume()
+        val id = navigation.currentDestination?.id
+        navigation.popBackStack(id!!,true)
+        navigation.navigate(id)
+
+    }
     private fun setBottomBarNav() {
         binding.bottomNavRecyclerView.apply {
             layoutManager=GridLayoutManager(this@MainActivity, 5)

@@ -25,6 +25,7 @@ import com.latifapp.latif.ui.main.pets.PetsFragment
 import com.latifapp.latif.ui.map.MapsActivity
 import com.latifapp.latif.ui.sell.adapters.ImagesAdapter
 import com.latifapp.latif.ui.sell.views.*
+import com.latifapp.latif.utiles.ExpressionEvaluator
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Permissions.MapRequest
 import com.latifapp.latif.utiles.Permissions.galleryRequest
@@ -53,6 +54,8 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     private val hashMap: MutableMap<String, Any> = mutableMapOf()
     private val CurrentForm: MutableMap<String, Boolean?> = mutableMapOf()
     private val CurrentFormEng: MutableMap<String, String?> = mutableMapOf()
+    private val CurrentFormRequiredCond: MutableMap<String, String?> = mutableMapOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.backBtn.setOnClickListener { onBackPressed() }
@@ -73,8 +76,22 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     }
 
     private fun submitAdForm() {
+        var ecx= ExpressionEvaluator()
+        ecx.jexlContext.clear()
+
+        for ((key, value) in hashMap) {
+            ecx.jexlContext.set(key,value)
+        }
+         var CheckConditionRes=true
         for ((key, value) in CurrentForm) {
-            if(value==true){
+
+            if(!CurrentFormRequiredCond[key].isNullOrBlank()){
+                CheckConditionRes= ecx.evaluateAsBoolean(CurrentFormRequiredCond[key]!!)!!
+            }
+            else{
+                CheckConditionRes=true
+            }
+            if(value==true&&CheckConditionRes==true){
                 try {
                     val str = hashMap[key]
                     if (str==null){
@@ -157,6 +174,8 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     private fun setFormViews(form: List<RequireModel>) {
         CurrentForm.clear()
         CurrentFormEng.clear()
+
+        CurrentFormRequiredCond.clear()
         for (model_ in form) {
 
             when (model_.type?.toLowerCase()) {
@@ -175,6 +194,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
             }
             CurrentForm[model_.name.toString()] = model_.required
             CurrentFormEng[model_.name.toString()] = model_.label
+            CurrentFormRequiredCond[model_.name.toString()] = model_.requiredcond
         }
 
     }

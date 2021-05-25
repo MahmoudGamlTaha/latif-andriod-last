@@ -27,7 +27,7 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
 
     private var category: Int? = null
     private var isLoadingData = false
-    private lateinit var adapter: ItemsAdapter
+    private lateinit var adapter: PetsListAdapter
     private val petsAdapter = PetsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
     }
 
     private fun setList() {
-        adapter = ItemsAdapter()
+        adapter = PetsListAdapter()
         binding.petsListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@ItemsFragment.adapter

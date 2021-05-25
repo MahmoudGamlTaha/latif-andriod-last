@@ -76,7 +76,6 @@ class PetsFragment : BaseFragment<PetsViewModel, FragmentPetsBinding>(),
 //                    }
 //                }
 //            }
-
             binding.sellBtn.setOnClickListener {
                 startActivity(Intent(activity, SellActivity::class.java))
             }
@@ -109,7 +108,7 @@ class PetsFragment : BaseFragment<PetsViewModel, FragmentPetsBinding>(),
 
         if (distance>=20_000)
             lifecycleScope.launchWhenStarted {
-                viewModel.getItems(null, category).collect {
+                viewModel.getItems(AppConstants.PETS_STR, category).collect {
                     viewModel.page = 0
                     if (it != null) {
                         val set = mutableSetOf<AdsModel>()
@@ -180,25 +179,35 @@ class PetsFragment : BaseFragment<PetsViewModel, FragmentPetsBinding>(),
 
         mMap?.setOnCameraIdleListener {
             var latLng = mMap?.cameraPosition?.target
+            var changedCity=true
             if (latLng != null && latLng.latitude != 0.0) {
                 Latitude_ = latLng.latitude
                 Longitude_ = latLng.longitude
-                getPetsList()
-                getCityName_(latLng)
+                 getCityName_(latLng)
+               // if(changedCity==true)
+
             }
         }
     }
 
     private fun getCityName_(latLng: LatLng) {
-
+        var Changed=false;
         MapsUtiles.getCityName(requireContext(), latLng, "en").observe(
             viewLifecycleOwner,
             Observer {
                 if (!it.isNullOrEmpty()) {
                     val city = it.replace("Governorate", "")
+                     if(( activity as MainActivity).toolBarTitle.text.equals(city)==false)
+                     {
+                         Changed=true;
+                         getPetsList()
+
+                     }
                     (activity as MainActivity).toolBarTitle.text = city
+
                 }
             })
+
     }
 
     fun setLPetsLocations(list: Set<AdsModel>) {
@@ -292,7 +301,7 @@ class PetsFragment : BaseFragment<PetsViewModel, FragmentPetsBinding>(),
                     LatLng(
                         location!!.latitude,
                         location!!.longitude
-                    ), 10f
+                    ), 12f
                 )
             )
         }

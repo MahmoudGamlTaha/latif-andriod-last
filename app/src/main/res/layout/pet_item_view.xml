@@ -1,107 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="15dp"
     android:layout_marginStart="5dp"
+    android:layout_marginTop="2dp"
     android:layout_marginEnd="5dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="2dp">
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="5dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:background="@drawable/details_bg">
+        android:layout_height="match_parent"
+        android:background="@drawable/details_bg"
+        android:padding="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="5dp">
+
         <TextView
+            android:id="@+id/petName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/tajawal_bold"
+            android:text="Dog 1"
             android:textColor="@color/sunset_orange"
             android:textSize="17sp"
-            android:text="Dog 1"
-            android:fontFamily="@font/tajawal_bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/petName"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/yellow_orange"
-            android:textSize="13sp"
-            android:text="2-3-2020"
-            android:fontFamily="@font/poppins_regular"
-            app:layout_constraintTop_toBottomOf="@id/petName"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/dateTxt"
-            android:layout_marginTop="8dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/yellow_orange"
-            android:textSize="13sp"
-            android:text="200 Egp"
-            android:fontFamily="@font/poppins_regular"
-            app:layout_constraintTop_toBottomOf="@id/dateTxt"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/priceTxt"
-            android:layout_marginTop="4dp"
-            />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/priceTxt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="24dp"
+            android:layout_height="23dp"
             android:layout_marginTop="2dp"
             app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-          >
+            app:layout_constraintTop_toBottomOf="@+id/petName"
+            app:srcCompat="@drawable/ic_fi_rr_calendar" />
+
         <TextView
-            android:id="@+id/locTxt"
+            android:id="@+id/dateTxt"
+            android:layout_width="179dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="2-3-2020"
+            android:textColor="@color/gray"
+            android:textDirection="locale"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/petName" />
+
+        <TextView
+            android:id="@+id/cityTxt"
+            android:layout_width="190dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Cairo"
+            android:textColor="@color/gray"
+            android:textDirection="locale"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/dateTxt" />
+
+        <ImageView
+            android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/yellow_orange"
-            android:textSize="13sp"
-            android:maxLines="1"
-            android:text="dkdkdkdkkdkkdkdkkdk"
-            android:layout_marginEnd="5dp"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:srcCompat="@drawable/ic_fi_rr_golf" />
+
+        <TextView
+            android:id="@+id/priceTxt"
+            android:layout_width="89dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppins_regular"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            />
-        </LinearLayout>
+            android:text="200 Egp"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/petName"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/image"
-            app:riv_corner_radius="5dp"
+            android:layout_width="125dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="4dp"
             android:scaleType="centerCrop"
-              />
+            android:src="@drawable/ic_group_9921"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceTxt"
+            app:riv_corner_radius="5dp" />
+
         <TextView
+            android:id="@+id/reportAdBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:text="@string/reportAd"
-            android:fontFamily="@font/poppins_regular"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"
             android:background="@drawable/select_bg"
             android:drawableStart="@drawable/ic_report_white"
-            android:drawableTint="@color/white"
             android:drawablePadding="3dp"
+            android:drawableTint="@color/white"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center"
-            android:id="@+id/reportAdBtn"
-            app:layout_constraintTop_toBottomOf="@id/priceTxt"
-            android:layout_marginTop="4dp"
+            android:text="@string/reportAd"
+            android:textColor="@color/white"
+            android:textSize="13sp"
             android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceTxt" />
+
+        <TextView
+            android:id="@+id/locTxt"
+            android:layout_width="208dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:maxWidth="100dp"
+            android:maxLength="40"
+            android:maxLines="2"
+            android:text="Short Description"
+            android:textColor="@color/gray"
+            android:textDirection="locale"
+            android:textSize="13sp"
+            android:visibility="visible"
+            app:flow_wrapMode="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityTxt" />
+
+        <Button
+            android:id="@+id/adBadgeBtn"
+            android:layout_width="83dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="3dp"
+            android:text="Selling"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/locTxt"
+            app:layout_constraintTop_toBottomOf="@+id/cityTxt"
+            app:layout_constraintVertical_bias="1.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
