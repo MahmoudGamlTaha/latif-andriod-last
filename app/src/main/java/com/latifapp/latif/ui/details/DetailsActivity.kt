@@ -29,10 +29,13 @@ import com.latifapp.latif.ui.details.dialog.ReportDialogFragment
 import com.latifapp.latif.ui.main.chat.chatPage.ChatPageActivity
 import com.latifapp.latif.ui.main.pets.PetsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_report_dialog.*
 
 @AndroidEntryPoint
 class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>(),
     OnMapReadyCallback, PetImageAdapter.Actions {
+    private var reportDialog: ReportDialogFragment?=null
+
     private var adapter_: PetImageAdapter?=null
     private var mMap: GoogleMap?=null
     private var phoneNum: String?=""
@@ -69,24 +72,30 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             onBackPressed()
         }
 
+        viewModel.report_liveData.observe(this, Observer {
+            if (it != null) {
+                if (it.success?:false)
+                    toastMsg_Success("${it.msg}", binding.root, this)
+                else toastMsg_Warning("${it.msg}", binding.root, this)
+                reportDialog?.dismiss()
+            }
+        })
     }
 
     private fun getDetails() {
         viewModel.getAdDetails(id).observe(this, Observer {
             if (it != null) {
-
                 setListOfImages(it.images, it.image, it.external_link)
-
                 binding.container.visibility = View.VISIBLE
                 binding.dateTxt.text = it.created_at
                 binding.priceTxt.text = "${it.price} EGP"
                 binding.petName.text = it.name
+                binding.locationTxt.text = it.city
                 binding.descriptionTxt.text = it.description
                 moveToLocation(it.latitude, it.longitude)
                 setSellerInfo(it.createdBy, it.external_link)
                 if (!it.extra.isNullOrEmpty())
                     setExtraList(it.extra)
-
             }
         })
     }
@@ -169,7 +178,14 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             }
             popupBinding.reportBtn.setOnClickListener {
                 // show report dialog
-                ReportDialogFragment().show(supportFragmentManager, "ReportDialog")
+                reportDialog=ReportDialogFragment()
+                reportDialog?.show(supportFragmentManager, "ReportDialog")
+                topMenuPopUp.dismiss()
+            }
+
+            popupBinding.favBtn.setOnClickListener {
+                // show report dialog
+              setFavAd()
                 topMenuPopUp.dismiss()
             }
         }
@@ -177,6 +193,16 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             topMenuPopUp.dismiss()
         else
             topMenuPopUp.showAtLocation(view, Gravity.END, 50, 50)
+    }
+
+    private fun setFavAd() {
+        viewModel.favAd().observe(this, Observer {
+            if (it != null) {
+                if (it.success?:false)
+                    toastMsg_Success("${it.msg}", binding.root, this)
+                else toastMsg_Warning("${it.msg}", binding.root, this)
+            }
+        })
     }
 
 

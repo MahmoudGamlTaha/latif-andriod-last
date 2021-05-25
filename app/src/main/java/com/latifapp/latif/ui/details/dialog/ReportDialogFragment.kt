@@ -13,12 +13,17 @@ import androidx.fragment.app.DialogFragment
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.FragmentRegisterBinding
 import com.latifapp.latif.databinding.FragmentReportDialogBinding
+import com.latifapp.latif.ui.details.DetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListener {
 
 
     private lateinit var binding: FragmentReportDialogBinding
-
+    @Inject
+    lateinit var viewModel: DetailsViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +41,14 @@ class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListene
         super.onViewCreated(view, savedInstanceState)
 
         setSpinner()
+        binding.reportAdBtn.setOnClickListener {
+            if (binding.reason.text.toString().isEmpty())
+                binding.reason.error=getString(R.string.required)
+            else{
+                viewModel.reportAd(binding.reason.text.toString())
+
+            }
+        }
     }
 
     private fun setSpinner() {

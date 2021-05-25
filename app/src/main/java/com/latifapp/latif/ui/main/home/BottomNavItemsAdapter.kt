@@ -20,7 +20,7 @@ class BottomNavItemsAdapter(val action:Action): RecyclerView.Adapter<RecyclerVie
         ClinicAdapter.Model(R.string.items, R.drawable.ic_leash),
         ClinicAdapter.Model(R.string.clinic, R.drawable.ic_clinic),
         ClinicAdapter.Model(R.string.service, R.drawable.ic_services),
-        ClinicAdapter.Model(R.string.chat, R.drawable.ic_writing)
+        ClinicAdapter.Model(R.string.blogs, R.drawable.ic_writing)
     )
 
     class MyViewHolder constructor(val binding: ItemBottomNavBarBinding) :

@@ -1,42 +1,29 @@
-package com.latifapp.latif.ui.filter
+package com.latifapp.latif.ui.filter.filter_list
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
-import com.latifapp.latif.data.models.*
+import com.latifapp.latif.data.models.AdsModel
+import com.latifapp.latif.data.models.ResponseModel
+import com.latifapp.latif.data.models.SaveformModelRequest
+import com.latifapp.latif.data.models.UserAds
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
-import com.latifapp.latif.ui.base.CategoriesViewModel
-import com.latifapp.latif.utiles.Utiles
+import com.latifapp.latif.ui.base.BaseViewModel
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class FilterViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
-    CategoriesViewModel(appPrefsStorage,repo) {
 
-    fun getCreateForm(type: String): StateFlow<SellFormModel> {
-         val flow_ = MutableStateFlow<SellFormModel>(SellFormModel())
-        loader.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = repo.createFilterForm(type)
-            Utiles.log_D("dndnndnddnndnd", " $result")
-            when (result) {
-                is ResultWrapper.Success -> if (result.value.response != null)
-                    flow_.value = result.value.response?.data!!
-                else getErrorMsg(result)
-                else -> getErrorMsg(result)
-            }
-            loader.value = false
-        }
-        return flow_
-    }
-
-    fun saveForm(
+@ActivityScoped
+class FilterListViewModel @Inject  constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :BaseViewModel(appPrefsStorage){
+    val flow_ = MutableLiveData<ResponseModel<List<AdsModel>>>()
+    fun filter(
         url: String,
         hashMap: MutableMap<String, Any>,
         type: String?
@@ -45,12 +32,12 @@ class FilterViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPr
         for (model in hashMap)
             list.add(UserAds(model.key, model.value))
 
-        list.add(UserAds("created_by", "1"))
-        val model = SaveformModelRequest(type, list)
-        val flow_ = MutableLiveData<ResponseModel<List<AdsModel>>>()
+         val model = SaveformModelRequest(type, list)
+
         loader.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val result = repo.saveFilter(url, model)
+
             when (result) {
                 is ResultWrapper.Success -> {
                     if (result.value.success!!) {
@@ -66,5 +53,10 @@ class FilterViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPr
             loader.value = false
         }
         return flow_
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        flow_.value=null
     }
 }

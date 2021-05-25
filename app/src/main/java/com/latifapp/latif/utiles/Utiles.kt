@@ -1,21 +1,20 @@
 package com.latifapp.latif.utiles
 
-import android.content.Context
-import android.location.Address
-import android.location.Geocoder
+import android.app.Activity
+import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.*
-import java.io.IOException
+import com.latifapp.latif.data.local.AppPrefsStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
 object Utiles {
+
 
     fun log_D(key: Any, value: Any?) {
         Log.d("$key", "$value")
@@ -46,4 +45,13 @@ object Utiles {
             delay(waitMs)
             destinationFunction()
         }}
+
+
+    fun setLocalization( activity: Activity,lang:String) {
+         val locale = Locale(lang?:"en")
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        activity.resources.updateConfiguration(config, activity.resources.displayMetrics)
+    }
 }

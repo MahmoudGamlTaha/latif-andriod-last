@@ -40,7 +40,7 @@ class ClinicFragment : BaseFragment<ServiceViewModel, FragmentClinicBinding>() {
     }
 
     val selectPetCare = object : PetsAdapter.CategoryActions {
-        override fun selectedCategory(id: Int?) {
+        override fun selectedCategory(id: Int) {
             val bundle = Bundle()
             bundle.putInt("category", id!!)
             navController.navigate(R.id.nav_clinic_list_fragments, bundle)

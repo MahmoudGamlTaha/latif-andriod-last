@@ -46,12 +46,25 @@ class LoginActivity :BaseActivity<LoginViewModel,ActivityLoginBinding>() {
             }
         })
         binding.signUpBtn.setOnClickListener {
-            binding.usernameEx.setError(null)
-            binding.passwordEx.setError(null)
+
             startActivity(Intent(this,SignUpActivity::class.java))
         }
+
+        viewModel.successInputs.observe(this, Observer {
+            if (it){
+                startActivity(Intent(this,MainActivity::class.java))
+                finish()
+            }
+        })
+        viewModel.errorIputsMsg.observe(this, Observer {
+            if (it!=null){
+                toastMsg_Warning(getString(it), binding.root, this@LoginActivity)
+            }
+        })
         binding.loginBtn.setOnClickListener {
-            //startActivity(Intent(this,MainActivity::class.java))
+            //
+            binding.usernameEx.setError(null)
+            binding.passwordEx.setError(null)
             viewModel.login(binding.usernameEx.text.toString(),
                 binding.passwordEx.text.toString())
         }

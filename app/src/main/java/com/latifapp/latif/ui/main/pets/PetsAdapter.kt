@@ -18,6 +18,12 @@ class PetsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var action: CategoryActions? = null
     val list = mutableListOf<CategoryModel>()
 
+    public fun clear() {
+        selectedPosition = -1
+        list.clear()
+        notifyDataSetChanged()
+    }
+
     class MyViewHolder constructor(val binding: PetItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -64,16 +70,16 @@ class PetsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.binding.rootv.apply {
                 selectedPosition = -1
                 notifyDataSetChanged()
-                action?.selectedCategory(null)
+                action?.selectedCategory(-1)
             }
         }
         if (!category.iconSelect.isNullOrEmpty()) {
-            var image=category.iconSelect
+            var image = category.iconSelect
 
             Glide.with(holder.itemView.context).load(image)
                 .error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
-        }else holder.binding.image.setImageResource(R.drawable.ic_image)
+        } else holder.binding.image.setImageResource(R.drawable.ic_image)
     }
 
     private fun setViewsAsUnSelecte(
@@ -85,22 +91,22 @@ class PetsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.binding.rootv.apply {
                 selectedPosition = position
                 notifyDataSetChanged()
-                action?.selectedCategory(category.id!!)
+                action?.selectedCategory(category.id?:-1)
             }
 
         }
         holder.binding.text.text = category.name
         if (!category.icon.isNullOrEmpty()) {
-            var image=category.icon
+            var image = category.icon
 
             Glide.with(holder.itemView.context).load(image).error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
-        }else holder.binding.image.setImageResource(R.drawable.ic_image)
+        } else holder.binding.image.setImageResource(R.drawable.ic_image)
     }
 
     override fun getItemCount(): Int = list.size
 
     interface CategoryActions {
-        fun selectedCategory(id: Int?)
+        fun selectedCategory(id: Int)
     }
 }

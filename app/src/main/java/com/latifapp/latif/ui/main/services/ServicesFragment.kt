@@ -27,7 +27,7 @@ class ServicesFragment : BaseFragment<PetsViewModel, FragmentServicesBinding>() 
     }
 
     val selectService=object :PetsAdapter.CategoryActions{
-        override fun selectedCategory(id: Int?) {
+        override fun selectedCategory(id: Int) {
             val bundle =Bundle()
             bundle.putInt("category",id!!)
             navController.navigate(R.id.nav_services_list_fragments,bundle)

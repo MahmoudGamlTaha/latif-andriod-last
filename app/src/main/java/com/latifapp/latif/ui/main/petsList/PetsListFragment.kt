@@ -86,7 +86,7 @@ class PetsListFragment : BaseFragment<PetsViewModel, FragmentPetsListBinding>() 
             adapter = this@PetsListFragment.petsAdapter
         }
         petsAdapter.action = object : PetsAdapter.CategoryActions {
-            override fun selectedCategory(id: Int?) {
+            override fun selectedCategory(id: Int) {
                 category = id
                 adapter.list.clear()
                 viewModel.page = 0

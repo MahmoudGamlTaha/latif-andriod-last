@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00000000"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardCornerRadius="20dp"
+
+        android:background="@drawable/details_bg"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/details_bg"
+            android:padding="20dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+             android:minWidth="250dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language"
+                android:drawableStart="@drawable/ic_language"
+                android:drawablePadding="8dp"
+                android:textColor="@color/sunset_orange"
+                android:fontFamily="@font/poppins_bold"
+                android:textSize="20sp"
+                android:gravity="center"
+                />
+
+           <RadioGroup
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               >
+               <RadioButton
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="@string/arabic"
+                   android:buttonTint="@color/sunset_orange"
+                   android:fontFamily="@font/poppins_regular"
+                   android:textSize="14sp"
+                   android:textColor="@color/sunset_orange"
+                   android:id="@+id/arBtn"/>
+               <RadioButton
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="@string/english"
+                   android:buttonTint="@color/sunset_orange"
+                   android:fontFamily="@font/poppins_regular"
+                   android:textSize="14sp"
+                   android:textColor="@color/sunset_orange"
+                   android:id="@+id/enBtn"/>
+           </RadioGroup>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit"
+                android:id="@+id/submitBtn"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppins_bold"
+                android:backgroundTint="@color/sunset_orange"
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

@@ -1,11 +1,27 @@
-package com.latifapp.latif.ui.map
+package com.latifapp.latif.utiles
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.ui.IconGenerator
+import com.latifapp.latif.R
+import com.latifapp.latif.data.models.AdsModel
+import com.latifapp.latif.databinding.CustomMarkserBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,5 +79,46 @@ object MapsUtiles {
             }
         }
         return liveData
+    }
+
+
+    fun GoogleMap.getMarker(
+        adsModel: AdsModel,
+        context: Context,
+        layoutInflater: LayoutInflater){
+        val pet = LatLng(adsModel.latitude, adsModel.longitude)
+        val iconGenerator = IconGenerator(context)
+        val inflatedViewBinding = CustomMarkserBinding.inflate(layoutInflater)
+        val imageView = inflatedViewBinding.image
+        addImage(imageView, adsModel.image,context)
+        val TRANSPARENT_DRAWABLE: Drawable = ColorDrawable(Color.TRANSPARENT)
+        iconGenerator.setBackground(TRANSPARENT_DRAWABLE)
+        iconGenerator.setContentView(inflatedViewBinding.root)
+
+
+        var marker = MarkerOptions().position(pet)
+            .title(adsModel.name)
+            .icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon()))
+        val mm = this?.addMarker(
+            marker
+        )
+        mm?.tag = (adsModel)
+        val picassoMarker = PicassoMarker(mm, iconGenerator, imageView)
+        Picasso.get().load(adsModel.image).into(picassoMarker);
+    }
+    private fun addImage(imageView: ImageView, image: String?, context: Context) {
+        if (!image.isNullOrEmpty()) {
+            context?.let {
+
+                Glide.with(it).load("$image")
+                    .placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView)
+
+            }
+            imageView.visibility = View.VISIBLE
+        }
+
+
     }
 }

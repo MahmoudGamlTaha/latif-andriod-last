@@ -2,6 +2,7 @@ package com.latifapp.latif.network.repo
 
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.ResultWrapper
+import com.latifapp.latif.ui.auth.login.LoginViewModel
 import retrofit2.http.Query
 
 interface DataRepo {
@@ -21,4 +22,12 @@ interface DataRepo {
     suspend fun createBlog(createBlogsModel: CreateBlogsModel) : ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getDetailsOfBlog(id: Int?): ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getSubscribeList(page: Int): ResultWrapper<ResponseModel<List<SubscribeModel>>>
+
+
+    fun login(loginRequest:LoginRequest,callback: LoginViewModel.getlogin)
+    suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<RegisterRequest>>
+    suspend fun myAds(page: Int): ResultWrapper<ResponseModel<List<AdsModel>>>
+    suspend fun favAds(page: Int): ResultWrapper<ResponseModel<List<FavModel>>>
+    suspend fun reportAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>>
+    suspend fun favAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>>
 }

@@ -12,7 +12,7 @@ import com.latifapp.latif.data.models.OptionsModel
 import com.latifapp.latif.databinding.CustomSpinnerLayoutBinding
 
 
-class CustomSpinner(context_: Context, label: String,val list_: List<OptionsModel>,action :ViewAction<String>) :
+class CustomSpinner(context_: Context, label: String,var list_: List<OptionsModel>,action :ViewAction<String>) :
     CustomParentView<String>(context_, label,action),
       AdapterView.OnItemSelectedListener {
 
@@ -25,6 +25,7 @@ class CustomSpinner(context_: Context, label: String,val list_: List<OptionsMode
             ArrayAdapter<String>(
                 it, android.R.layout.simple_list_item_1, list)
         }
+        this.arrayAdapter=arrayAdapter
 
         view=spinner.apply {
             root.visibility= VISIBLE
@@ -43,7 +44,12 @@ class CustomSpinner(context_: Context, label: String,val list_: List<OptionsMode
         }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        action?.getActionId(list_.get(position).code!!)
+       try {
+           action?.getActionId(list_.get(position).code!!)
+       }
+       catch (e:Exception){
+         e.printStackTrace()
+       }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

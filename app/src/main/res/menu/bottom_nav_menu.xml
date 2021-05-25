@@ -21,5 +21,5 @@
     <item
         android:id="@+id/item_chat"
         android:icon="@drawable/ic_writing"
-        android:title="@string/chat" />
+        android:title="@string/blogs" />
 </menu>

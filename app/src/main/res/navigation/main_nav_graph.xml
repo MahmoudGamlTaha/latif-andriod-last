@@ -20,6 +20,7 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"
+        
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/pets_list_fragments"
@@ -36,6 +37,7 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"
+        app:launchSingleTop="true"
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/items_fragments"

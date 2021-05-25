@@ -45,7 +45,7 @@ class MenuAdapter(val action: MenuAction) : RecyclerView.Adapter<MenuAdapter.MyV
     override fun getItemCount(): Int = list.size
 
     public enum class MenuEnum {
-        pets, items, service, blogs, profile,subscribe
+        pets, items, service, blogs, profile,subscribe,clinic
     }
 
     public interface MenuAction {

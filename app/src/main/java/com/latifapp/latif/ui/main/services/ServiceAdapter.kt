@@ -43,7 +43,7 @@ class ServiceAdapter : RecyclerView.Adapter<ServiceAdapter.MyViewHolder>() {
         }else holder.binding.image.setImageResource(R.drawable.ic_image)
 
         holder.itemView.setOnClickListener {
-            action?.selectedCategory(category.id)
+            action?.selectedCategory(category.id?:-1)
         }
     }
 

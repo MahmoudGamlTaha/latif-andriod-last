@@ -51,7 +51,8 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     private var lng = 0.0
     private lateinit var liveData: MutableLiveData<String>
     private val hashMap: MutableMap<String, Any> = mutableMapOf()
-
+    private val CurrentForm: MutableMap<String, Boolean?> = mutableMapOf()
+    private val CurrentFormEng: MutableMap<String, String?> = mutableMapOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.backBtn.setOnClickListener { onBackPressed() }
@@ -72,6 +73,32 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     }
 
     private fun submitAdForm() {
+        for ((key, value) in CurrentForm) {
+            if(value==true){
+                try {
+                    val str = hashMap[key]
+                    if (str==null){
+                        toastMsg_Warning("The "+CurrentFormEng[key] + " Field is mandatory", binding.root, this)
+                        return
+                    }
+                } catch (e: Exception) {
+                    toastMsg_Warning("The "+CurrentFormEng[key] + " Field is mandatory", binding.root, this)
+                    return
+                }
+            }
+
+        }
+
+        try {
+            val str = hashMap["longitude"]
+            if (str==null){
+                toastMsg_Warning(getString(R.string.addFormLoc), binding.root, this)
+                return
+            }
+        } catch (e: Exception) {
+            toastMsg_Warning(getString(R.string.addFormLoc), binding.root, this)
+            return
+        }
         if (hashMap.isNullOrEmpty())
             toastMsg_Warning(getString(R.string.addFormValue), binding.root, this)
         else
@@ -128,33 +155,56 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     }
 
     private fun setFormViews(form: List<RequireModel>) {
-        for (model_ in form)
+        CurrentForm.clear()
+        CurrentFormEng.clear()
+        for (model_ in form) {
+
             when (model_.type?.toLowerCase()) {
                 "boolean" -> createSwitch(model_)
                 "file" -> createImage(model_)
                 "files" -> createImagesList(model_)
                 "select" -> createCheckBoxGroup(model_)
-               "dropdown" -> createSpinner(model_)
+                "dropdown" -> createSpinner(model_)
                 "radiobutton" -> createRadioButtonGroup(model_)
                 "map" -> createMapBtn(model_)
                 "url_option" -> getUrlInfo(model_)
-                "text" -> createEditText(model_,true)
+                "text" -> createEditText(model_, true)
                 else -> createEditText(model_)
 
 
             }
+            CurrentForm[model_.name.toString()] = model_.required
+            CurrentFormEng[model_.name.toString()] = model_.label
+        }
+
     }
 
     private fun getUrlInfo(model_: RequireModel) {
-        lifecycleScope.launchWhenStarted {
+        //viewModel.getUrlInfo(model_)
+        //createSpinner(model_)
+        lifecycleScope.launchWhenResumed {
+            val requireModel = RequireModel(
+                type = "dropDown",
+                required = model_.required,
+                name = model_.name,
+                label = model_.label,
+                label_ar = model_.label_ar,
+                options = listOf()
+            )
+            var curr= createSpinner(requireModel)
             viewModel.getUrlInfo(model_).observe(this@SellActivity, Observer {
 
-                if (it != null)
-                    createSpinner(it)
+                if (it != null){
+                    curr.list_=it.options!!
+                    val list:List<String> =it.options!!.map { "${it.label}" }
+                    curr.arrayAdapter!!.clear()
+                    curr.arrayAdapter!!.addAll(list)
+                    curr.arrayAdapter!!.notifyDataSetChanged()
+
+                }
+
             })
-
-
-        }
+       }
     }
 
 
@@ -249,6 +299,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
     }
 
     fun createEditText(model: RequireModel, isMultiLine:Boolean=false) {
+
         if (model.label.isNullOrEmpty()) return
         var header=model.label
         if (!lang.equals("en"))
@@ -261,6 +312,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
                 }
             }
             )
+
         binding.container.addView(text.getView())
     }
 
@@ -279,7 +331,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
         binding.container.addView(switch.getView())
     }
 
-    fun createSpinner(model: RequireModel) {
+    fun createSpinner(model: RequireModel):CustomSpinner {
         var header=model.label
         if (!lang.equals("en"))
             header=model.label_ar
@@ -292,6 +344,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>(),
         )
         Utiles.log_D("smsmmsmsmsmsms","$text")
         binding.container.addView(text.getView())
+   return text;
     }
 
 

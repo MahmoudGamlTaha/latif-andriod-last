@@ -1,6 +1,7 @@
 package com.latifapp.latif.data.models
 
 import android.os.Parcelable
+import com.google.maps.android.clustering.ClusterItem
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
@@ -11,6 +12,7 @@ data class AdsModel(
     val name: String?,
     val nameAr: String?,
     val code: String?,
+    val city: String?,
     val created_at: String?,
     val description: String?,
     val short_description: String?,
@@ -29,7 +31,7 @@ data class AdsModel(
 data class ExtraModel(
     val name: String?,
     val name_ar: String?,
-    val value: Any?
+    var value: Any?
 ):Serializable
 
 @Parcelize

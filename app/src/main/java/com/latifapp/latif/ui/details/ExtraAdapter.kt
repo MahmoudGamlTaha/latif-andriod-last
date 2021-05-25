@@ -23,9 +23,19 @@ public class ExtraAdapter(val extra:List<ExtraModel>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-       val model =extra.get(position)
-        holder.binding.nameTxt.text="${model.name}:"
-        holder.binding.valueTxt.text="${model.value}"
+        val model = extra.get(position)
+        holder.binding.nameTxt.text = "${model.name}:"
+        if (model.value.toString().isBlank() || model.value.toString() == "null") {
+            model.value = "N/A"
+        }
+        if ( model.value.toString() == "false") {
+            model.value = "No"
+        }
+        if ( model.value.toString() == "true") {
+            model.value = "Yes"
+        }
+
+        holder.binding.valueTxt.text = "${model.value}"
     }
 
     override fun getItemCount(): Int {

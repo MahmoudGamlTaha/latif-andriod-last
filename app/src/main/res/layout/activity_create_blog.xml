@@ -48,8 +48,8 @@
             android:padding="12dp"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:gravity="center"
-            >
+            android:layout_marginTop="10dp"
+             >
 
             <include layout="@layout/custom_spinner_layout"
                 android:id="@+id/spinner"
@@ -106,6 +106,7 @@
                 android:textSize="15sp"
                 android:textAllCaps="false"
                 android:text="@string/submit"
+                android:layout_gravity="center"
                 android:visibility="visible"
                 />
         </LinearLayout>

@@ -16,7 +16,7 @@
         android:background="@drawable/details_bg"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/details_bg"
             android:padding="20dp"
@@ -45,6 +45,18 @@
                 android:id="@+id/spinner"
                 android:prompt="@string/reason"
                 android:spinnerMode="dropdown"
+                android:visibility="gone"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/reason"
+                android:hint="@string/reason"
+                android:background="@color/transparent"
+                android:padding="10dp"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
                 />
             <View
                 android:layout_width="match_parent"
@@ -53,6 +65,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
         </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="10dp"
+            android:text="@string/reportAd"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_bold"
+             android:backgroundTint="@color/sunset_orange"
+            android:id="@+id/reportAdBtn"/>
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

@@ -2,6 +2,7 @@ package com.example.postsapplication.network
 
 import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.utiles.Utiles
 import dagger.Module
 import dagger.Provides
@@ -30,6 +31,7 @@ object NetworkClient {
     private val TIMEOUT_MIN = 2
 
 
+
     @Provides
     @Singleton
     fun getRetrofit(client: OkHttpClient): Retrofit {
@@ -50,7 +52,7 @@ object NetworkClient {
 
     @Provides
     @Singleton
-    fun getUnsafeOkHttpClientAuth(): OkHttpClient {
+    fun getUnsafeOkHttpClientAuth(appPrefsStorage: AppPrefsStorage): OkHttpClient {
         return try {
             // Create a trust manager that does not validate certificate chains
             val trustAllCerts =
@@ -87,7 +89,7 @@ object NetworkClient {
                     var request: Request = chain.request()
                     val httpUrl: HttpUrl = request.url()
                     val url = httpUrl.newBuilder().build()
-                    request = request.newBuilder().url(url).build()
+                    request = request.newBuilder().addHeader("Authorization",AppPrefsStorage.token).build()
                     chain.proceed(request)
                 }
             val builder = OkHttpClient.Builder()

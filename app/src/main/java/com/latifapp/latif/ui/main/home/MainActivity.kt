@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -16,52 +17,93 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivityMainBinding
+import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseActivity
-import com.latifapp.latif.ui.filter.FilterFormActivity
+import com.latifapp.latif.ui.filter.filter_form.FilterFormActivity
+import com.latifapp.latif.ui.main.pets.PetsAdapter
 import com.latifapp.latif.ui.main.profile.ProfileActivity
 import com.latifapp.latif.ui.subscribe.SubscribeActivity
 import com.latifapp.latif.utiles.AppConstants
 import com.latifapp.latif.utiles.AppConstants.PETS_STR
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), NavController.OnDestinationChangedListener,
-    MenuAdapter.MenuAction, BottomNavItemsAdapter.Action {
-    private val bottomAdapter=BottomNavItemsAdapter(this@MainActivity)
+class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
+    NavController.OnDestinationChangedListener,
+    MenuAdapter.MenuAction, BottomNavItemsAdapter.Action, PetsAdapter.CategoryActions {
+    private var selectedItemPosition: Int = 0
+    private var isMappingDisplay = true
+    private val bottomAdapter = BottomNavItemsAdapter(this@MainActivity)
     private lateinit var navigation: NavController
-    public lateinit var searchBtn:ImageView
-    public lateinit var searchView:SearchView
-    public lateinit var toolBarTitle:TextView
-    private var type=""
+    lateinit var searchBtn: ImageView
+    lateinit var searchView: SearchView
+    lateinit var toolBarTitle: TextView
+    private var type = ""
+    private val petsAdapter = PetsAdapter()
+    private val petsType = MainViewModel.TYPES(AppConstants.PETS, PETS_STR)
+    private val petsCareType = MainViewModel.TYPES(AppConstants.PET_CARE, AppConstants.PET_CARE_STR)
+    private val serviceType = MainViewModel.TYPES(AppConstants.SERVICE, AppConstants.SERVICE_STR)
+    private val accessoriesType =
+        MainViewModel.TYPES(AppConstants.ACCESSORIES, AppConstants.ACCESSORIES_STR)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        searchBtn=binding.toolbar.searchBtn
-        searchView=binding.toolbar.searchView
-        toolBarTitle=binding.toolbar.title
+        searchBtn = binding.toolbar.searchBtn
+        searchView = binding.toolbar.searchView
+        toolBarTitle = binding.toolbar.title
 
-         navigation = Navigation.findNavController(
-             this,
-             R.id.fragment_container
-         )
-
-
+        navigation = Navigation.findNavController(
+            this,
+            R.id.fragment_container
+        )
+        setTopBar()
         setBottomBarNav()
+
         navigation.addOnDestinationChangedListener(this)
         setMenu()
-         searchBtn.setOnClickListener {
-            val intent =Intent(this, FilterFormActivity::class.java)
+        searchBtn.setOnClickListener {
+            val intent = Intent(this, FilterFormActivity::class.java)
             intent.putExtra("type", type)
+            intent.putExtra("isMap", isMappingDisplay)
             startActivity(intent)
+        }
+
+        binding.toggleBtn.setOnClickListener {
+            isMappingDisplay = !isMappingDisplay
+            if (isMappingDisplay)
+                onBackPressed()
+            selectedItem(selectedItemPosition)
+
+        }
+    }
+
+    private fun setTopBar() {
+        binding.categoryList.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = petsAdapter
+            petsAdapter.action = this@MainActivity
+        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.typeFlow.collect {
+                petsAdapter.clear()
+                viewModel.categoryFlow.value = -1
+                getCategoriesList(it.categoryType)
+
+            }
         }
     }
 
     private fun setBottomBarNav() {
         binding.bottomNavRecyclerView.apply {
-            layoutManager=GridLayoutManager(this@MainActivity, 5)
-            adapter=bottomAdapter
+            layoutManager = GridLayoutManager(this@MainActivity, 5)
+            adapter = bottomAdapter
+
         }
+        selectedItem(0)
     }
 
     private fun setMenu() {
@@ -80,6 +122,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), NavCont
 
     override fun onBackPressed() {
         super.onBackPressed()
+
     }
 
     override fun onDestinationChanged(
@@ -87,65 +130,135 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), NavCont
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        searchView.visibility= GONE
-        searchBtn.visibility= VISIBLE
-        binding.toolbar.titleContainer.visibility=VISIBLE
-        when (destination.id) {
 
+
+        when (destination.id) {
             R.id.pets_fragments -> {
-                bottomAdapter.show(0)
-                type = PETS_STR
+                bottomAdapter.show(selectedItemPosition)
+                isMappingDisplay = true
+                displayCategoriesAndFilter(true)
             }
             R.id.items_fragments -> {
-                bottomAdapter.show(1)
-                type = AppConstants.ACCESSORIES_STR
+                bottomAdapter.show(selectedItemPosition)
+                isMappingDisplay = false
+                displayCategoriesAndFilter(true)
             }
-            R.id.clinic_fragments -> {
-                bottomAdapter.show(2)
-                type = AppConstants.PET_CARE_STR
-            }
-            R.id.services_fragments -> {
-                bottomAdapter.show(3)
-                type = AppConstants.SERVICE_STR
-            }
-            R.id.chat_fragments -> {
-                bottomAdapter.show(4)
-                searchBtn.visibility = GONE
-            }
+//            R.id.clinic_fragments -> {
+//                bottomAdapter.show(2)
+//            }
+//            R.id.services_fragments -> {
+//                bottomAdapter.show(3)
+//            }
+//            R.id.chat_fragments -> {
+//                bottomAdapter.show(4)
+//                searchBtn.visibility = GONE
+//                binding.toggleBtn.visibility = GONE
+//            }
             R.id.blogs_fragments -> {
-                searchView.visibility = VISIBLE
-                searchBtn.visibility = GONE
-                binding.toolbar.titleContainer.visibility = GONE
+                bottomAdapter.show(4)
+                displayCategoriesAndFilter(false)
             }
         }
     }
 
+    private fun displayCategoriesAndFilter(display: Boolean) {
+        if (display) {
+            searchView.visibility = GONE
+            searchBtn.visibility = VISIBLE
+            binding.toggleBtn.visibility = VISIBLE
+            binding.view55.visibility = VISIBLE
+            binding.categoryList.visibility = VISIBLE
+            binding.toolbar.titleContainer.visibility = VISIBLE
+        } else {
+            searchView.visibility = VISIBLE
+            searchBtn.visibility = GONE
+            binding.toggleBtn.visibility = GONE
+            binding.view55.visibility = GONE
+            binding.categoryList.visibility = GONE
+            binding.toolbar.titleContainer.visibility = GONE
+        }
+    }
+
     override fun menuClick(enum: MenuAdapter.MenuEnum) {
+
         when (enum) {
             MenuAdapter.MenuEnum.profile -> startActivity(
-                Intent(this, ProfileActivity::class.java)
+                if (token.isNullOrEmpty())
+                    Intent(this, LoginActivity::class.java)
+                else
+                    Intent(this, ProfileActivity::class.java)
             )
-            MenuAdapter.MenuEnum.blogs -> navigation.navigate(R.id.nav_blogs_fragments)
-            MenuAdapter.MenuEnum.pets -> navigation.navigate(R.id.nav_pets_list_fragments)
-            MenuAdapter.MenuEnum.items -> navigation.navigate(R.id.nav_items_fragments)
-            MenuAdapter.MenuEnum.service -> navigation.navigate(R.id.nav_services_fragments)
-            MenuAdapter.MenuEnum.subscribe -> startActivity(Intent(this,SubscribeActivity::class.java))
-         }
-
+            MenuAdapter.MenuEnum.blogs -> {
+                isMappingDisplay = false
+                navigation.navigate(R.id.nav_blogs_fragments)
+            }
+            MenuAdapter.MenuEnum.pets -> {
+                isMappingDisplay = false
+                selectedItem(0)
+            }
+            MenuAdapter.MenuEnum.items -> {
+                isMappingDisplay = false
+                selectedItem(1)
+            }
+            MenuAdapter.MenuEnum.service -> {
+                isMappingDisplay = false
+                selectedItem(3)
+            }
+            MenuAdapter.MenuEnum.clinic -> {
+                isMappingDisplay = false
+                selectedItem(2)
+            }
+            MenuAdapter.MenuEnum.subscribe -> startActivity(
+                Intent(
+                    this,
+                    SubscribeActivity::class.java
+                )
+            )
+        }
         runBlocking {
             binding.drawerLayout.closeDrawers()
         }
 
     }
 
+    private fun getCategoriesList(categoryType: Int) {
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.getCategoriesList(categoryType).collect {
+                if (!it.isNullOrEmpty()) {
+                    petsAdapter.list.addAll(it)
+                    petsAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
     override fun selectedItem(pos: Int) {
-         when(pos){
-             0 -> navigation.navigate(R.id.nav_pets_fragments)
-             1 -> navigation.navigate(R.id.nav_items_fragments)
-             2 -> navigation.navigate(R.id.nav_clinic_fragments)
-             3 -> navigation.navigate(R.id.nav_services_fragments)
-             4 -> navigation.navigate(R.id.nav_chat_fragments)
-         }
+        selectedItemPosition = pos
+        // petsAdapter.clear()
+        if (!isMappingDisplay) {
+            navigation.navigate(R.id.nav_items_fragments)
+        }
+        when (pos) {
+            0 -> {
+                type = PETS_STR
+                viewModel.typeFlow.value = petsType
+            }
+            1 -> {
+                type = AppConstants.ACCESSORIES_STR
+                viewModel.typeFlow.value = accessoriesType
+            }
+            2 -> {
+                type = AppConstants.PET_CARE_STR
+                viewModel.typeFlow.value = petsCareType
+            }
+            3 -> {
+                type = AppConstants.SERVICE_STR
+                viewModel.typeFlow.value = serviceType
+            }
+            4 -> menuClick(MenuAdapter.MenuEnum.blogs)
+        }
+
     }
 
     override fun setBindingView(inflater: LayoutInflater): ActivityMainBinding {
@@ -153,15 +266,24 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), NavCont
     }
 
     override fun showLoader() {
-     }
+    }
 
     override fun hideLoader() {
-     }
+    }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         if (intent.data != null) {
-            Utiles.log_D("cncnncncncnncn","${intent.data?.query}  ${intent.data?.encodedQuery}")
+            Utiles.log_D("cncnncncncnncn", "${intent.data?.query}  ${intent.data?.encodedQuery}")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+
+    override fun selectedCategory(id: Int) {
+        viewModel.categoryFlow.value = id
     }
 }

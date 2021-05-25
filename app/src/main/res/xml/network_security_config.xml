@@ -4,4 +4,10 @@
         <domain includeSubdomains="true">res.cloudinary.com</domain>
 <!--        <domain includeSubdomains="true">latifapp.herokuapp.com</domain>-->
     </domain-config>
+
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>

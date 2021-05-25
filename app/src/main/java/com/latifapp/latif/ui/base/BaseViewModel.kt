@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.Lang_PREFS
+import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
 import com.latifapp.latif.data.models.BlogsModel
 import com.latifapp.latif.data.models.ResponseModel
 import com.latifapp.latif.network.ResultWrapper
@@ -21,9 +22,12 @@ import javax.inject.Inject
 open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
     private val networkErrorMsgEn = "No Connection !!"
     private val networkErrorMsgAr = "لا يوجد اتصال بالشبكة !!"
-    private var language=""
-    val lang :String
-    get() = language
+    private var language = "en"
+    val lang: String
+        get() = language
+    private var tokenStr = ""
+    val token: String
+        get() = tokenStr
 
     protected var errorMsg = MutableLiveData<String>("")
     public val errorMsg_: LiveData<String>
@@ -35,18 +39,24 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            if (lang.isEmpty()) {
+            if (!AppPrefsStorage.language_.isNullOrEmpty())
                 appPrefsStorage.getValueAsFlow(Lang_PREFS, "en").collect {
                     language = it
-                    Utiles.log_D("nffnnnfnfnf11",language+"000000")
+                    AppPrefsStorage.language_ = it
                 }
+        }
+        viewModelScope.launch {
+            appPrefsStorage.getValueAsFlow(USER_ID_PREFS, "").collect {
+                tokenStr = it
+                AppPrefsStorage.token = it
             }
+
         }
     }
 
     protected suspend fun getErrorMsg(result: ResultWrapper<Any>) {
         withContext(Dispatchers.Main) {
-             when (result) {
+            when (result) {
                 is ResultWrapper.NetworkError -> errorMsg.value =
                     if (lang.equals("en")) networkErrorMsgEn else networkErrorMsgAr
                 is ResultWrapper.GenericError -> errorMsg.value = result.error!!.message
@@ -61,5 +71,12 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
 
 
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // reset all
+        errorMsg.value = ""
+
     }
 }

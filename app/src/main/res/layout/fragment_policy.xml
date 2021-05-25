@@ -25,25 +25,25 @@
             android:orientation="vertical"
             android:layout_margin="18dp"
             >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/policy_title"
-            android:textSize="24sp"
-            android:textColor="@color/red"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@color/dorado"
-            android:textSize="14sp"
-            android:scrollbars="vertical"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos."
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/policy_title"
+                android:textSize="24sp"
+                android:textColor="@color/red"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_regular"
+                android:scrollbars="vertical"
+                android:text="No Policy Added"
+                android:textColor="@color/dorado"
+                android:textSize="14sp" />
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
                 android:textColor="@color/red"
                 android:buttonTint="@color/red"
                 android:fontFamily="@font/poppins_regular"
+                android:id="@+id/aggreeCheckbox"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -26,6 +26,35 @@
        android:layout_above="@id/view1"
         app:navGraph="@navigation/main_nav_graph" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@drawable/bottom_curve_bg"
+        android:layout_below="@id/toolbar"
+        android:id="@+id/view55"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_below="@id/toolbar"
+        tools:itemCount="1"
+        tools:listitem="@layout/pet_item_layout" />
+<ImageView
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:src="@drawable/toggel"
+    android:layout_below="@id/view55"
+    android:layout_marginTop="30dp"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="20dp"
+    android:tint="@color/sunset_orange"
+    android:id="@+id/toggleBtn"
+    />
 
 
     <View

@@ -7,18 +7,26 @@ import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.emptyPreferences
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
+import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AppPrefsStorage  @Inject constructor(
     @ApplicationContext context: Context
 )  {
 
-    // since @Singleton scope is used, dataStore will have the same instance every time
+    // since @Singleton scope is used, dataStore will have the same instance every timeco
+    companion object {
+        var token:String = ""
+        var language_:String = "en"
+    }
+
     private val dataStore: DataStore<Preferences> =
         context.createDataStore(name = "AppPrefStorage")
 

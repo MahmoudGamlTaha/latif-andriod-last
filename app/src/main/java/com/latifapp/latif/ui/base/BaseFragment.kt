@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
+import com.latifapp.latif.utiles.Utiles
 import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.flow.collect
@@ -31,14 +32,19 @@ open abstract class BaseFragment<viewmodel : BaseViewModel, viewbinding : ViewBi
         super.onCreateView(inflater, container, savedInstanceState)
         if (!::binding.isInitialized)
             binding = setBindingView(inflater)
+
+
         return binding.getRoot()
     }
 
+    override fun onStart() {
+        super.onStart()
+     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController= Navigation.findNavController(view)
         viewModel.errorMsg_.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty())
+            if (!it.isNullOrEmpty())
             // Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 toastMsg_Warning(it, binding.root, requireContext())
         })

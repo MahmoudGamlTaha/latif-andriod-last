@@ -1,9 +1,13 @@
 package com.latifapp.latif.network.repo
 
+import android.util.Log
 import com.example.postsapplication.network.NetworkApis
 import com.latifapp.latif.data.models.*
-import com.latifapp.latif.network.ResultWrapper
-import com.latifapp.latif.network.safeApiCall
+import com.latifapp.latif.network.*
+import com.latifapp.latif.ui.auth.login.LoginViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
@@ -50,6 +54,22 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
             latitude = lat,category=category,page=page) }
     }
 
+    override suspend fun myAds(page: Int): ResultWrapper<ResponseModel<List<AdsModel>>> {
+        return safeApiCall { apis.getMyAds(page = page)}
+    }
+
+    override suspend fun favAds(page: Int): ResultWrapper<ResponseModel<List<FavModel>>> {
+        return safeApiCall { apis.getFavAds(page = page)}
+    }
+
+    override suspend fun reportAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>> {
+        return safeApiCall { apis.reportAd(reportedRequestAd)}
+    }
+
+    override suspend fun favAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>> {
+        return safeApiCall { apis.favAd(reportedRequestAd)}
+    }
+
     override suspend fun getAdDetails(id: Int?): ResultWrapper<ResponseModel<AdsModel>> {
         return safeApiCall { apis.getAdDetails(id) }
     }
@@ -75,5 +95,32 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
         model: SaveformModelRequest
     ): ResultWrapper<ResponseModel<List<AdsModel>>> {
         return safeApiCall { apis.saveFilter("$url", model) }
+    }
+
+    override suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<RegisterRequest>> {
+        return safeApiCall { apis.register(body) }
+    }
+
+    override fun login(loginRequest:LoginRequest, callback: LoginViewModel.getlogin){
+
+        apis.login(loginRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+                if (response.code() == 200) {
+                    Log.d("ndndnndndnndnd22", "${response.headers().get("Authorization")}")
+                 callback.onSuccess("${response.headers().get("Authorization")}")
+                }else{
+
+                    callback.onFailure(null)
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.d("ndndnndndnndnd", "${t.message}")
+                val result =getErrorType<ErrorResponse>(t)
+
+                callback.onFailure(result)
+            }
+        })
     }
 }

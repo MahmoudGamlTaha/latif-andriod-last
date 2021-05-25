@@ -11,30 +11,26 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentPetsListBinding
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
-import com.latifapp.latif.ui.filter.FilterFormActivity
-import com.latifapp.latif.ui.main.home.MainActivity
-import com.latifapp.latif.ui.main.pets.PetsAdapter
-import com.latifapp.latif.ui.main.pets.PetsViewModel
+import com.latifapp.latif.ui.main.home.MainViewModel
 import com.latifapp.latif.ui.main.petsList.PetsListAdapter
 import com.latifapp.latif.ui.sell.SellActivity
-import com.latifapp.latif.utiles.AppConstants
+import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
+class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
 
 
     private var category: Int? = null
     private var isLoadingData = false
     private lateinit var adapter: ItemsAdapter
-    private val petsAdapter = PetsAdapter()
-
+    private var categoryType = 0
+    private var itemsType = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!::adapter.isInitialized) {
             setList()
-            getCategoriesList()
 
             binding.sellBtn.setOnClickListener {
                 startActivity(Intent(activity, SellActivity::class.java))
@@ -49,14 +45,31 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
             adapter = this@ItemsFragment.adapter
             addOnScrollListener(scrollListener)
         }
-        adapter.action= object : PetsListAdapter.Action{
+        adapter.action = object : PetsListAdapter.Action {
             override fun onAdClick(id: Int?) {
                 val intent = Intent(activity, DetailsActivity::class.java)
-                intent.putExtra("ID",id)
+                intent.putExtra("ID", id)
                 startActivity(intent)
             }
         }
-        getPetsList()
+        getTypeOfCategorAndItems()
+    }
+
+    private fun getTypeOfCategorAndItems() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.typeFlow.collect {
+                categoryType = it.categoryType
+                itemsType = it.itemType
+                Utiles.log_D("nvnvnvnvnvnvnnv",itemsType)
+                selectedCategory(-1)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.categoryFlow.collect {
+                selectedCategory(it)
+            }
+        }
     }
 
     val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -74,7 +87,7 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
     private fun getPetsList() {
 
         lifecycleScope.launchWhenStarted {
-            viewModel.getItems(AppConstants.ACCESSORIES_STR, category).collect {
+            viewModel.getItems(itemsType, category).collect {
                 if (it != null) {
                     adapter.list = it as MutableList<AdsModel>
                     if (it.isNotEmpty())
@@ -84,37 +97,9 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
         }
     }
 
-    private fun getCategoriesList() {
-        binding.petsCatgRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = this@ItemsFragment.petsAdapter
-        }
-        petsAdapter.action = object : PetsAdapter.CategoryActions {
-            override fun selectedCategory(id: Int?) {
-                category = id
-                adapter.list.clear()
-                viewModel.page = 0
-                getPetsList()
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            viewModel.getCategoriesList(AppConstants.ACCESSORIES).collect {
-                if (!it.isNullOrEmpty()) {
-                    petsAdapter.list.addAll(it)
-                    petsAdapter.notifyDataSetChanged()
-                }
-            }
-        }
-    }
-
-
-
-
-
-
 
     override fun setBindingView(inflater: LayoutInflater): FragmentPetsListBinding {
-       return  FragmentPetsListBinding.inflate(inflater,null,false)
+        return FragmentPetsListBinding.inflate(inflater, null, false)
     }
 
 
@@ -124,5 +109,12 @@ class ItemsFragment  : BaseFragment<PetsViewModel,FragmentPetsListBinding>() {
 
     override fun hideLoader() {
         binding.loader.bar.visibility = View.GONE
+    }
+
+    private fun selectedCategory(id: Int) {
+        category = if (id == -1) null else id
+        adapter.list.clear()
+        viewModel.page = 0
+        getPetsList()
     }
 }

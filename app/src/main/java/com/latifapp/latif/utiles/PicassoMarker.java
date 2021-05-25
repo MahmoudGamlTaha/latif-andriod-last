@@ -2,6 +2,7 @@ package com.latifapp.latif.utiles;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -48,11 +49,13 @@ public class PicassoMarker implements Target {
             mMarker.setIcon(BitmapDescriptorFactory.fromBitmap(icon));
         } catch (IllegalArgumentException exception) {
             //just in case that marker is dead, it caused crash
+            Log.d("nvnvnvnvnvnvn55555java", exception.getMessage());
         }
     }
 
     @Override
     public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+        Log.d("nvnvnvnvnvnvn55555java4", e.getMessage());
 
     }
 

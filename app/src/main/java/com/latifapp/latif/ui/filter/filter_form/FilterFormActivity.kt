@@ -1,7 +1,6 @@
-package com.latifapp.latif.ui.filter
+package com.latifapp.latif.ui.filter.filter_form
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +12,8 @@ import com.latifapp.latif.R
 import com.latifapp.latif.data.models.RequireModel
 import com.latifapp.latif.databinding.ActivitySellBinding
 import com.latifapp.latif.ui.base.BaseActivity
-import com.latifapp.latif.ui.main.pets.PetsFragment
+import com.latifapp.latif.ui.filter.filter_list.FilterActivity
 import com.latifapp.latif.ui.map.MapsActivity
-import com.latifapp.latif.ui.sell.SellViewModel
 import com.latifapp.latif.ui.sell.views.*
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
@@ -33,6 +31,7 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
     private var lng = 0.0
     private val hashMap: MutableMap<String, Any> = mutableMapOf()
     private var type:String? = ""
+    private var isMap:Boolean? = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +39,7 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
         binding.title.setText(R.string.filter)
         binding.submitBtn.setText(R.string.filter)
         type=intent.extras?.getString("type")
+        isMap=intent.extras?.getBoolean("isMap")
         getForm(type)
 
         binding.submitBtn.setOnClickListener {
@@ -64,7 +64,8 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
         else {
             val intent = Intent(this, FilterActivity::class.java)
             intent.putExtra("url", url)
-            intent.putExtra("type", type)
+            intent.putExtra("type",type)
+            intent.putExtra("isMaping",isMap)
             intent.putExtra("hashMap", hashMap as Serializable)
             startActivity(intent)
         }

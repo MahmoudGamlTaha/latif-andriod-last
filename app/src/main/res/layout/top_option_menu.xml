@@ -51,6 +51,24 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
                 android:padding="8dp"
+                android:text="@string/favourite"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/ic_favorite"
+                android:drawablePadding="8dp"
+                android:id="@+id/favBtn"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:minWidth="120dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:padding="8dp"
                 android:text="@string/share"
                 android:textColor="@color/black"
                 android:drawableStart="@drawable/ic_share"

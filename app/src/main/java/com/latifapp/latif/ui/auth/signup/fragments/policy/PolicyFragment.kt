@@ -9,39 +9,38 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.FragmentPolicyBinding
+import com.latifapp.latif.ui.auth.signup.SignUpViewModel
+import com.latifapp.latif.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PolicyFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
-class PolicyFragment : Fragment() {
-    private lateinit var binding: FragmentPolicyBinding
-    private lateinit var navController: NavController
+class PolicyFragment : BaseFragment<SignUpViewModel,FragmentPolicyBinding>() {
 
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding= FragmentPolicyBinding.inflate(inflater, container, false)
-        return binding.root
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController= Navigation.findNavController(view)
 
         binding.interestsBtn.setOnClickListener({
+            if (binding.aggreeCheckbox.isChecked)
             navController.navigate(R.id.navTo_interestsFragment)
+            else {
+                toastMsg_Warning(getString(R.string.agreePolices),binding.root,requireContext())
+            }
         })
+
+    }
+
+    override fun setBindingView(inflater: LayoutInflater): FragmentPolicyBinding {
+       return FragmentPolicyBinding.inflate(inflater)
+    }
+
+    override fun showLoader() {
+
+    }
+
+    override fun hideLoader() {
     }
 }
