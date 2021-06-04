@@ -1,5 +1,7 @@
 package com.latifapp.latif.ui.myAds
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.AdsModel
@@ -13,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MyAdsViewModel @Inject constructor(appPrefsStorage: AppPrefsStorage, val repo: DataRepo) :
@@ -36,5 +39,31 @@ class MyAdsViewModel @Inject constructor(appPrefsStorage: AppPrefsStorage, val r
             loader.value = false
         }
         return flow_
+    }
+
+    fun activateAd(activeAd: Boolean, id: Int?):LiveData<Boolean> {
+        val liveData=MutableLiveData<Boolean>(null)
+        loader.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+       val result =repo.activateAd(activeAd, id)
+            var success=false
+            when (result) {
+                is ResultWrapper.Success -> {
+
+                 success=result?.value?.success?:false
+                }
+                else -> {
+                    getErrorMsg(result)
+                    success=false
+                }
+
+            }
+           withContext(Dispatchers.Main){
+               liveData.value=success
+           }
+            loader.value = false
+        }
+
+       return liveData
     }
 }

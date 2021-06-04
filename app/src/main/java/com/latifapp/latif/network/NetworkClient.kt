@@ -89,7 +89,7 @@ object NetworkClient {
                     var request: Request = chain.request()
                     val httpUrl: HttpUrl = request.url()
                     val url = httpUrl.newBuilder().build()
-                    request = request.newBuilder().addHeader("Authorization",AppPrefsStorage.token).build()
+                    request = request.newBuilder().addHeader("Authorization","Bearer "+AppPrefsStorage.token).build()
                     chain.proceed(request)
                 }
             val builder = OkHttpClient.Builder()

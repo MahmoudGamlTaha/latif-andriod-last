@@ -10,6 +10,7 @@ data class RequireModel(
     val label: String="",
     val label_ar: String="",
     val url: String?=null,
+    val requiredcond: String?=null,
     val options: List<OptionsModel>?=null
 
 )

@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
+import com.latifapp.latif.data.local.PreferenceConstants
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.Lang_PREFS
-import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
-import com.latifapp.latif.data.models.BlogsModel
-import com.latifapp.latif.data.models.ResponseModel
+import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_TOKEN_PREFS
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.utiles.Utiles
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
     private val networkErrorMsgEn = "No Connection !!"
@@ -30,13 +28,17 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
         get() = tokenStr
 
     protected var errorMsg = MutableLiveData<String>("")
+
     public val errorMsg_: LiveData<String>
         get() = errorMsg
 
+    fun restErrorMsg(){
+        errorMsg.value=null
+    }
     protected var loader = MutableStateFlow<Boolean>(false)
     public val loader_: StateFlow<Boolean>
         get() = loader
-
+    var userID = ""
     init {
         viewModelScope.launch {
             if (!AppPrefsStorage.language_.isNullOrEmpty())
@@ -46,7 +48,7 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
                 }
         }
         viewModelScope.launch {
-            appPrefsStorage.getValueAsFlow(USER_ID_PREFS, "").collect {
+            appPrefsStorage.getValueAsFlow(USER_TOKEN_PREFS, "").collect {
                 tokenStr = it
                 AppPrefsStorage.token = it
             }
@@ -62,17 +64,24 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
                 is ResultWrapper.GenericError -> errorMsg.value = result.error!!.message
 
             }
+            restErrorMsg()
         }
     }
 
     protected suspend fun getErrorMsgString(result: String) {
         withContext(Dispatchers.Main) {
             errorMsg.value = result
-
-
         }
     }
 
+    fun getUserId(){
+        viewModelScope.launch {
+            appPrefsStorage.getValueAsFlow(PreferenceConstants.USER_UserID_PREFS, "").collect {
+                userID = it
+                Utiles.log_D("mxmmxmmxmxmxm", userID)
+            }
+        }
+    }
     override fun onCleared() {
         super.onCleared()
         // reset all

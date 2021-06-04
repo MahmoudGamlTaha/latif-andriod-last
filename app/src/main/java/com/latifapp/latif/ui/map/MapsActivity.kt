@@ -71,6 +71,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (!it.isNullOrEmpty()) {
                         locTxt.setText("$it")
                         placeName = "$it"
+
                     }
 
                 })

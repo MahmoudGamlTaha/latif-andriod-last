@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.postsapplication.network.NetworkClient
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.BlogsModel
 import com.latifapp.latif.databinding.BlogItemBinding
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import javax.inject.Inject
 
 class BlogsAdapter @Inject constructor() : RecyclerView.Adapter<BlogsAdapter.MyViewHolder>() {

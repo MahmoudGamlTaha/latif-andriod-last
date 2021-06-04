@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.main.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.latifapp.latif.R
 import com.latifapp.latif.data.local.AppPrefsStorage
+import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.databinding.ActivityMainBinding
 import com.latifapp.latif.databinding.FragmentProfileBinding
+import com.latifapp.latif.ui.auth.editProfile.EditProfileActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.fav.FavActivity
 import com.latifapp.latif.ui.main.home.MainActivity
@@ -29,12 +33,19 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.getUserInfo()
+        viewModel.userInfo.observe(this, Observer {
+
+            setUserInfo(it)
+            binding.profileContainer.visibility = View.VISIBLE
+        })
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }
         binding.myAds.setOnClickListener {
             startActivity(Intent(this, MyAdsActivity::class.java))
         }
+
         binding.favBtn.setOnClickListener {
             startActivity(Intent(this, FavActivity::class.java))
         }
@@ -51,8 +62,8 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
                 langDialog.dismiss()
                 if (!language.equals(lang)) {
                     viewModel.changeLanguage(language).observe(this@ProfileActivity, Observer {
-                        if (it){
-                            Utiles.setLocalization( this@ProfileActivity,language)
+                        if (it) {
+                            Utiles.setLocalization(this@ProfileActivity, language)
                             startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
                             finishAffinity()
                         }
@@ -65,6 +76,36 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
         }
     }
 
+    private fun setUserInfo(it: UserModel?) {
+        val model=it
+
+        binding.addressValue.text = it?.address
+        binding.nameValue.text = it?.firstName + " " + it?.lastName
+        binding.birthdayValue.text = it?.registrationDate
+        binding.genderValue.text = ""
+        binding.emailValue.text = it?.email
+        binding.phoneValue.text = it?.phone
+        binding.addressValue.text = it?.address
+        setImageProfile(it?.avatar)
+        if (it!=null)
+        binding.editBtn.visibility = View.VISIBLE
+
+        binding.editBtn.setOnClickListener {
+            var intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
+            if (model != null)
+                intent.putExtra("model", model)
+            startActivityForResult(intent, 5)
+        }
+    }
+
+    private fun setImageProfile(avatar: String?) {
+        if (!avatar.isNullOrEmpty())
+            Glide.with(this@ProfileActivity)
+                .load(avatar)
+                .placeholder(R.drawable.ic_profile)
+                .error(R.drawable.ic_profile)
+                .into(binding.profilePic)
+    }
     override fun setBindingView(inflater: LayoutInflater): FragmentProfileBinding {
         return FragmentProfileBinding.inflate(layoutInflater)
     }
@@ -77,4 +118,11 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
         binding.loader.bar.visibility = View.GONE
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 5 && resultCode == Activity.RESULT_OK) {
+            val model: UserModel = data?.extras?.get("model") as UserModel
+            setUserInfo(model)
+        }
+    }
 }

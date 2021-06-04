@@ -22,12 +22,15 @@ interface DataRepo {
     suspend fun createBlog(createBlogsModel: CreateBlogsModel) : ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getDetailsOfBlog(id: Int?): ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getSubscribeList(page: Int): ResultWrapper<ResponseModel<List<SubscribeModel>>>
+    suspend fun getReportedReasonsList(): ResultWrapper<ResponseModel<List<ReportedReasonsList>>>
 
-
-    fun login(loginRequest:LoginRequest,callback: LoginViewModel.getlogin)
+    suspend fun login(loginRequest:LoginRequest):ResultWrapper<LoginResponse>
+    suspend fun getUserInfo():ResultWrapper<ResponseModel<UserModel>>
     suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<RegisterRequest>>
+    suspend fun editProfile(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>>
     suspend fun myAds(page: Int): ResultWrapper<ResponseModel<List<AdsModel>>>
     suspend fun favAds(page: Int): ResultWrapper<ResponseModel<List<FavModel>>>
     suspend fun reportAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>>
     suspend fun favAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>>
+    suspend fun activateAd(activeAd: Boolean, id: Int?): ResultWrapper<ResponseModel<Any>>
 }

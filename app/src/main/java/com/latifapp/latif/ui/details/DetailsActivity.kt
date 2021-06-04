@@ -34,14 +34,14 @@ import kotlinx.android.synthetic.main.fragment_report_dialog.*
 @AndroidEntryPoint
 class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>(),
     OnMapReadyCallback, PetImageAdapter.Actions {
-    private var reportDialog: ReportDialogFragment?=null
+    private var reportDialog: ReportDialogFragment? = null
 
-    private var adapter_: PetImageAdapter?=null
-    private var mMap: GoogleMap?=null
-    private var phoneNum: String?=""
+    private var adapter_: PetImageAdapter? = null
+    private var mMap: GoogleMap? = null
+    private var phoneNum: String? = ""
     private lateinit var topMenuPopUp: PopupWindow
     private lateinit var callPopUp: PopupWindow
-    private var id :Int?=null
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        id= intent.extras?.getInt("ID")
+        id = intent.extras?.getInt("ID")
         getDetails()
 
 
@@ -74,7 +74,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
 
         viewModel.report_liveData.observe(this, Observer {
             if (it != null) {
-                if (it.success?:false)
+                if (it.success ?: false)
                     toastMsg_Success("${it.msg}", binding.root, this)
                 else toastMsg_Warning("${it.msg}", binding.root, this)
                 reportDialog?.dismiss()
@@ -99,39 +99,44 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             }
         })
     }
+
     private fun moveToLocation(lat: Double, lag: Double) {
-         mMap?.animateCamera(
-             CameraUpdateFactory.newLatLngZoom(
-                 LatLng(
-                     lat,
-                     lag
-                 ), 16f
-             )
-         )
-        binding.mabBtn.setOnClickListener{
+        mMap?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    lat,
+                    lag
+                ), 16f
+            )
+        )
+        binding.mabBtn.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr=${PetsFragment.Latitude_},${PetsFragment.Longitude_}" +
-                        "&daddr=${lat},${lag}")
+                Uri.parse(
+                    "http://maps.google.com/maps?saddr=${PetsFragment.Latitude_},${PetsFragment.Longitude_}" +
+                            "&daddr=${lat},${lag}"
+                )
             )
             startActivity(intent)
         }
     }
+
     private fun setExtraList(extra: List<ExtraModel>) {
         binding.extraList.apply {
-            layoutManager=GridLayoutManager(this@DetailsActivity, 2)
-            adapter=ExtraAdapter(extra)
+            layoutManager = GridLayoutManager(this@DetailsActivity, 2)
+            adapter = ExtraAdapter(extra, viewModel.lang.equals("en"))
         }
     }
 
     private fun setSellerInfo(createdBy: UserModel?, external: Boolean) {
         binding.sellerNameTxt.text = "${createdBy?.firstName} ${createdBy?.lastName}"
-        binding.joinedDateTxt.text = "${getString(R.string.joinedDate)} ${createdBy?.registrationDate}"
+        binding.joinedDateTxt.text =
+            "${getString(R.string.joinedDate)} ${createdBy?.registrationDate}"
         binding.numAdsTxt.text = "${getString(R.string.myAds)}: ${createdBy?.adsCount}"
         phoneNum = createdBy?.phone
-        val image =createdBy?.avatar
+        val image = createdBy?.avatar
         if (!image.isNullOrEmpty()) {
-            var imagePath=image
+            var imagePath = image
 
             Glide.with(this).load(imagePath)
                 .error(R.drawable.ic_image)
@@ -143,8 +148,8 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
         binding.recyclerView.apply {
             layoutManager =
                 LinearLayoutManager(this@DetailsActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter_=PetImageAdapter(images)
-            adapter_?.action=this@DetailsActivity
+            adapter_ = PetImageAdapter(images)
+            adapter_?.action = this@DetailsActivity
             adapter = adapter_
         }
 
@@ -165,7 +170,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
                 true
             }
             popupBinding.shareBtn.setOnClickListener {
-                val url="https://latifapp.com?adsID=$id"
+                val url = "https://latifapp.com?adsID=$id"
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, url)
@@ -178,14 +183,23 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             }
             popupBinding.reportBtn.setOnClickListener {
                 // show report dialog
-                reportDialog=ReportDialogFragment()
-                reportDialog?.show(supportFragmentManager, "ReportDialog")
+                if (viewModel.token.isNullOrEmpty()) {
+                    toastMsg_Warning(getString(R.string.loginFirst), binding.root, this)
+                } else {
+                    reportDialog = ReportDialogFragment()
+                    reportDialog?.show(supportFragmentManager, "ReportDialog")
+
+                }
                 topMenuPopUp.dismiss()
             }
 
             popupBinding.favBtn.setOnClickListener {
                 // show report dialog
-              setFavAd()
+                if (viewModel.token.isNullOrEmpty()) {
+                    toastMsg_Warning(getString(R.string.loginFirst), binding.root, this)
+                } else {
+                    setFavAd()
+                }
                 topMenuPopUp.dismiss()
             }
         }
@@ -198,7 +212,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
     private fun setFavAd() {
         viewModel.favAd().observe(this, Observer {
             if (it != null) {
-                if (it.success?:false)
+                if (it.success ?: false)
                     toastMsg_Success("${it.msg}", binding.root, this)
                 else toastMsg_Warning("${it.msg}", binding.root, this)
             }
@@ -227,7 +241,11 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
                 callPopUp.dismiss()
             }
             popupBinding.chatBtn.setOnClickListener {
-                startActivity(Intent(this, ChatPageActivity::class.java))
+                if (viewModel.token.isNullOrEmpty()) {
+                    toastMsg_Warning(getString(R.string.loginFirst), binding.root, this)
+                } else {
+                    startActivity(Intent(this, ChatPageActivity::class.java))
+                }
                 callPopUp.dismiss()
             }
         }
@@ -242,21 +260,21 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
     }
 
     override fun showLoader() {
-        binding.loader.bar.visibility=View.VISIBLE
+        binding.loader.bar.visibility = View.VISIBLE
     }
 
     override fun hideLoader() {
-        binding.loader.bar.visibility=View.GONE
+        binding.loader.bar.visibility = View.GONE
     }
 
     override fun onMapReady(mMap: GoogleMap?) {
-        this.mMap=mMap;
+        this.mMap = mMap;
         mMap?.getUiSettings()?.setScrollGesturesEnabled(false);
     }
 
     override fun onImageClick(image: String) {
-        val intent =Intent(this,ZoomingImageActivity::class.java)
-        intent.putExtra("image",image)
+        val intent = Intent(this, ZoomingImageActivity::class.java)
+        intent.putExtra("image", image)
         startActivity(intent)
     }
 

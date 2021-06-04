@@ -12,7 +12,7 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

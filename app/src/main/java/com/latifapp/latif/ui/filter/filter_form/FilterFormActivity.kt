@@ -102,14 +102,38 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
     }
 
     private fun getUrlInfo(model_: RequireModel) {
-        lifecycleScope.launchWhenStarted {
+       /* lifecycleScope.launchWhenStarted {
             viewModel.getUrlInfo(model_).observe(this@FilterFormActivity, Observer {
                 if (it != null)
                     createSpinner(it)
             })
 
 
+        }*/
+        lifecycleScope.launchWhenResumed {
+            val requireModel = RequireModel(
+                type = "dropDown",
+                required = model_.required,
+                name = model_.name,
+                label = model_.label,
+                label_ar = model_.label_ar,
+                options = listOf()
+            )
+            var curr= createSpinner(requireModel)
+            viewModel.getUrlInfo(model_).observe(this@FilterFormActivity, Observer {
+
+                if (it != null){
+                    curr.list_=it.options!!
+                    val list:List<String> =it.options!!.map { "${it.label}" }
+                    curr.arrayAdapter!!.clear()
+                    curr.arrayAdapter!!.addAll(list)
+                    curr.arrayAdapter!!.notifyDataSetChanged()
+
+                }
+
+            })
         }
+
     }
 
 
@@ -194,7 +218,7 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
         binding.container.addView(switch.getView())
     }
 
-    fun createSpinner(model: RequireModel) {
+    fun createSpinner(model: RequireModel):CustomSpinner {
         var header = model.label
         if (lang != "en")
             header = model.label_ar
@@ -206,6 +230,8 @@ class FilterFormActivity : BaseActivity<FilterViewModel, ActivitySellBinding>() 
         }
         )
         binding.container.addView(text.getView())
+        return text
+
     }
 
 

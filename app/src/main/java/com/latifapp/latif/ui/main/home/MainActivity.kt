@@ -3,6 +3,7 @@ package com.latifapp.latif.ui.main.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -72,13 +73,31 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             startActivity(intent)
         }
 
-        binding.toggleBtn.setOnClickListener {
-            isMappingDisplay = !isMappingDisplay
-            if (isMappingDisplay)
-                onBackPressed()
-            selectedItem(selectedItemPosition)
+        setScaleView(mapBtn, listeBtn)
+        binding.listeBtn.setOnClickListener {
+            setScaleView(listeBtn, mapBtn)
+            if (isMappingDisplay) {
+                isMappingDisplay = false
+                selectedItem(selectedItemPosition)
+            }
 
         }
+        binding.mapBtn.setOnClickListener {
+
+            setScaleView(mapBtn, listeBtn)
+            if (!isMappingDisplay) {
+                onBackPressed()
+                isMappingDisplay = true
+                // selectedItem(selectedItemPosition)
+            }
+        }
+    }
+
+    fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
+        largeIcon.scaleX = 1.2f
+        largeIcon.scaleY = 1.2f
+        smallView.scaleX = 0.6f
+        smallView.scaleY = 0.6f
     }
 
     private fun setTopBar() {
@@ -95,6 +114,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
             }
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        val id = navigation.currentDestination?.id
+//        navigation.popBackStack(id!!,true)
+//        navigation.navigate(id)
+
     }
 
     private fun setBottomBarNav() {
@@ -131,7 +159,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         arguments: Bundle?
     ) {
 
-
+        Utiles.log_D("cncncncncncncncn", selectedItemPosition)
         when (destination.id) {
             R.id.pets_fragments -> {
                 bottomAdapter.show(selectedItemPosition)
@@ -165,14 +193,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         if (display) {
             searchView.visibility = GONE
             searchBtn.visibility = VISIBLE
-            binding.toggleBtn.visibility = VISIBLE
+            binding.togelContainer.visibility = VISIBLE
             binding.view55.visibility = VISIBLE
             binding.categoryList.visibility = VISIBLE
             binding.toolbar.titleContainer.visibility = VISIBLE
         } else {
             searchView.visibility = VISIBLE
             searchBtn.visibility = GONE
-            binding.toggleBtn.visibility = GONE
+            binding.togelContainer.visibility = GONE
             binding.view55.visibility = GONE
             binding.categoryList.visibility = GONE
             binding.toolbar.titleContainer.visibility = GONE
@@ -234,8 +262,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     }
 
     override fun selectedItem(pos: Int) {
-        selectedItemPosition = pos
-        // petsAdapter.clear()
+        if (pos != 4) // blogs when back >> back to  map on selected position of bottom filter
+            selectedItemPosition = pos
+
         if (!isMappingDisplay) {
             navigation.navigate(R.id.nav_items_fragments)
         }

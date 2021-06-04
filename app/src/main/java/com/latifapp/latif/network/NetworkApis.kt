@@ -65,6 +65,8 @@ interface NetworkApis {
     @GET("api/public/ads/ad-by-Id")
     suspend fun getAdDetails(@Nullable @Query("id") id: Int?): ResponseModel<AdsModel>
 
+    @GET("api/public/reasons")
+    suspend fun getReportedReasonsList(): ResponseModel<List<ReportedReasonsList>>
     @POST
     suspend fun saveForm(
         @Url url: String,
@@ -89,12 +91,27 @@ interface NetworkApis {
         @Body model: RegisterRequest
     ): ResponseModel<RegisterRequest>
 
+    @PUT("api/account/update")
+    suspend fun editProfile(
+        @Body model: RegisterRequest
+    ): ResponseModel<UserModel>
+
+    @POST("api/public/ads/adActivation")
+    suspend fun activeAd(
+        @Nullable @Query("id") id: Int?,
+        @Query("activate") activate: Boolean
+    ): ResponseModel<Any>
+
 
     @POST("login")
-    fun login(@Body body: LoginRequest): Call<Void>
+    suspend fun login(@Body body: LoginRequest): LoginResponse
+
+    @GET("api/public/account/profile")
+    suspend fun getUserInfo(): ResponseModel<UserModel>
 
     @POST("api/public/reportedAds/makeReport")
     suspend fun reportAd(@Body reportedRequestAd: ReportedRequestAd): ResponseModel<AdsModel>
+
     @POST("api/public/reportedAds/addToInterestList")
     suspend fun favAd(@Body reportedRequestAd: ReportedRequestAd): ResponseModel<AdsModel>
 }

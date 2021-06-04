@@ -44,17 +44,41 @@
         android:layout_below="@id/toolbar"
         tools:itemCount="1"
         tools:listitem="@layout/pet_item_layout" />
-<ImageView
-    android:layout_width="30dp"
-    android:layout_height="30dp"
-    android:src="@drawable/toggel"
-    android:layout_below="@id/view55"
-    android:layout_marginTop="30dp"
-    android:layout_alignParentEnd="true"
-    android:layout_marginEnd="20dp"
-    android:tint="@color/sunset_orange"
-    android:id="@+id/toggleBtn"
-    />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view55"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edittext_bg"
+        android:id="@+id/togelContainer"
+        >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_loc"
+            android:tint="@color/sunset_orange"
+            android:id="@+id/mapBtn"
+            android:layout_margin="8dp"
+            />
+        <View
+            android:layout_width="5dp"
+            android:layout_height="1dp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/toggel"
+            android:tint="@color/sunset_orange"
+            android:id="@+id/listeBtn"
+            android:layout_margin="8dp"
+            />
+    </LinearLayout>
+
+
 
 
     <View

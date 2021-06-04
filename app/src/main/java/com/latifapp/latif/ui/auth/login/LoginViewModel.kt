@@ -1,59 +1,50 @@
 package com.latifapp.latif.ui.auth.login
 
-import android.app.Application
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.latifapp.latif.R
 import com.latifapp.latif.data.local.AppPrefsStorage
-import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
+import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_TOKEN_PREFS
 import com.latifapp.latif.data.models.LoginRequest
 import com.latifapp.latif.network.ErrorResponse
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
-import com.latifapp.latif.ui.base.BaseViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.latifapp.latif.ui.main.profile.ProfileUserInfoViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
-    BaseViewModel(
-        appPrefsStorage
-    ) {
+class LoginViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
+    ProfileUserInfoViewModel(repo, appPrefsStorage) {
 
     val validateLiveData = MutableLiveData<SignUpFiled>(null)
     val errorIputsMsg = MutableLiveData<Int>(null)
-    val successInputs = MutableLiveData<Boolean>(false)
+
+
+
     fun login(username: String, password: String) {
-        loader.value=true
         if (validate(username, password)) {
+            loader.value = true
             val loginRequest = LoginRequest(username, password)
-            repo.login(loginRequest, object : LoginViewModel.getlogin {
-                override fun onSuccess(token: String) {
-                    loader.value=false
-                    AppPrefsStorage.token=token
-                    viewModelScope.launch {
-                        appPrefsStorage.setValue(USER_ID_PREFS, token)
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = repo.login(loginRequest)
+                when (result) {
+                    is ResultWrapper.Success -> {
+                        AppPrefsStorage.token = result.value.Authorization
+                        appPrefsStorage.setValue(USER_TOKEN_PREFS, result.value.Authorization)
+                        getUserInfo()
                     }
-                    successInputs.value=true
+                    else -> {
+                        getErrorMsg(result)
+                        loader.value = false
+                    }
                 }
 
-                override fun onFailure(error: ResultWrapper<ErrorResponse>?) {
-                    loader.value=false
-                    if (error != null)
-                        viewModelScope.launch {
-                            getErrorMsg(error)
-                        }
-                    else {
-                        errorIputsMsg.value = (R.string.checkinputs)
-                    }
-
-
-                }
-            })
+            }
         }
     }
+
 
     private fun validate(username: String, password: String): Boolean {
         var valid = true

@@ -24,6 +24,7 @@ data class AdsModel(
     val latitude: Double=0.0,
     val longitude: Double=0.0,
     val external_link: Boolean=false,
+    var active: Boolean=true,
     val createdBy: UserModel?,
     val extra: List<ExtraModel>?
 ):Parcelable

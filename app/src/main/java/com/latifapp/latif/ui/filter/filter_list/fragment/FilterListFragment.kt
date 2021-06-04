@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentListFilterBinding
 import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
-import com.latifapp.latif.ui.main.items.ItemsFragment
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

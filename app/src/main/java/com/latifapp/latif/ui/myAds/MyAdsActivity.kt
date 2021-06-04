@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,14 +14,14 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MyAdsActivity : BaseActivity<MyAdsViewModel,ActivitySubscribBinding>() {
 
-    private val adapter_=PetsListAdapter()
+    private val adapter_= MyAdsAdapter()
     private var isLoadingData  =false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,18 @@ class MyAdsActivity : BaseActivity<MyAdsViewModel,ActivitySubscribBinding>() {
             adapter = adapter_
             addOnScrollListener(scrollListener)
         }
-        adapter_.action = object : PetsListAdapter.Action {
+        adapter_.action_ = object : PetsListAdapter.Action, MyAdsAdapter.MyAdsAction {
+            override fun activeAd(activeAd: Boolean, id: Int?, position: Int) {
+                viewModel.activateAd(activeAd,id).observe(this@MyAdsActivity, Observer {
+                    if (it!=null) {
+                        var active=activeAd
+                        if (!it)//failed
+                            active=!activeAd
+                        adapter_.switchActivation(active, position)
+                    }
+                })
+            }
+
             override fun onAdClick(id: Int?) {
                 val intent = Intent(this@MyAdsActivity, DetailsActivity::class.java)
                 intent.putExtra("ID", id)

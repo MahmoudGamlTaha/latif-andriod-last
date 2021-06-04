@@ -7,12 +7,13 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.latifapp.latif.data.local.AppPrefsStorage.Companion.token
 import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentPetsListBinding
+import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.main.home.MainViewModel
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
 import com.latifapp.latif.ui.sell.SellActivity
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,22 +25,27 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
 
     private var category: Int? = null
     private var isLoadingData = false
-    private lateinit var adapter: ItemsAdapter
+
+    private lateinit var adapter: PetsListAdapter
     private var categoryType = 0
     private var itemsType = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!::adapter.isInitialized) {
             setList()
 
             binding.sellBtn.setOnClickListener {
+                if (token.isNullOrEmpty())
+                    startActivity(Intent(activity, LoginActivity::class.java))
+                else
                 startActivity(Intent(activity, SellActivity::class.java))
             }
         }
     }
 
     private fun setList() {
-        adapter = ItemsAdapter()
+        adapter = PetsListAdapter()
         binding.petsListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = this@ItemsFragment.adapter

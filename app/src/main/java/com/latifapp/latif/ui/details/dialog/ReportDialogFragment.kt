@@ -1,27 +1,29 @@
 package com.latifapp.latif.ui.details.dialog
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import com.latifapp.latif.R
-import com.latifapp.latif.databinding.FragmentRegisterBinding
+import com.latifapp.latif.data.models.ReportedReasonsList
 import com.latifapp.latif.databinding.FragmentReportDialogBinding
 import com.latifapp.latif.ui.details.DetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
-class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListener {
+class ReportDialogFragment() : DialogFragment(), AdapterView.OnItemSelectedListener {
 
-
+    private lateinit var reasons_list: List<ReportedReasonsList>
     private lateinit var binding: FragmentReportDialogBinding
+    private var reasonID:String?=null
     @Inject
     lateinit var viewModel: DetailsViewModel
     override fun onCreateView(
@@ -29,7 +31,7 @@ class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListene
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         binding=FragmentReportDialogBinding.inflate(inflater,container,false)
+         binding=FragmentReportDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
@@ -39,13 +41,21 @@ class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (viewModel.report_List_liveData.value==null){
+           viewModel.reportReasonsList()
+        }
+        viewModel.report_List_liveData.observe(requireActivity(), Observer {
+            if (it != null) {
+                this.reasons_list = it
+                setSpinner()
+            }
+        })
 
-        setSpinner()
         binding.reportAdBtn.setOnClickListener {
-            if (binding.reason.text.toString().isEmpty())
-                binding.reason.error=getString(R.string.required)
-            else{
-                viewModel.reportAd(binding.reason.text.toString())
+            if (reasonID.isNullOrEmpty()) {
+                (binding.spinner.getSelectedView() as TextView)?.error = getString(R.string.required)
+            } else{
+                viewModel.reportAd("$reasonID")
 
             }
         }
@@ -53,10 +63,13 @@ class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListene
 
     private fun setSpinner() {
 
-        val list = listOf("reason 1","reason 2","reason 3","reason 4","reason 5")
+        val list = reasons_list.map {
+            it.value
+        }
         val arrayAdapter = activity?.let {
             ArrayAdapter<String>(
-                it, android.R.layout.simple_list_item_1, list)
+                it, android.R.layout.simple_list_item_1, list
+            )
         }
         binding.spinner.apply {
             adapter = arrayAdapter
@@ -69,6 +82,7 @@ class ReportDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListene
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 //        Toast.makeText(activity,"Ok $position",Toast.LENGTH_SHORT).show()
 //        dismiss()
+        reasonID=reasons_list.get(position).id.toString()
      }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

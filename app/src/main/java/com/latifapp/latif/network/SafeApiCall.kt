@@ -12,6 +12,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 
+
 suspend fun <T> safeApiCall(apiCall: suspend () -> T): ResultWrapper<T> {
     return withContext(Dispatchers.IO) {
         try {
@@ -20,6 +21,7 @@ suspend fun <T> safeApiCall(apiCall: suspend () -> T): ResultWrapper<T> {
         } catch (throwable: Throwable) {
             Utiles.log_D("dndndndndndnd", "$throwable")
             getErrorType(throwable)
+
         }
     }
 }

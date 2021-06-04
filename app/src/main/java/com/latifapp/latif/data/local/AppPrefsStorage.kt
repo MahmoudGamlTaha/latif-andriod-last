@@ -6,12 +6,10 @@ import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.emptyPreferences
-import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
-import dagger.Provides
+import com.latifapp.latif.data.models.UserModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton

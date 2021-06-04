@@ -7,13 +7,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-<fragment
+    <fragment
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.map.MapsActivity"
     />
+
+    <TextView
+        android:id="@+id/selectBtn"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_alignBottom="@id/map"
+
+        android:layout_gravity="bottom"
+        android:background="@color/sunset_orange"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:minWidth="70dp"
+        android:scaleType="centerInside"
+        android:text="@string/select"
+        android:textAlignment="center"
+        android:textColor="@color/white" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,6 +39,7 @@
         app:srcCompat="@drawable/ic_pin"
         android:tint="@color/red"
         android:id="@+id/pin"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,25 +64,9 @@
             android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:scaleType="centerInside"
-            android:id="@+id/selectBtn"
-
-            android:layout_gravity="center_vertical"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/select"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:minWidth="70dp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            />
     </RelativeLayout>
-    <TextView
+
+        <TextView
         android:id="@+id/locTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -84,5 +86,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/view"
         app:layout_constraintTop_toBottomOf="@id/view" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </RelativeLayout>

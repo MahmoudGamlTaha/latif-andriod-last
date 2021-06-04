@@ -22,9 +22,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.ui.IconGenerator
 import com.latifapp.latif.R
+import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.CustomMarkserBinding
 import com.latifapp.latif.databinding.FragmentPetsBinding
+import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.home.MainViewModel
@@ -39,13 +41,13 @@ import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
-class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
-     {
+class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
     private val mapSets = mutableSetOf<AdsModel>()
     private var category: Int? = null
     private var mapFragment: SupportMapFragment? = null
     private var mMap: GoogleMap? = null
+    private var isGpsTurned = false
 
     private var categoryType = 0
     private var itemsType = ""
@@ -61,13 +63,13 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (mapFragment == null) {
-
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
             mapFragment?.getMapAsync(callback)
             Utiles.setMyLocationPositionInBottom(mapFragment?.view)
-
-
             binding.sellBtn.setOnClickListener {
+                if (AppPrefsStorage.token.isNullOrEmpty())
+                    startActivity(Intent(activity, LoginActivity::class.java))
+                else
                 startActivity(Intent(activity, SellActivity::class.java))
             }
             getTypeOfCategorAndItems()
@@ -114,7 +116,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
 
         if (distance >= 20_000)
             lifecycleScope.launchWhenStarted {
+
                 viewModel.getItems(itemsType, category).collect {
+
                     viewModel.page = 0
                     if (it != null) {
                         val set = mutableSetOf<AdsModel>()
@@ -175,25 +179,34 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
 
         mMap?.setOnCameraIdleListener {
             var latLng = mMap?.cameraPosition?.target
+            var changedCity = true
             if (latLng != null && latLng.latitude != 0.0) {
                 Latitude_ = latLng.latitude
                 Longitude_ = latLng.longitude
-                getPetsList()
                 getCityName_(latLng)
+                // if(changedCity==true)
+
             }
         }
     }
 
     private fun getCityName_(latLng: LatLng) {
-
+        var Changed = false;
         MapsUtiles.getCityName(requireContext(), latLng, "en").observe(
             viewLifecycleOwner,
             Observer {
                 if (!it.isNullOrEmpty()) {
                     val city = it.replace("Governorate", "")
+                    if ((activity as MainActivity).toolBarTitle.text.equals(city) == false) {
+                        Changed = true;
+                        getPetsList()
+
+                    }
                     (activity as MainActivity).toolBarTitle.text = city
+
                 }
             })
+
     }
 
     fun setLPetsLocations(list: Set<AdsModel>) {
@@ -201,7 +214,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
             activity?.runOnUiThread(Runnable {
                 // mMap?.clear()
                 list.forEach { adsModel ->
-                    mMap?.getMarker(adsModel,requireContext(),layoutInflater)
+                    mMap?.getMarker(adsModel, requireContext(), layoutInflater)
                     mMap?.setOnMarkerClickListener { marker ->
                         val model = marker.tag as AdsModel
                         if (model != null) {
@@ -224,10 +237,11 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
     }
 
 
-
     override fun onResume() {
         super.onResume()
-        turnGPSOn()
+        Utiles.log_D("mgmgmmgmg",isGpsTurned)
+        if (!isGpsTurned)
+            turnGPSOn()
         mapFragment?.onResume()
     }
 
@@ -254,7 +268,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
                     LatLng(
                         location!!.latitude,
                         location!!.longitude
-                    ), 10f
+                    ), 12f
                 )
             )
         }
@@ -274,6 +288,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>()
                 Utiles.log_D("fnnfnfnfnnf", isGPSEnable)
                 if (isGPSEnable)
                     setupmap()
+                isGpsTurned = isGPSEnable
 
 
             }

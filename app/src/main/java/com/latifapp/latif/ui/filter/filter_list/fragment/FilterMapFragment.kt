@@ -8,13 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentPetsBinding
 import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
+import com.latifapp.latif.ui.main.pets.PetsFragment.Companion.Latitude_
+import com.latifapp.latif.ui.main.pets.PetsFragment.Companion.Longitude_
 import com.latifapp.latif.ui.main.pets.bottomDialog.BottomDialogFragment
 import com.latifapp.latif.utiles.MapsUtiles
 import com.latifapp.latif.utiles.MapsUtiles.getMarker
@@ -60,6 +64,15 @@ class FilterMapFragment : Fragment() {
                 setLPetsLocations(it.response.data)
             }
         })
+
+        mMap?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    Latitude_,
+                    Longitude_
+                ), 10f
+            )
+        )
     }
 
 

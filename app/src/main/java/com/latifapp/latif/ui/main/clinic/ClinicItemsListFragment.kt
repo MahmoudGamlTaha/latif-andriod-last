@@ -11,7 +11,7 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentServicesBinding
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import com.latifapp.latif.utiles.AppConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

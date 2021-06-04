@@ -73,6 +73,9 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
     override suspend fun getAdDetails(id: Int?): ResultWrapper<ResponseModel<AdsModel>> {
         return safeApiCall { apis.getAdDetails(id) }
     }
+    override suspend fun getReportedReasonsList(): ResultWrapper<ResponseModel<List<ReportedReasonsList>>> {
+        return safeApiCall { apis.getReportedReasonsList() }
+    }
 
     override suspend fun createBlog(createBlogsModel: CreateBlogsModel): ResultWrapper<ResponseModel<BlogsModel>> {
         return safeApiCall { apis.createBlog(createBlogsModel) }
@@ -97,30 +100,27 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
         return safeApiCall { apis.saveFilter("$url", model) }
     }
 
+    override suspend fun activateAd(
+        activeAd: Boolean,
+        id: Int?
+    ): ResultWrapper<ResponseModel<Any>> {
+        return safeApiCall { apis.activeAd(id,activeAd) }
+    }
+
     override suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<RegisterRequest>> {
         return safeApiCall { apis.register(body) }
     }
 
-    override fun login(loginRequest:LoginRequest, callback: LoginViewModel.getlogin){
+    override suspend fun editProfile(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>> {
+        return safeApiCall { apis.editProfile(body) }
+    }
 
-        apis.login(loginRequest).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+    override suspend fun login(loginRequest:LoginRequest):ResultWrapper<LoginResponse>{
+        return safeApiCall {  apis.login(loginRequest) }
 
-                if (response.code() == 200) {
-                    Log.d("ndndnndndnndnd22", "${response.headers().get("Authorization")}")
-                 callback.onSuccess("${response.headers().get("Authorization")}")
-                }else{
+    }
 
-                    callback.onFailure(null)
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.d("ndndnndndnndnd", "${t.message}")
-                val result =getErrorType<ErrorResponse>(t)
-
-                callback.onFailure(result)
-            }
-        })
+    override suspend fun getUserInfo(): ResultWrapper<ResponseModel<UserModel>> {
+        return safeApiCall {  apis.getUserInfo() }
     }
 }

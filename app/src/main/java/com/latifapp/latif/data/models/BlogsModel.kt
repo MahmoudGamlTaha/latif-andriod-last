@@ -18,7 +18,7 @@ data class BlogsModel(
 )
 
 data class CreateBlogsModel(
-    val userId: Int,
+    val userId: String,
     val title: String?,
     val category: Int?,
     val description: String?,
@@ -27,16 +27,3 @@ data class CreateBlogsModel(
     val _external: Boolean=true,
 
 )
-
-@Parcelize
-data class UserModel(
-    val id: Int?,
-    val email: String?,
-    val firstName: String?,
-    val lastName: String?,
-    val address: String?,
-    val phone: String?,
-    val avatar: String?,
-    val adsCount: Int?,
-    val registrationDate: String?
-): Parcelable

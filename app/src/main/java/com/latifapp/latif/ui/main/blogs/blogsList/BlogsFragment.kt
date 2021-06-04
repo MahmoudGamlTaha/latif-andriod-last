@@ -8,14 +8,15 @@ import android.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.BlogsModel
 import com.latifapp.latif.databinding.FragmentBlogsBinding
+import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
-import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.main.blogs.blogsDetails.BlogDetailsActivity
 import com.latifapp.latif.ui.main.blogs.createBlog.CreateBlogActivity
 import com.latifapp.latif.ui.main.home.MainActivity
-import com.latifapp.latif.ui.main.petsList.PetsListAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.blog_item.view.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -34,7 +35,7 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
     private val petsAdapter = PetsCategoryAdapter()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchview =(activity as MainActivity).searchView
+        searchview = (activity as MainActivity).searchView
         setSearchView()
 
         binding.recyclerView.apply {
@@ -50,17 +51,21 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
             petsAdapter.action = this@BlogsFragment
         }
         binding.sellBtn.setOnClickListener {
-            val intent = Intent(activity, CreateBlogActivity::class.java)
-            startActivityForResult(intent, 2)
+            if (AppPrefsStorage.token.isNullOrEmpty())
+                startActivity(Intent(activity, LoginActivity::class.java))
+            else {
+                val intent = Intent(activity, CreateBlogActivity::class.java)
+                startActivityForResult(intent, 2)
+            }
         }
 
 
         getBlogs()
         getBlogsCategoryList()
-        adapter_.action= object : PetsListAdapter.Action{
+        adapter_.action = object : PetsListAdapter.Action {
             override fun onAdClick(id: Int?) {
                 val intent = Intent(context, BlogDetailsActivity::class.java)
-                intent.putExtra("id",id)
+                intent.putExtra("id", id)
                 startActivity(intent)
             }
         }
@@ -90,7 +95,7 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
     }
 
     private fun searchList() {
-        val newText=searchview.query.toString()
+        val newText = searchview.query.toString()
         if (newText.isNullOrEmpty())
             getBlogs()
         else getSearchBlogs(newText)

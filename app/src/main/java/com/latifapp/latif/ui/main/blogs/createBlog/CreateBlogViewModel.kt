@@ -9,6 +9,7 @@ import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
 import com.latifapp.latif.data.local.AppPrefsStorage
+import com.latifapp.latif.data.local.PreferenceConstants
 import com.latifapp.latif.data.models.CategoryItemsModel
 import com.latifapp.latif.data.models.CreateBlogsModel
 import com.latifapp.latif.network.ResultWrapper
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,6 +44,9 @@ class CreateBlogViewModel @Inject constructor(
         return flow_
     }
 
+    init {
+        getUserId()
+    }
     fun uploadImage(path: String): LiveData<String> {
         val livedata = MutableLiveData<String>()
         val requestId: String =
@@ -92,15 +97,17 @@ class CreateBlogViewModel @Inject constructor(
         description: String
     ): Flow<Boolean> {
         val flow_ = MutableStateFlow(false)
+        loader.value = true
+        viewModelScope.launch(Dispatchers.IO) {
 
             val CreateBlogsModel = CreateBlogsModel(
                 title = title,
                 category = blogCategoryID,
                 description = description,
                 extrnImage = imagesList,
-                userId = 1
+                userId = userID
             )
-            viewModelScope.launch(Dispatchers.IO) {
+
                 val result = repo.createBlog(CreateBlogsModel)
                 when (result) {
                     is ResultWrapper.Success -> {

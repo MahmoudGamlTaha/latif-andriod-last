@@ -5,21 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.Lang_PREFS
-import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_ID_PREFS
+import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_TOKEN_PREFS
+import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
-    BaseViewModel(appPrefsStorage) {
+class ProfileViewModel @Inject constructor( repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
+    ProfileUserInfoViewModel(repo,appPrefsStorage) {
 
         fun logout(){
             AppPrefsStorage.token=""
             viewModelScope.launch {
-                appPrefsStorage.setValue(USER_ID_PREFS, "")
+                appPrefsStorage.setValue(USER_TOKEN_PREFS, "")
 
             }
         }
@@ -36,4 +38,5 @@ class ProfileViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: 
         }
         return changeLanguage
     }
+
 }
