@@ -40,14 +40,18 @@ open class PetsListAdapter : RecyclerView.Adapter<PetsListAdapter.MyViewHolder>(
 
         var ads_type: String? =null
 
-        val itr = model.extra!!.iterator()    // or, use `iterator()`
-        while (itr.hasNext()) {
-         val extr=   itr.next()
-            if(extr.name.equals("Ad Type")){
-                ads_type= extr.value as? String
-                break;
+        val itr = model?.extra?.iterator()
+        // or, use `iterator()`
+        itr?.apply {
+            while (hasNext()) {
+                val extr=   next()
+                if(extr.name.equals("Ad Type")){
+                    ads_type= extr.value as? String
+                    break;
+                }
             }
         }
+
         if(ads_type.isNullOrBlank()) {
             holder.binding.adBadgeBtn.visibility = GONE
         }
