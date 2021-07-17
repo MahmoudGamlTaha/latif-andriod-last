@@ -1,36 +1,41 @@
 package com.latifapp.latif.ui.auth.signup
 
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage
-import com.latifapp.latif.data.models.AdsModel
-import com.latifapp.latif.data.models.RegisterRequest
+import com.latifapp.latif.data.models.CategoryModel
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
-import com.latifapp.latif.ui.auth.login.LoginViewModel
-import com.latifapp.latif.ui.base.BaseViewModel
+import com.latifapp.latif.ui.main.pets.PetsFragment
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @ActivityScoped
-class SignUpViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
-    ValidationViewModel(appPrefsStorage) {
+class SignUpViewModel @Inject constructor(
+    repo: DataRepo,
+    appPrefsStorage: AppPrefsStorage
+) : CountryViewModel(repo, appPrefsStorage) {
+    var lat: Double = PetsFragment.Latitude_
+    var lag: Double = PetsFragment.Longitude_
 
+    val policesLiveData = MutableLiveData<String>(null)
+    var interestList = mutableListOf<Int?>()
 
     fun register()
             : LiveData<Boolean> {
         val liveData = MutableLiveData<Boolean>(false)
         loader.value = true
         viewModelScope.launch(Dispatchers.IO) {
+            register_request.latitude=lat
+            register_request.longitude=lag
             val result = repo.register(register_request)
             when (result) {
                 is ResultWrapper.Success -> {
+                    setInterst(result.value?.response?.data?.id)
                     withContext(Dispatchers.Main) {
                         liveData.value = (true)
                     }
@@ -40,5 +45,47 @@ class SignUpViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: A
             loader.value = false
         }
         return liveData
+    }
+
+
+    fun getPolices() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.getPolices()
+            when (result) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        var policy = result.value.response.data?.description
+                        if (!lang?.equals("en"))
+                            policy = result.value.response.data?.descriptionAr
+                        policesLiveData.value = policy
+                    }
+                }
+                else -> getErrorMsg(result)
+            }
+        }
+    }
+
+    fun getAllCategories(page: Int): LiveData<List<CategoryModel>> {
+        val liveData = MutableLiveData<List<CategoryModel>>(null)
+        loader.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.getAllCategories(page)
+            when (result) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        liveData.value = result.value.response.data
+                    }
+                }
+                else -> getErrorMsg(result)
+            }
+            loader.value = false
+        }
+        return liveData
+    }
+
+    private fun setInterst(id: Int?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.setIntrestCategories(interestList,"$id")
+        }
     }
 }

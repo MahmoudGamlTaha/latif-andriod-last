@@ -13,7 +13,11 @@ import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.maps.GoogleMap
@@ -101,38 +105,71 @@ object MapsUtiles {
         val iconGenerator = IconGenerator(context)
         val inflatedViewBinding = CustomMarkserBinding.inflate(layoutInflater)
         val imageView = inflatedViewBinding.image
-       // addImage(imageView, adsModel.image, context)
+        // addImage(imageView, adsModel.image, context)
         val TRANSPARENT_DRAWABLE: Drawable = ColorDrawable(Color.TRANSPARENT)
         iconGenerator.setBackground(TRANSPARENT_DRAWABLE)
         iconGenerator.setContentView(inflatedViewBinding.root)
 
 
+        if (adsModel.image.isNullOrEmpty())
+            setMarker(adsModel.name, pet, iconGenerator.makeIcon(), adsModel, this@getMarker)
+        else
+            Picasso.get()
+                .load(adsModel.image)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(object : Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {
 
-        Picasso.get()
-            .load(adsModel.image)
-            .placeholder(R.drawable.placeholder)
-            .into(object : Target {
-                override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {
-                    imageView.setImageBitmap(bitmap)
-                    var marker = MarkerOptions().position(pet)
-                        .title(adsModel.name)
-                        .icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon()))
+                        if (bitmap != null)
+                            imageView.setImageBitmap(bitmap)
 
-                    val mm = this@getMarker?.addMarker(
-                        marker
-                    )
-                    mm?.tag = (adsModel)
-                }
+                        setMarker(
+                            adsModel.name,
+                            pet,
+                            iconGenerator.makeIcon(),
+                            adsModel,
+                            this@getMarker
+                        )
+                    }
 
-                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                    Utiles.log_D("onBitmapLoadedE", e )
-                    Utiles.log_D("onBitmapLoadedE", adsModel.image )
-                }
+                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                        Utiles.log_D("onBitmapLoadedE", e)
+                        Utiles.log_D("onBitmapLoadedE", adsModel.image)
+                        setMarker(
+                            adsModel.name,
+                            pet,
+                            iconGenerator.makeIcon(),
+                            adsModel,
+                            this@getMarker
+                        )
+                    }
 
-                override fun onPrepareLoad(placeHolderDrawable: Drawable) {}
-            })
-        // customPicasso.shutdown()
-        //Picasso.get().load(adsModel.image).into(picassoMarker);
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable) {
+
+                    }
+                })
+
+    }
+
+    private fun setMarker(
+        name: String?,
+        pet: LatLng,
+        makeIcon: Bitmap?,
+        adsModel: AdsModel,
+        googleMap: GoogleMap
+    ) {
+
+
+        var marker = MarkerOptions().position(pet)
+            .title(name)
+            .icon(BitmapDescriptorFactory.fromBitmap(makeIcon))
+
+        val mm = googleMap?.addMarker(
+            marker
+        )
+        Utiles.log_D("cnncncncnncncncncn", mm.isVisible)
+        mm?.tag = (adsModel)
     }
 
     private fun addImage(imageView: ImageView, image: String?, context: Context) {

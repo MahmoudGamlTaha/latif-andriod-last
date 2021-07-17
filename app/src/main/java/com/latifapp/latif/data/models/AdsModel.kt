@@ -32,7 +32,8 @@ data class AdsModel(
 data class ExtraModel(
     val name: String?,
     val name_ar: String?,
-    var value: Any?
+    var value: Any?,
+    var value_ar: Any?
 ):Serializable
 
 @Parcelize

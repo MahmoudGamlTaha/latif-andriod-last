@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
+import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.utiles.Utiles
 import kotlinx.coroutines.Dispatchers
 
@@ -24,6 +26,11 @@ open abstract class BaseFragment<viewmodel : BaseViewModel, viewbinding : ViewBi
     lateinit var viewModel: viewmodel
     lateinit var binding: viewbinding
     lateinit var navController: NavController
+    val lang
+        get() = viewModel.lang
+    val isEnglish
+        get() = lang.equals("en");
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,21 +39,29 @@ open abstract class BaseFragment<viewmodel : BaseViewModel, viewbinding : ViewBi
         super.onCreateView(inflater, container, savedInstanceState)
         if (!::binding.isInitialized)
             binding = setBindingView(inflater)
-
+        activity?.let { Utiles.setLocalization(it, lang) }
 
         return binding.getRoot()
     }
 
     override fun onStart() {
         super.onStart()
-     }
+        activity?.let { Utiles.setLocalization(it, lang) }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController= Navigation.findNavController(view)
+//        if (Navigation.findNavController(view)!=null)
+//        navController= Navigation.findNavController(view)
         viewModel.errorMsg_.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty())
             // Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 toastMsg_Warning(it, binding.root, requireContext())
+        })
+
+        viewModel.loginAgain_.observe(viewLifecycleOwner, Observer {
+            if (it != null && it)
+                startActivity(Intent(context, LoginActivity::class.java))
         })
 
         lifecycleScope.launchWhenStarted {

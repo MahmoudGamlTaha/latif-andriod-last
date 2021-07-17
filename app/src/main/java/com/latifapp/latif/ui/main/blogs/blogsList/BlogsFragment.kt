@@ -47,6 +47,7 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
         }
         binding.categoryRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            petsAdapter.isEnglish=isEnglish
             adapter = petsAdapter
             petsAdapter.action = this@BlogsFragment
         }

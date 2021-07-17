@@ -1,6 +1,6 @@
 package com.example.postsapplication.network
 
-import android.util.Log
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.utiles.Utiles
@@ -14,11 +14,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -28,16 +27,19 @@ import javax.net.ssl.X509TrustManager
 @InstallIn(SingletonComponent::class)
 object NetworkClient {
     val BASE_URL = "https://latifapp.herokuapp.com/"
-    private val TIMEOUT_MIN = 2
+     private val TIMEOUT_MIN = 2
 
 
 
     @Provides
     @Singleton
     fun getRetrofit(client: OkHttpClient): Retrofit {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(client)
             .build()
@@ -89,7 +91,11 @@ object NetworkClient {
                     var request: Request = chain.request()
                     val httpUrl: HttpUrl = request.url()
                     val url = httpUrl.newBuilder().build()
-                    request = request.newBuilder().addHeader("Authorization","Bearer "+AppPrefsStorage.token).build()
+                    var token_:String?= ""
+                    if(!AppPrefsStorage.token.isNullOrEmpty())
+                        token_ ="Bearer ${AppPrefsStorage.token}"
+
+                    request = request.newBuilder().addHeader("Authorization", token_).build()
                     chain.proceed(request)
                 }
             val builder = OkHttpClient.Builder()

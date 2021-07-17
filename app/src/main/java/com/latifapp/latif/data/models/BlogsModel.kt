@@ -8,6 +8,7 @@ data class BlogsModel(
     val id: Int?,
     val title: String?,
     val category: String?,
+    val categoryAr: String?,
     val description: String?,
     val image: String?,
     val images: List<String>?,

@@ -40,7 +40,7 @@ class BlogDetailsActivity : BaseActivity<BolgDetailsViewModel,ActivityBlogDetail
 
             binding.container.visibility = View.VISIBLE
             binding.dateTxt.text = it.createdDate
-            binding.priceTxt.text = "${getString(R.string.categories)} : ${it.category}"
+            binding.priceTxt.text = "${getString(R.string.categories)} : ${if (isEnglish) it.category else it.categoryAr}"
             binding.petName.text = it.title
             binding.descriptionTxt.text = it.description
             setSellerInfo(it.user, it.externalLink)

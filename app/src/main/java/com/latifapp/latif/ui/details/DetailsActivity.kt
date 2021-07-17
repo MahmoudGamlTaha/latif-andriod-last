@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.ExtraModel
 import com.latifapp.latif.data.models.ImagesModel
+import com.latifapp.latif.data.models.MsgNotification
 import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.databinding.ActivityDetailsBinding
 import com.latifapp.latif.databinding.CallDialogBinding
@@ -28,12 +29,16 @@ import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.dialog.ReportDialogFragment
 import com.latifapp.latif.ui.main.chat.chatPage.ChatPageActivity
 import com.latifapp.latif.ui.main.pets.PetsFragment
+import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_report_dialog.*
 
 @AndroidEntryPoint
 class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>(),
     OnMapReadyCallback, PetImageAdapter.Actions {
+    private var adOwnerId: Int? = 0
+    private var adOwnerName: String? = ""
+    private var adOwnerPic: String? = ""
     private var reportDialog: ReportDialogFragment? = null
 
     private var adapter_: PetImageAdapter? = null
@@ -134,7 +139,10 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             "${getString(R.string.joinedDate)} ${createdBy?.registrationDate}"
         binding.numAdsTxt.text = "${getString(R.string.myAds)}: ${createdBy?.adsCount}"
         phoneNum = createdBy?.phone
-        val image = createdBy?.avatar
+        adOwnerId = createdBy?.id
+        adOwnerName = createdBy?.firstName
+        adOwnerPic = createdBy?.avatar
+        val image = adOwnerPic
         if (!image.isNullOrEmpty()) {
             var imagePath = image
 
@@ -243,8 +251,10 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             popupBinding.chatBtn.setOnClickListener {
                 if (viewModel.token.isNullOrEmpty()) {
                     toastMsg_Warning(getString(R.string.loginFirst), binding.root, this)
+                } else if (viewModel.userID.equals("${adOwnerId}")) {
+                    toastMsg_Warning(getString(R.string.cannotChat), binding.root, this)
                 } else {
-                    startActivity(Intent(this, ChatPageActivity::class.java))
+                    intentToChat()
                 }
                 callPopUp.dismiss()
             }
@@ -253,6 +263,26 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             callPopUp.dismiss()
         else
             callPopUp.showAsDropDown(view)
+    }
+
+    private fun intentToChat() {
+        viewModel.checkIfHaveRoom().observe(this, Observer {
+            if ( it!= null) {
+                val intent = Intent(this, ChatPageActivity::class.java)
+                val msg = MsgNotification(
+                    sender_id = "${adOwnerId}",
+                    sender_name = adOwnerName,
+                    sender_avater = adOwnerPic,
+                    message = "",
+                    chat_room = it,
+                    prod_id = "$id",
+                    prod_name = ""
+                )
+                intent.putExtra("model", msg)
+                startActivity(intent)
+            }
+        })
+
     }
 
     override fun setBindingView(inflater: LayoutInflater): ActivityDetailsBinding {

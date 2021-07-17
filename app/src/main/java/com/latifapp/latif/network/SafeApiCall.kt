@@ -12,7 +12,6 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 
-
 suspend fun <T> safeApiCall(apiCall: suspend () -> T): ResultWrapper<T> {
     return withContext(Dispatchers.IO) {
         try {
@@ -28,16 +27,17 @@ suspend fun <T> safeApiCall(apiCall: suspend () -> T): ResultWrapper<T> {
 
 public fun <T> getErrorType(throwable: Throwable): ResultWrapper<T> {
     when (throwable) {
-        is IOException -> ResultWrapper.NetworkError
-        is UnknownHostException -> ResultWrapper.NetworkError
+        is IOException, is UnknownHostException -> {
+            return ResultWrapper.NetworkError
+        }
         is HttpException -> {
             val code = throwable.code()
+
             val errorResponse = convertErrorBody(throwable)
-            Utiles.log_D("dndndndndndnd", "$errorResponse  $code")
-            ResultWrapper.GenericError(code, errorResponse)
+            return ResultWrapper.GenericError(code, errorResponse)
         }
         else -> {
-            ResultWrapper.GenericError(0, ErrorResponse())
+            return ResultWrapper.GenericError(0, ErrorResponse())
         }
     }
     return ResultWrapper.GenericError(0, ErrorResponse())

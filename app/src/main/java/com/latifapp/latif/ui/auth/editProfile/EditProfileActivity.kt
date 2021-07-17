@@ -7,15 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.databinding.ActivityEditProfileBinding
 import com.latifapp.latif.ui.auth.login.LoginViewModel
+import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.city.CityDialog
+import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.country.CountryDialog
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
@@ -40,6 +39,30 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
             getString(R.string.gallery),
             getString(R.string.cancel_)
         )
+
+
+        viewModel.getCountries().observe(this, Observer {
+            if (!it.isNullOrEmpty()) {
+                binding.countryEx.setOnClickListener {
+                    getCountryDialog()
+                }
+            }
+
+        })
+
+        viewModel.countryModelLiveData.observe(this, Observer {
+            binding.countryEx.text = it
+            if (it != null) {
+                binding.cityEx.setOnClickListener {
+                    getCityDialog()
+                }
+            } else binding.cityEx.setOnClickListener(null)
+        })
+        viewModel.cityModelLiveData.observe(this, Observer {
+
+            binding.cityEx.text = it
+        })
+
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }
@@ -52,8 +75,8 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
             val name = binding.nameEx.text.toString()
             val email = binding.emailEx.text.toString()
             val phone = binding.phoneEx.text.toString()
-            val country = binding.countryEx.text.toString()
-            val city = binding.cityEx.text.toString()
+            val country = viewModel.countryId
+            val city = viewModel.cityId
             val address = binding.addressEx.text.toString()
             val govs = binding.governorateEx.text.toString()
             if (viewModel.validate(name, email, "", phone, country, address, city, govs, false))
@@ -84,15 +107,22 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
 
     private fun setUserInfo(it: UserModel?) {
         it?.apply {
+            var isEnglish = false
+            if (lang.equals("en")) isEnglish = true
             binding.addressEx.setText(address)
             binding.nameEx.setText(firstName + " " + lastName)
-            binding.countryEx.setText(country)
             binding.emailEx.setText(email)
             binding.phoneEx.setText(phone)
-            binding.cityEx.setText(city)
             binding.governorateEx.setText(state)
 
-         setImageProfile(avatar)
+            if (country != null) {
+                viewModel.setCountry(country?.id,if (isEnglish) country?.nameEn else country?.nameAr)
+            }
+            if (city != null) {
+                viewModel.setCity(city?.id,if (isEnglish)  city?.cityEn else city?.cityAr)
+            }
+
+            setImageProfile(avatar)
         }
 
     }
@@ -221,6 +251,24 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+            }
+        }
+    }
+
+    private fun getCityDialog() {
+        supportFragmentManager.let {
+            CityDialog(viewModel).apply {
+                show(it, tag)
+            }
+        }
+
+    }
+
+    private fun getCountryDialog() {
+        supportFragmentManager.let {
+            CountryDialog(viewModel).apply {
+                show(it, tag)
+
             }
         }
     }

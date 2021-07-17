@@ -33,11 +33,11 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
                 valid = false
             }
         }
-        if (country.length < 3) {
+        if (country.isNullOrEmpty()) {
             validateLiveData.value = LoginViewModel.SignUpFiled.country_
             valid = false
         }
-        if (city.length < 3) {
+        if (city.isNullOrEmpty()) {
             validateLiveData.value = LoginViewModel.SignUpFiled.city_
             valid = false
         }
@@ -45,10 +45,7 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
             validateLiveData.value = LoginViewModel.SignUpFiled.address_
             valid = false
         }
-        if (govs.length < 3) {
-            validateLiveData.value = LoginViewModel.SignUpFiled.governorate_
-            valid = false
-        }
+
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             validateLiveData.value = LoginViewModel.SignUpFiled.email_

@@ -3,6 +3,10 @@ package com.latifapp.latif.ui.auth.login
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.cloudinary.Util
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.installations.Utils
+import com.google.firebase.messaging.FirebaseMessaging
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_TOKEN_PREFS
 import com.latifapp.latif.data.models.LoginRequest
@@ -10,6 +14,7 @@ import com.latifapp.latif.network.ErrorResponse
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.main.profile.ProfileUserInfoViewModel
+import com.latifapp.latif.utiles.Utiles
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,13 +25,28 @@ class LoginViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPre
 
     val validateLiveData = MutableLiveData<SignUpFiled>(null)
     val errorIputsMsg = MutableLiveData<Int>(null)
+    var refreshedToken = ""
+    init {
+        getToken()
+    }
+    private fun getToken() {
 
-
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isComplete) {
+                refreshedToken = it.result.toString()
+                // DO your thing with your firebase token
+                Utiles.log_D("cncncnncncncnc", refreshedToken)
+            }
+        }
+    }
 
     fun login(username: String, password: String) {
+
         if (validate(username, password)) {
             loader.value = true
-            val loginRequest = LoginRequest(username, password)
+
+            Utiles.log_D("cncncnncncncnc", refreshedToken)
+            val loginRequest = LoginRequest(username, password, refreshedToken)
             viewModelScope.launch(Dispatchers.IO) {
                 val result = repo.login(loginRequest)
                 when (result) {

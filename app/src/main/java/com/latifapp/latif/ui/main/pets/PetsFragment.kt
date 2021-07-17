@@ -51,6 +51,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
     private var categoryType = 0
     private var itemsType = ""
+    private var listOfPetsIsEmpty = false
 
     companion object {
         var Latitude_ = 0.0
@@ -70,7 +71,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 if (AppPrefsStorage.token.isNullOrEmpty())
                     startActivity(Intent(activity, LoginActivity::class.java))
                 else
-                startActivity(Intent(activity, SellActivity::class.java))
+                    startActivity(Intent(activity, SellActivity::class.java))
             }
             getTypeOfCategorAndItems()
 
@@ -97,7 +98,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
 
     private fun getPetsList() {
-        var distance = 20_000f
+        var distance = 50_000f
         if (latitude_map != 0.0) {
             // get distance
             val loc1 = Location("loc1")
@@ -113,33 +114,43 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
             latitude_map = Latitude_
             longitude_map = Longitude_
         }
+        Utiles.log_D("ncncncnncncncn'''", "${listOfPetsIsEmpty}")
+        if (distance >= 50_000)
+            viewModel.page = 0
+        else {
 
-        if (distance >= 20_000)
-            lifecycleScope.launchWhenStarted {
+            if (listOfPetsIsEmpty)
+                return
+            viewModel.page++
+        }
+        lifecycleScope.launchWhenStarted {
 
-                viewModel.getItems(itemsType, category).collect {
+            viewModel.getItems(itemsType, category).collect {
 
-                    viewModel.page = 0
-                    if (it != null) {
-                        val set = mutableSetOf<AdsModel>()
-                        set.addAll(it)
-                        var list = mutableSetOf<AdsModel>()
+                if (it != null) {
+                    val set = mutableSetOf<AdsModel>()
+                    set.addAll(it)
+                    var list = mutableSetOf<AdsModel>()
 
-                        if (!mapSets.isEmpty()) {
-                            for (model in set) {
-                                if (!mapSets.contains(model)) {
-                                    list.add(model)
-                                }
+                    if (!mapSets.isEmpty()) {
+                        for (model in set) {
+                            if (!mapSets.contains(model)) {
+                                list.add(model)
                             }
-                        } else list = set
-                        mapSets.addAll(set)
-                        Utiles.log_D("ncncncnncncncn", "${list.size}")
-                        if (!list.isEmpty()) {
-                            setLPetsLocations(list)
                         }
+                        listOfPetsIsEmpty = false
+                    } else {
+                        list = set
+                        listOfPetsIsEmpty = true
+                    }
+                    mapSets.addAll(set)
+                    Utiles.log_D("ncncncnncncncn", "${list.size}")
+                    if (!list.isEmpty()) {
+                        setLPetsLocations(list)
                     }
                 }
             }
+        }
     }
 
 
@@ -179,13 +190,11 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
         mMap?.setOnCameraIdleListener {
             var latLng = mMap?.cameraPosition?.target
-            var changedCity = true
-            if (latLng != null && latLng.latitude != 0.0) {
+             if (latLng != null && latLng.latitude != 0.0) {
                 Latitude_ = latLng.latitude
                 Longitude_ = latLng.longitude
                 getCityName_(latLng)
-                // if(changedCity==true)
-
+                getPetsList()
             }
         }
     }
@@ -199,12 +208,13 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                     val city = it.replace("Governorate", "")
                     if ((activity as MainActivity).toolBarTitle.text.equals(city) == false) {
                         Changed = true;
-                        getPetsList()
+
 
                     }
                     (activity as MainActivity).toolBarTitle.text = city
 
                 }
+
             })
 
     }
@@ -212,7 +222,6 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     fun setLPetsLocations(list: Set<AdsModel>) {
         if (mMap != null) {
             activity?.runOnUiThread(Runnable {
-                // mMap?.clear()
                 list.forEach { adsModel ->
                     mMap?.getMarker(adsModel, requireContext(), layoutInflater)
                     mMap?.setOnMarkerClickListener { marker ->
@@ -239,7 +248,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        Utiles.log_D("mgmgmmgmg",isGpsTurned)
+        Utiles.log_D("mgmgmmgmg", isGpsTurned)
         if (!isGpsTurned)
             turnGPSOn()
         mapFragment?.onResume()

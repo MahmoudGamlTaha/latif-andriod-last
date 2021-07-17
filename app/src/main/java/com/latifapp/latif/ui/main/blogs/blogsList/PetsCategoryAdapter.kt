@@ -15,6 +15,7 @@ class PetsCategoryAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val UN_SELECT_ITEM = 1
     private var selectedPosition = -1
     var action: CategoryActions? = null
+    var isEnglish=true
     val list = mutableListOf<CategoryItemsModel>()
 
     class MyViewHolder constructor(val binding: PetItemLayoutBinding) :
@@ -58,7 +59,7 @@ class PetsCategoryAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         position: Int,
         category: CategoryItemsModel
     ) {
-        holder.binding.text.text = category.name
+          holder.binding.text.text = if (isEnglish)category.name else category.nameAr
         holder.itemView.setOnClickListener {
             holder.binding.rootv.apply {
                 selectedPosition = -1
@@ -88,7 +89,7 @@ class PetsCategoryAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
         }
-        holder.binding.text.text = category.name
+        holder.binding.text.text = if (isEnglish)category.name else category.nameAr
         if (!category.icon.isNullOrEmpty()) {
             var image=category.icon
 

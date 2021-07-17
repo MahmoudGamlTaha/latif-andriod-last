@@ -87,7 +87,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
                 onBackPressed()
-                isMappingDisplay = true
+
+
                 // selectedItem(selectedItemPosition)
             }
         }
@@ -103,6 +104,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     private fun setTopBar() {
         binding.categoryList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            petsAdapter.isEnglish = viewModel.lang.equals("en")
             adapter = petsAdapter
             petsAdapter.action = this@MainActivity
         }
@@ -150,7 +152,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
     override fun onBackPressed() {
         super.onBackPressed()
-
+        isMappingDisplay = true
+        setScaleView(mapBtn, listeBtn)
     }
 
     override fun onDestinationChanged(

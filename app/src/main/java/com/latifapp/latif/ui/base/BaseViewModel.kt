@@ -28,9 +28,12 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
         get() = tokenStr
 
     protected var errorMsg = MutableLiveData<String>("")
+    protected var loginAgain = MutableLiveData<Boolean>(false)
 
     public val errorMsg_: LiveData<String>
         get() = errorMsg
+    public val loginAgain_: LiveData<Boolean>
+        get() = loginAgain
 
     fun restErrorMsg(){
         errorMsg.value=null
@@ -61,7 +64,14 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
             when (result) {
                 is ResultWrapper.NetworkError -> errorMsg.value =
                     if (lang.equals("en")) networkErrorMsgEn else networkErrorMsgAr
-                is ResultWrapper.GenericError -> errorMsg.value = result.error!!.message
+                is ResultWrapper.GenericError -> {
+                    errorMsg.value = result.error?.message
+                    if (result?.code==401 ){
+                        loginAgain.value=true
+                        // reset livedata
+                        loginAgain.value=null
+                    }
+                }
 
             }
             restErrorMsg()

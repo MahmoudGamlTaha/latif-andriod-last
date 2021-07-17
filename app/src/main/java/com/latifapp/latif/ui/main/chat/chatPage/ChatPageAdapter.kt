@@ -3,19 +3,17 @@ package com.latifapp.latif.ui.main.chat.chatPage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.latifapp.latif.data.models.ChatResponseModel
 import com.latifapp.latif.databinding.ChatRecieveItemBinding
 import com.latifapp.latif.databinding.ChatSendItemBinding
 import com.latifapp.latif.databinding.PetItemLayoutBinding
 import com.latifapp.latif.databinding.SelectedPetItemBinding
 
-class ChatPageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatPageAdapter(val userId:String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val SEND_ITEM=0
     private val Recieve_ITEM=1
 
-    val list = mutableListOf(
-        "hi sara", "what's up", "hi ..", "iam ok",
-        "what's up"
-    )
+    val list = mutableListOf<ChatResponseModel>()
 
     class SendViewHolder constructor(val binding: ChatSendItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -38,20 +36,21 @@ class ChatPageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position==0||position==1)
+        if (!list.get(position).senderId.equals("$userId"))
             return Recieve_ITEM
         else return SEND_ITEM
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val model=list.get(position)
         if (holder is RecieveViewHolder  ){
-            holder.binding.text.text=list.get(position)
+            holder.binding.text.text=model.message
         }else if (holder is SendViewHolder  ){
-            holder.binding.text.text=list.get(position)
+            holder.binding.text.text=model.message
         }
     }
 
     override fun getItemCount(): Int =list.size
-    fun addComment(msg: String) {
+    fun addComment(msg: ChatResponseModel) {
         list.add(msg)
         notifyItemInserted(list.size-1)
     }

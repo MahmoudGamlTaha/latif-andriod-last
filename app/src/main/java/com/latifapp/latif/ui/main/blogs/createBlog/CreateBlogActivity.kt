@@ -37,10 +37,10 @@ import java.io.File
 import java.util.*
 
 @AndroidEntryPoint
-class CreateBlogActivity : BaseActivity<CreateBlogViewModel,ActivityCreateBlogBinding>() {
+class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogBinding>() {
     private val adapter = ImagesAdapter()
     val listOfImages = mutableListOf<String>()
-    var blogCategoryID:Int? = null
+    var blogCategoryID: Int? = null
     private var items = arrayOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,76 +52,76 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel,ActivityCreateBlogBi
             getString(R.string.cancel_)
         )
         binding.submitBtn.setOnClickListener {
-            val title=binding.titleEx.text.toString()
-            val description=binding.descriptionEx.text.toString()
+            val title = binding.titleEx.text.toString()
+            val description = binding.descriptionEx.text.toString()
             binding.titleEx.setError(null)
             binding.descriptionEx.setError(null)
-            if (title.isNullOrEmpty()&&title.length<3)
-            {
+            if (title.isNullOrEmpty() && title.length < 3) {
                 binding.titleEx.setError(getString(R.string.required))
-            }else if (description.isNullOrEmpty()&&title.length<5)
-            {
+            } else if (description.isNullOrEmpty() && title.length < 5) {
                 binding.descriptionEx.setError(getString(R.string.required))
-            }
-            else
-            lifecycleScope.launchWhenStarted {
-                viewModel.createBlog(
-                    blogCategoryID, listOfImages,
-                    title, description
-                ).collect {success->
-                    if (success){
-                        Toast.makeText(this@CreateBlogActivity,R.string.blogIsAdded,
-                            Toast.LENGTH_SHORT).show()
-                        onBackPressed()
+            } else
+                lifecycleScope.launchWhenStarted {
+                    viewModel.createBlog(
+                        blogCategoryID, listOfImages,
+                        title, description
+                    ).collect { success ->
+                        if (success) {
+                            Toast.makeText(
+                                this@CreateBlogActivity, R.string.blogIsAdded,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            onBackPressed()
+                        }
                     }
                 }
-            }
         }
         createSpinner()
         createImagesList()
     }
 
-     fun createSpinner() {
-         lifecycleScope.launchWhenStarted {
-             viewModel.getBlogsCategoryList().collect {
-                 val list: List<String> = it.map { "${it.name}" }
-                 val arrayAdapter = this@CreateBlogActivity?.let {
-                     ArrayAdapter<String>(
-                         it, android.R.layout.simple_list_item_1, list
-                     )
-                 }
+    fun createSpinner() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.getBlogsCategoryList().collect {
+                val list: List<String> = it.map { "${if (isEnglish) it.name else it.nameAr}" }
+                val arrayAdapter = this@CreateBlogActivity?.let {
+                    ArrayAdapter<String>(
+                        it, android.R.layout.simple_list_item_1, list
+                    )
+                }
 
-                 binding.spinner.apply {
-                      root.visibility=VISIBLE
-                     label.text = getString(R.string.categories)
-                     adsTypeSpinner.setAdapter(arrayAdapter)
-                     adsTypeSpinner.onItemSelectedListener =
-                         object : AdapterView.OnItemSelectedListener {
-                             override fun onItemSelected(
-                                 parent: AdapterView<*>?,
-                                 view: View?,
-                                 position: Int,
-                                 id: Long
-                             ) {
-                                 blogCategoryID = it.get(position).id
-                             }
+                binding.spinner.apply {
+                    root.visibility = VISIBLE
+                    label.text = getString(R.string.categories)
+                    adsTypeSpinner.setAdapter(arrayAdapter)
+                    adsTypeSpinner.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                blogCategoryID = it.get(position).id
+                            }
 
-                             override fun onNothingSelected(parent: AdapterView<*>?) {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                             }
-                         }
+                            }
+                        }
 
-                 }
-             }
-         }
+                }
+            }
+        }
     }
+
     private fun createImagesList() {
-        var header=getString(R.string.addphoto)
+        var header = getString(R.string.addphoto)
         val view = CustomImagesList(this, header!!, adapter, object :
             CustomParentView.ViewAction<View> {
             override fun getActionId(btn: View) {
                 choose()
-             }
+            }
         })
 
 
@@ -176,7 +176,7 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel,ActivityCreateBlogBi
             .setRequestCode(galleryRequest) //  Set request code, default Config.RC_PICK_IMAGES
             .setKeepScreenOn(true)
             .setSavePath("latif")
-            .setMaxSize(4)
+            .setMaxSize(6)
             .start()
     }
 
@@ -240,7 +240,7 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel,ActivityCreateBlogBi
     }
 
     override fun setBindingView(inflater: LayoutInflater): ActivityCreateBlogBinding {
-       return ActivityCreateBlogBinding.inflate(inflater)
+        return ActivityCreateBlogBinding.inflate(inflater)
     }
 
 

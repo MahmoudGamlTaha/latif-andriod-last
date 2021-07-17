@@ -29,15 +29,18 @@ public class ExtraAdapter(val extra: List<ExtraModel>, val isEnglish: Boolean) :
         holder.binding.nameTxt.text = "$name:"
         if (model.value.toString().isBlank() || model.value.toString() == "null") {
             model.value = "N/A"
+            model.value_ar = "N/A"
         }
         if ( model.value.toString() == "false") {
             model.value = "No"
+            model.value_ar = "لا"
         }
         if ( model.value.toString() == "true") {
             model.value = "Yes"
+            model.value_ar = "نعم"
         }
 
-        holder.binding.valueTxt.text = "${model.value}"
+        holder.binding.valueTxt.text = "${if (isEnglish) model.value else model.value_ar}"
     }
 
     override fun getItemCount(): Int {

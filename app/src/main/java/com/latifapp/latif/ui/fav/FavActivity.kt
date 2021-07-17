@@ -44,8 +44,6 @@ class FavActivity : BaseActivity<FavViewModel, ActivitySubscribBinding>() {
     }
 
     val scrollListener = object : RecyclerView.OnScrollListener() {
-
-
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager

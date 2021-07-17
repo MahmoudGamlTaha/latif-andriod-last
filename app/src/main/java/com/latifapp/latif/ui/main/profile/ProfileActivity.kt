@@ -18,6 +18,8 @@ import com.latifapp.latif.databinding.FragmentProfileBinding
 import com.latifapp.latif.ui.auth.editProfile.EditProfileActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.fav.FavActivity
+import com.latifapp.latif.ui.intrests.IntresetsActivity
+import com.latifapp.latif.ui.main.chat.chatHistoryList.ChatHistoryListActivity
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.profile.dialog.LanguageDialogFragment
 import com.latifapp.latif.ui.myAds.MyAdsActivity
@@ -35,9 +37,10 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
 
         viewModel.getUserInfo()
         viewModel.userInfo.observe(this, Observer {
-
-            setUserInfo(it)
-            binding.profileContainer.visibility = View.VISIBLE
+            if (it!=null) {
+                setUserInfo(it)
+                binding.profileContainer.visibility = View.VISIBLE
+            }
         })
         binding.backBtn.setOnClickListener {
             onBackPressed()
@@ -45,13 +48,21 @@ class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>()
         binding.myAds.setOnClickListener {
             startActivity(Intent(this, MyAdsActivity::class.java))
         }
+        binding.chat.setOnClickListener {
+            startActivity(Intent(this, ChatHistoryListActivity::class.java))
+        }
+        binding.intrests.setOnClickListener {
+            startActivity(Intent(this, IntresetsActivity::class.java))
+        }
 
         binding.favBtn.setOnClickListener {
             startActivity(Intent(this, FavActivity::class.java))
         }
         binding.logout.setOnClickListener {
-            viewModel.logout()
-            onBackPressed()
+
+            viewModel.logout().observe(this, Observer {
+                if (it)onBackPressed()
+            })
         }
         binding.language.setOnClickListener {
             langDialog.lang = viewModel.lang

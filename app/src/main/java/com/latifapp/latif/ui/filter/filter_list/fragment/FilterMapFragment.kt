@@ -20,6 +20,8 @@ import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.ui.main.pets.PetsFragment.Companion.Latitude_
 import com.latifapp.latif.ui.main.pets.PetsFragment.Companion.Longitude_
 import com.latifapp.latif.ui.main.pets.bottomDialog.BottomDialogFragment
+import com.latifapp.latif.ui.sell.CreationFormFragment.Companion.Latitude_Filter
+import com.latifapp.latif.ui.sell.CreationFormFragment.Companion.Longitude_Filter
 import com.latifapp.latif.utiles.MapsUtiles
 import com.latifapp.latif.utiles.MapsUtiles.getMarker
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,10 +68,11 @@ class FilterMapFragment : Fragment() {
         })
 
         mMap?.animateCamera(
+
             CameraUpdateFactory.newLatLngZoom(
                 LatLng(
-                    Latitude_,
-                    Longitude_
+                    Latitude_Filter,
+                    Longitude_Filter
                 ), 10f
             )
         )

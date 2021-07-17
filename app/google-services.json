@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "49792100598",
+    "project_id": "latifapp-4084e",
+    "storage_bucket": "latifapp-4084e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49792100598:android:ac49f1ef79775d27f524d7",
+        "android_client_info": {
+          "package_name": "com.latifapp.latif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49792100598-cufkrd26r5c6sh91uvniiqq2okfh7be4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5r2qyO5tcdlUagUwsF_CVa2WIs_9fuOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49792100598-cufkrd26r5c6sh91uvniiqq2okfh7be4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

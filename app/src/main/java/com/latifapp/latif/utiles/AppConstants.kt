@@ -18,4 +18,10 @@ object AppConstants {
     const val PETS_STR = "PETS"
     const val ACCESSORIES_STR = "ACCESSORIES"
     const val FOOD_STR = "FOOD"
-}
+
+
+    const val FILTER_CREATION_FORM_API="api/public/ads/get-filter-form"
+    const val SELL_CREATION_FORM_API="api/public/ads/get-create-form"
+
+
+ }

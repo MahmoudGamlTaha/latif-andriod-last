@@ -11,11 +11,15 @@
     android:minWidth="100dp"
     android:minHeight="40dp"
     android:textColor="@color/sunset_orange"
-    android:textSize="15sp"
+    android:textSize="13sp"
     android:fontFamily="@font/poppins_regular"
     android:text="dogs"
     android:gravity="center"
-    android:lines="1"
+    android:lines="2"
     android:id="@+id/text_item"
+    android:autoSizeMaxTextSize="13sp"
+    android:autoSizeMinTextSize="8sp"
+    android:autoSizeStepGranularity="1sp"
+    android:autoSizeTextType="uniform"
     />
 </LinearLayout>

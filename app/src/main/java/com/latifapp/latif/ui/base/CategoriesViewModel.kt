@@ -10,21 +10,23 @@ import com.latifapp.latif.data.models.RequireModel
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.utiles.Utiles
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 open class CategoriesViewModel(appPrefsStorage: AppPrefsStorage, val repo: DataRepo) :
     BaseViewModel(appPrefsStorage) {
 
+    protected var job: Job= Job()
+
     fun getCategoriesList(type: Int): StateFlow<List<CategoryModel>> {
+        job.cancel()
+        job= Job()
         val flow_ = MutableStateFlow<List<CategoryModel>>(arrayListOf())
         loader.value = true
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO+ job) {
             val result = repo.getCategoriesList(type)
 
             Utiles.log_D("dndnndnddnndnd", " $result")

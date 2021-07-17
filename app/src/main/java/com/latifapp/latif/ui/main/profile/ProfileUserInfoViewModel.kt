@@ -14,6 +14,9 @@ import kotlinx.coroutines.withContext
 
 open class ProfileUserInfoViewModel(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     BaseViewModel(appPrefsStorage) {
+    init {
+        getUserId()
+    }
     val successInputs = MutableLiveData<Boolean>(false)
     val userInfo = MutableLiveData<UserModel>(null)
     fun getUserInfo() {
@@ -33,14 +36,12 @@ open class ProfileUserInfoViewModel(val repo: DataRepo, appPrefsStorage: AppPref
                             userInfo.value=result.value.response?.data
                         }
                     } else {
-                        AppPrefsStorage.token = ""
-                        appPrefsStorage.setValue(PreferenceConstants.USER_TOKEN_PREFS, "")
+
                         getErrorMsgString("${result.value?.msg}")
                     }
                 }
                 else -> {
-                    AppPrefsStorage.token = ""
-                    appPrefsStorage.setValue(PreferenceConstants.USER_TOKEN_PREFS, "")
+
                     getErrorMsg(result)
                 }
             }

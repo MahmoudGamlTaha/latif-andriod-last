@@ -2,7 +2,6 @@ package com.example.postsapplication.network
 
 import androidx.annotation.Nullable
 import com.latifapp.latif.data.models.*
-import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -67,6 +66,7 @@ interface NetworkApis {
 
     @GET("api/public/reasons")
     suspend fun getReportedReasonsList(): ResponseModel<List<ReportedReasonsList>>
+
     @POST
     suspend fun saveForm(
         @Url url: String,
@@ -89,7 +89,7 @@ interface NetworkApis {
     @POST("api/public/account/registration")
     suspend fun register(
         @Body model: RegisterRequest
-    ): ResponseModel<RegisterRequest>
+    ): ResponseModel<UserModel>
 
     @PUT("api/account/update")
     suspend fun editProfile(
@@ -114,4 +114,39 @@ interface NetworkApis {
 
     @POST("api/public/reportedAds/addToInterestList")
     suspend fun favAd(@Body reportedRequestAd: ReportedRequestAd): ResponseModel<AdsModel>
+
+    @GET("api/public/policies")
+    suspend fun getPolices(): ResponseModel<PolicesModel>
+
+    @POST("api/public/interest-categories/create")
+    suspend fun setIntrestCategories(@Body list: MutableList<Int?>,@Query("userId")id:String): ResponseModel<Any>
+
+    @GET("api/public/my-interest-categories")
+    suspend fun getIntrestCategories(): ResponseModel<List<CategoryItemsModel>>
+
+    @GET("api/public/category/page={page}")
+    suspend fun getAllCategories(@Path("page") page: Int ): ResponseModel<List<CategoryModel>>
+
+    @POST("api/public/chat/snd-msg")
+    suspend fun sendMsg(@Body body: SendMsgBody): ResponseModel<String>
+
+    @GET("api/public/chat/next-page-by-id")
+    suspend fun getChatOfRoom(
+        @Query("message_id") page: String?,
+        @Query("room") room: String?
+    ): ResponseModel<List<ChatResponseModel>>
+
+    @GET("api/public/chat/my-chat")
+    suspend fun getAllMyRooms(@Query("page") page: Int = 0): ResponseModel<List<MsgNotification>>
+
+    @GET("api/public/chat/check-chat-ads")
+    suspend fun checkIfHaveRoom(@Query("ads") ads: Int = 0): ResponseModel<String>
+
+    @GET("api/public/countries")
+    suspend fun getCountries(): ResponseModel<List<CountryModel>>
+
+    @GET("api/public/city/find-by-country-id")
+    suspend fun getCities(@Query("country") id: String): ResponseModel<List<CityModel>>
+    @POST("api/account/logout")
+    suspend fun logout(@Query("user") id: String): ResponseModel<Boolean>
 }

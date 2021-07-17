@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter
 
 abstract class CustomParentView<T>(val context:Context,val label:String,val action :ViewAction<T>?) {
     protected  var view: View? =null
+    public  val view_: View?
+    get() = view
     var arrayAdapter:ArrayAdapter<String>? =null
     init {
 

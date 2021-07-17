@@ -7,6 +7,8 @@
     android:paddingStart="25dp"
     android:paddingEnd="25dp"
     android:paddingBottom="15dp"
+    android:id="@+id/parent"
+    android:visibility="gone"
     tools:context=".ui.auth.signup.fragments.policy.PolicyFragment">
 
     <androidx.cardview.widget.CardView
@@ -41,9 +43,10 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_regular"
                 android:scrollbars="vertical"
-                android:text="No Policy Added"
+                android:text=""
                 android:textColor="@color/dorado"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:id="@+id/policesTxt"/>
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -13,7 +13,7 @@ import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
- import kotlinx.coroutines.launch
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,33 +21,39 @@ import javax.inject.Singleton
 @ActivityScoped
 class DetailsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     BaseViewModel(appPrefsStorage) {
-    private var id=0
-    val report_List_liveData =MutableLiveData<List<ReportedReasonsList>>(null)
-    val report_liveData =MutableLiveData<ResponseModel<AdsModel>>(null)
+    private var id = 0
+    val report_List_liveData = MutableLiveData<List<ReportedReasonsList>>(null)
+    val report_liveData = MutableLiveData<ResponseModel<AdsModel>>(null)
 
-    fun getAdDetails(id:Int?) : LiveData<AdsModel> {
+    init {
+        getUserId()
+    }
 
-            this.id=id?:0
-            val liveData =MutableLiveData<AdsModel>(null)
-             loader.value = true
-            viewModelScope.launch(Dispatchers.IO) {
-                val result = repo.getAdDetails(id)
-                when (result) {
-                    is ResultWrapper.Success -> {
-                        withContext(Dispatchers.Main) {
-                            liveData.value = (result.value.response.data)
-                        }
-                    }
-                    else -> getErrorMsg(result)
-                }
-                loader.value = false
-            }
-             return liveData
-        }
+    fun getAdDetails(id: Int?): LiveData<AdsModel> {
 
-    fun reportAd(reason:String){
+        this.id = id ?: 0
+        val liveData = MutableLiveData<AdsModel>(null)
         loader.value = true
-        val reportedRequestAd= ReportedRequestAd(adId = id,reason = reason,type = "REPORT")
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.getAdDetails(id)
+            when (result) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        liveData.value = (result.value.response.data)
+                    }
+                }
+                else -> getErrorMsg(result)
+            }
+            loader.value = false
+        }
+        return liveData
+    }
+
+    fun reportAd(reasonId: String?, otherReason: String?) {
+        loader.value = true
+        val reportedRequestAd = ReportedRequestAd(
+            adId = id, reason = reasonId, otherReason = otherReason, type = "REPORT"
+        )
         viewModelScope.launch(Dispatchers.IO) {
             val result = repo.reportAd(reportedRequestAd)
             when (result) {
@@ -63,9 +69,9 @@ class DetailsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: 
         }
     }
 
-    fun reportReasonsList(){
+    fun reportReasonsList() {
         loader.value = true
-         viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = repo.getReportedReasonsList()
             when (result) {
                 is ResultWrapper.Success -> {
@@ -80,7 +86,7 @@ class DetailsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: 
         }
     }
 
-    fun favAd():LiveData<ResponseModel<AdsModel>> {
+    fun favAd(): LiveData<ResponseModel<AdsModel>> {
         val liveData = MutableLiveData<ResponseModel<AdsModel>>(null)
         loader.value = true
         val reportedRequestAd = ReportedRequestAd(adId = id, type = "INTEREST", reason = null)
@@ -90,6 +96,29 @@ class DetailsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: 
                 is ResultWrapper.Success -> {
                     withContext(Dispatchers.Main) {
                         liveData.value = (result.value)
+                        liveData.value = (null)
+                    }
+                }
+                else -> getErrorMsg(result)
+            }
+            loader.value = false
+
+
+        }
+        return liveData
+    }
+
+    fun checkIfHaveRoom(): LiveData<String> {
+        val liveData = MutableLiveData<String>(null)
+        loader.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repo.checkIfHaveRoom(id)
+            when (result) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        var room = result.value.response.data
+                        if (room == null) room = ""
+                        liveData.value = room
                         liveData.value = (null)
                     }
                 }

@@ -11,15 +11,18 @@ import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
+import com.latifapp.latif.ui.auth.signup.CountryViewModel
 import com.latifapp.latif.ui.auth.signup.ValidationViewModel
 import com.latifapp.latif.ui.main.profile.ProfileUserInfoViewModel
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class EditProfileViewModel @Inject constructor( val repo: DataRepo, appPrefsStorage: AppPrefsStorage):
-    ValidationViewModel(appPrefsStorage) {
+@ActivityScoped
+class EditProfileViewModel @Inject constructor(  repo: DataRepo, appPrefsStorage: AppPrefsStorage):
+    CountryViewModel(repo,appPrefsStorage) {
         init {
             getUserId()
         }

@@ -36,72 +36,30 @@
 
 
     </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:layout_below="@id/toolbar"
         >
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="12dp"
             >
 
-            <include layout="@layout/custom_spinner_layout"
-                android:id="@+id/spinner"
-                android:visibility="gone"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/container"
-                android:layout_below="@id/spinner"
-                 >
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray"
-                android:id="@+id/line"
-                android:layout_margin="10dp"
-                android:layout_below="@id/container"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/mapContainer"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/line"
-                android:gravity="center"
-                android:visibility="gone"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_regular"
-                    android:layout_margin="5dp"
-                    android:id="@+id/placeNme"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                 android:layout_centerHorizontal="true"
-                android:id="@+id/mapBtn"
-                android:textSize="15sp"
-                android:textAllCaps="false"
-                android:text="@string/placeyourAd"
-
-                />
-            </LinearLayout>
+                 android:id="@+id/formContainer"
+                android:orientation="vertical"/>
             <Button
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/mapContainer"
+                android:layout_below="@id/formContainer"
                 android:id="@+id/submitBtn"
                 android:layout_marginTop="20dp"
                 android:textSize="15sp"
