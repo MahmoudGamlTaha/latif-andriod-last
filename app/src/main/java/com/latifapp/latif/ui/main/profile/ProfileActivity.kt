@@ -1,6 +1,7 @@
 package com.latifapp.latif.ui.main.profile
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,18 +24,21 @@ import com.latifapp.latif.ui.main.chat.chatHistoryList.ChatHistoryListActivity
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.profile.dialog.LanguageDialogFragment
 import com.latifapp.latif.ui.myAds.MyAdsActivity
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>() {
 
-
     private val langDialog = LanguageDialogFragment()
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Utiles.setLocalization(this, lang)
         viewModel.getUserInfo()
         viewModel.userInfo.observe(this, Observer {
             if (it!=null) {

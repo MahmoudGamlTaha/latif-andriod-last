@@ -43,6 +43,7 @@ interface DataRepo {
     suspend fun createBlog(createBlogsModel: CreateBlogsModel): ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getDetailsOfBlog(id: Int?): ResultWrapper<ResponseModel<BlogsModel>>
     suspend fun getSubscribeList(page: Int): ResultWrapper<ResponseModel<List<SubscribeModel>>>
+    suspend fun getSubscribeDetails(id: String): ResultWrapper<ResponseModel<SubscribeModel>>
     suspend fun getReportedReasonsList(): ResultWrapper<ResponseModel<List<ReportedReasonsList>>>
 
     suspend fun login(loginRequest: LoginRequest): ResultWrapper<LoginResponse>

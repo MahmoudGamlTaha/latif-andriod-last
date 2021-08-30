@@ -17,6 +17,7 @@ import com.latifapp.latif.ui.main.blogs.blogsDetails.BlogDetailsActivity
 import com.latifapp.latif.ui.main.blogs.createBlog.CreateBlogActivity
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.items.PetsListAdapter
+import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.blog_item.view.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -70,7 +71,10 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
                 startActivity(intent)
             }
         }
-
+        binding.swipeRefresh.setOnRefreshListener {
+            clearData()
+            searchList()
+        }
     }
 
     private fun setSearchView() {
@@ -111,11 +115,13 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
                 if (!it.isNullOrEmpty()) {
                     adapter_.list = it as MutableList<BlogsModel>
                 }
+                binding.swipeRefresh.setRefreshing(false)
             }
         }
     }
 
     override fun selectedCategory(id: Int?) {
+        Utiles.log_D("cmcmcmmcmcmcm5","$id")
         category = id
         clearData()
         searchList()
@@ -158,6 +164,8 @@ class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
                     adapter_.list = it as MutableList<BlogsModel>
                     isLoadingData = false
                 }
+
+                binding.swipeRefresh.setRefreshing(false)
             }
         }
     }

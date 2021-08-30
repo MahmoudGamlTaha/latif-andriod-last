@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.filter.filter_form
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.latifapp.latif.ui.filter.filter_list.FilterActivity
 import com.latifapp.latif.ui.sell.CreationFormFragment
 import com.latifapp.latif.ui.sell.SellViewModel
 import com.latifapp.latif.ui.sell.views.*
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,15 +31,20 @@ class FilterFormActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
     private var type: String? = ""
     private var filterHasMap: Boolean = false
     private val fragment_ = CreationFormFragment()
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         binding.backBtn.setOnClickListener { onBackPressed() }
         binding.title.setText(R.string.filter)
         binding.submitBtn.setText(R.string.filter)
         type = intent.extras?.getString("type")
         isMap = intent.extras?.getBoolean("isMap")
 
-        viewModel.isSEllAction = false
+        viewModel.isSellAction = false
 
         binding.submitBtn.setOnClickListener {
             viewModel.submit()
@@ -60,12 +67,19 @@ class FilterFormActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.hashMapFlow.collect {
-                if (!it.isNullOrEmpty()) {
+            viewModel.hashMapFlow.observe(this@FilterFormActivity, Observer {
+                Utiles.log_D("dmdmdndkdkdkdkd", it)
+                if (it != null) {
                     submitAdForm(it)
                     viewModel.clearFilter();
                 }
 
+            })
+        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.submitBtnVisible.collect {
+                if (it)
+                    binding.submitBtn.visibility = View.VISIBLE
             }
         }
     }
@@ -80,7 +94,7 @@ class FilterFormActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
     //
     private fun submitAdForm(hashMap: MutableMap<String, Any>) {
         if (hashMap.isNullOrEmpty())
-            toastMsg_Warning(getString(R.string.addFormValue), binding.root, this)
+            toastMsg_Warning(getString(R.string.addFilterValue), binding.root, this)
 //        else if (lat == null || lat == 0.0) {
 //            if (filterHasMap)
 //                toastMsg_Warning(getString(R.string.plz_add_location), binding.root, this)

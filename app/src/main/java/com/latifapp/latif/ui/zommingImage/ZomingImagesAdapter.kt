@@ -1,26 +1,24 @@
-package com.latifapp.latif.ui.main.blogs.blogsDetails
+package com.latifapp.latif.ui.zommingImage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.postsapplication.network.NetworkClient
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.ImagesModel
+import com.latifapp.latif.databinding.ImageItemBinding
 import com.latifapp.latif.databinding.PetImageItemBinding
-import com.latifapp.latif.ui.details.PetImageAdapter
 
-class BlogImagesAdapter(val images: List<String>?) :
-    RecyclerView.Adapter<BlogImagesAdapter.MyViewHolder>() {
+class ZomingImagesAdapter(val images: List<String>?) :
+    RecyclerView.Adapter<ZomingImagesAdapter.MyViewHolder>() {
 
-    var action: PetImageAdapter.Actions?=null
-    class MyViewHolder(val binding: PetImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
+     class MyViewHolder(val binding: ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
-            PetImageItemBinding.inflate(
+            ImageItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent, false
             )
@@ -29,18 +27,18 @@ class BlogImagesAdapter(val images: List<String>?) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val image =images?.get(position)
-
-            Glide.with(holder.itemView.context).load(image)
+        if (!image.isNullOrEmpty()) {
+            var imagePath=image
+            Glide.with(holder.itemView.context).load(imagePath)
                 .error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
-
-        holder.binding.image.setOnClickListener {
-            action?.onImageClick(images,position)
-        }
+        }else holder.binding.image.setImageResource(R.drawable.ic_image)
     }
 
     override fun getItemCount(): Int {
         return if (images.isNullOrEmpty()) 0
         else images.size
     }
+
+
 }

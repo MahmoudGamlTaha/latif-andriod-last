@@ -3,6 +3,7 @@ package com.latifapp.latif.network.repo
 import com.example.postsapplication.network.NetworkApis
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.*
+import com.latifapp.latif.utiles.Utiles
 import javax.inject.Inject
 
 class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
@@ -10,7 +11,10 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
         page: Int,
         category: Int?
     ): ResultWrapper<ResponseModel<List<BlogsModel>>> {
-        return safeApiCall { apis.getBlogs(page, category) }
+        Utiles.log_D("cmcmcmmcmcmcm","$category")
+        if (category != null && category > 0)
+            return safeApiCall { apis.getBlogsWithCategory( category,page) }
+        return safeApiCall { apis.getBlogs(page) }
     }
 
     override suspend fun getSearchBlogs(
@@ -42,8 +46,11 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
 
     }
 
-    override suspend fun getCreateForm(type: String,isSell:Boolean): ResultWrapper<ResponseModel<SellFormModel>> {
-        return safeApiCall { if (isSell)apis.getCreateForm(type) else apis.createFilterForm(type)}
+    override suspend fun getCreateForm(
+        type: String,
+        isSell: Boolean
+    ): ResultWrapper<ResponseModel<SellFormModel>> {
+        return safeApiCall { if (isSell) apis.getCreateForm(type) else apis.createFilterForm(type) }
     }
 
     override suspend fun createFilterForm(type: String): ResultWrapper<ResponseModel<SellFormModel>> {
@@ -104,6 +111,9 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
     override suspend fun getSubscribeList(page: Int): ResultWrapper<ResponseModel<List<SubscribeModel>>> {
         return safeApiCall { apis.getSubscribeList(page) }
     }
+    override suspend fun getSubscribeDetails(id: String): ResultWrapper<ResponseModel<SubscribeModel>> {
+        return safeApiCall { apis.getSubscribeDetails(id) }
+    }
 
     override suspend fun saveFilter(
         url: String,
@@ -120,8 +130,11 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
         return safeApiCall { apis.getAllCategories(page) }
     }
 
-    override suspend fun setIntrestCategories(list: MutableList<Int?>,id:String): ResultWrapper<ResponseModel<Any>> {
-        return safeApiCall { apis.setIntrestCategories(list,id) }
+    override suspend fun setIntrestCategories(
+        list: MutableList<Int?>,
+        id: String
+    ): ResultWrapper<ResponseModel<Any>> {
+        return safeApiCall { apis.setIntrestCategories(list, id) }
 
     }
 
@@ -158,12 +171,18 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
     override suspend fun sendMsg(body: SendMsgBody): ResultWrapper<ResponseModel<String>> {
         return safeApiCall { apis.sendMsg(body) }
     }
-    override suspend fun getChatOfRoom(page: String?, room: String?): ResultWrapper<ResponseModel<List<ChatResponseModel>>> {
-        return safeApiCall { apis.getChatOfRoom(page,room) }
+
+    override suspend fun getChatOfRoom(
+        page: String?,
+        room: String?
+    ): ResultWrapper<ResponseModel<List<ChatResponseModel>>> {
+        return safeApiCall { apis.getChatOfRoom(page, room) }
     }
+
     override suspend fun getAllMyRooms(page: Int): ResultWrapper<ResponseModel<List<MsgNotification>>> {
         return safeApiCall { apis.getAllMyRooms(page) }
     }
+
     override suspend fun checkIfHaveRoom(ads: Int): ResultWrapper<ResponseModel<String>> {
         return safeApiCall { apis.checkIfHaveRoom(ads) }
     }

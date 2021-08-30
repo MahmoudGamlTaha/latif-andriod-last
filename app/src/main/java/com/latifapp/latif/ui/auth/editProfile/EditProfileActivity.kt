@@ -2,6 +2,7 @@ package com.latifapp.latif.ui.auth.editProfile
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.latifapp.latif.ui.auth.login.LoginViewModel
 import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.city.CityDialog
 import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.country.CountryDialog
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
 import com.latifapp.latif.utiles.getRealPathFromGallery
@@ -31,9 +33,12 @@ import java.util.ArrayList
 class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfileBinding>() {
 
     private lateinit var items: Array<String>
-
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         items = arrayOf<String>(
             getString(R.string.camera),
             getString(R.string.gallery),

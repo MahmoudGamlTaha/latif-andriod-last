@@ -59,10 +59,10 @@ open abstract class BaseFragment<viewmodel : BaseViewModel, viewbinding : ViewBi
                 toastMsg_Warning(it, binding.root, requireContext())
         })
 
-        viewModel.loginAgain_.observe(viewLifecycleOwner, Observer {
-            if (it != null && it)
-                startActivity(Intent(context, LoginActivity::class.java))
-        })
+//        viewModel.loginAgain_.observe(viewLifecycleOwner, Observer {
+////            if (it != null && it)
+////                startActivity(Intent(context, LoginActivity::class.java))
+//        })
 
         lifecycleScope.launchWhenStarted {
             withContext(Dispatchers.Main) {

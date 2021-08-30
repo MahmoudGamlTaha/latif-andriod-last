@@ -1,6 +1,7 @@
 package com.latifapp.latif.ui.auth.signup
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivitySignUpBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.utiles.GpsUtils
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,9 +25,12 @@ class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBinding>() {
 
     private var isGpsTurned: Boolean = false
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Utiles.setLocalization(this, lang)
         Navigation.findNavController(
             this,
             R.id.fragment_container

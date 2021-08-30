@@ -1,53 +1,35 @@
 package com.latifapp.latif.ui.sell
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.Intent
-import android.net.Uri
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.latifapp.latif.R
-import com.latifapp.latif.data.models.AdsTypeModel
-import com.latifapp.latif.data.models.RequireModel
-import com.latifapp.latif.data.models.ShowConditionModel
 import com.latifapp.latif.databinding.ActivitySellBinding
 import com.latifapp.latif.ui.base.BaseActivity
-import com.latifapp.latif.ui.main.pets.PetsFragment
-import com.latifapp.latif.ui.map.MapsActivity
-import com.latifapp.latif.ui.sell.adapters.ImagesAdapter
 import com.latifapp.latif.ui.sell.views.*
 import com.latifapp.latif.utiles.*
-import com.latifapp.latif.utiles.Permissions.MapRequest
-import com.latifapp.latif.utiles.Permissions.galleryRequest
-import com.nguyenhoanglam.imagepicker.model.Config
-import com.nguyenhoanglam.imagepicker.model.Image
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_sell.*
 import kotlinx.coroutines.flow.collect
-import java.io.File
 import java.util.*
 
 @AndroidEntryPoint
 class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
 
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         binding.backBtn.setOnClickListener { onBackPressed() }
-        viewModel.isSEllAction=true
+        viewModel.isSellAction=true
 
           binding.submitBtn.setOnClickListener {
               viewModel.submit()
@@ -61,6 +43,12 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
                 }
                 onBackPressed()
             })
+        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.submitBtnVisible.collect {
+                if (it)
+                    binding.submitBtn.visibility=View.VISIBLE
+            }
         }
     }
 

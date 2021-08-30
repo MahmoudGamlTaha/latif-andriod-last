@@ -105,11 +105,15 @@ object MapsUtiles {
         val iconGenerator = IconGenerator(context)
         val inflatedViewBinding = CustomMarkserBinding.inflate(layoutInflater)
         val imageView = inflatedViewBinding.image
+        val pinLoc = inflatedViewBinding.pinLoc
         // addImage(imageView, adsModel.image, context)
         val TRANSPARENT_DRAWABLE: Drawable = ColorDrawable(Color.TRANSPARENT)
         iconGenerator.setBackground(TRANSPARENT_DRAWABLE)
         iconGenerator.setContentView(inflatedViewBinding.root)
 
+        if (!adsModel?.subs_color.isNullOrEmpty()){
+            pinLoc.setColorFilter(Color.parseColor(adsModel.subs_color))
+        }
 
         if (adsModel.image.isNullOrEmpty())
             setMarker(adsModel.name, pet, iconGenerator.makeIcon(), adsModel, this@getMarker)

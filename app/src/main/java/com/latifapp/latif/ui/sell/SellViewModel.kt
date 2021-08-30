@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
-import com.latifapp.latif.R
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.ResultWrapper
@@ -27,11 +26,12 @@ import javax.inject.Inject
 class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     CategoriesViewModel(appPrefsStorage, repo) {
     public var url: String? = ""
-    var isSEllAction: Boolean = true
+    var isSellAction: Boolean = true
     val responseOfSubmit = MutableLiveData<ResponseModel<SellFormModel>>()
     private val flow_ = MutableStateFlow<List<AdsTypeModel>>(arrayListOf())
      val submitClick = MutableStateFlow<Boolean>(false)
-     val hashMapFlow = MutableStateFlow< MutableMap<String, Any>>(mutableMapOf())
+     val submitBtnVisible = MutableStateFlow<Boolean>(false)
+     val hashMapFlow = MutableLiveData< MutableMap<String, Any>>(null)
     private var adType = ""
     init {
         getUserId()
@@ -39,7 +39,7 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
 
 
    fun clearFilter(){
-       hashMapFlow.value = mutableMapOf()
+       hashMapFlow.value = null
    }
 
     fun getAdsTypeList(): StateFlow<List<AdsTypeModel>> {
@@ -62,13 +62,14 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
         val flow_ = MutableStateFlow<SellFormModel>(SellFormModel())
         loader.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repo.getCreateForm(type, isSEllAction)
+            val result = repo.getCreateForm(type, isSellAction)
             Utiles.log_D("dndnndnddnndnd", " $result")
             when (result) {
                 is ResultWrapper.Success ->
                     if (result.value.response != null) {
                         flow_.value = result.value.response?.data!!
                         url = result.value.response?.data.url
+                        submitBtnVisible.value=true
                     }
                 else -> getErrorMsg(result)
             }
@@ -162,7 +163,7 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
     ) {
         submitClick.value=false
 
-        if (isSEllAction) {
+        if (isSellAction) {
             var ecx = ExpressionEvaluator()
             ecx.jexlContext.clear()
             for ((key, value) in hashMap) {

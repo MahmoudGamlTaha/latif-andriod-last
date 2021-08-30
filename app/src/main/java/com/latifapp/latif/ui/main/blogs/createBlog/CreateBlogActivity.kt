@@ -2,6 +2,7 @@ package com.latifapp.latif.ui.main.blogs.createBlog
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.opengl.Visibility
@@ -24,9 +25,7 @@ import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.sell.adapters.ImagesAdapter
 import com.latifapp.latif.ui.sell.views.CustomImagesList
 import com.latifapp.latif.ui.sell.views.CustomParentView
-import com.latifapp.latif.utiles.Permissions
-import com.latifapp.latif.utiles.Utiles
-import com.latifapp.latif.utiles.getRealPathFromGallery
+import com.latifapp.latif.utiles.*
 import com.nguyenhoanglam.imagepicker.model.Config
 import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
@@ -42,9 +41,13 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogB
     val listOfImages = mutableListOf<String>()
     var blogCategoryID: Int? = null
     private var items = arrayOf<String>()
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Utiles.setLocalization(this, lang)
         binding.backBtn.setOnClickListener { onBackPressed() }
         items = arrayOf<String>(
             getString(R.string.camera),
@@ -83,9 +86,10 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogB
     fun createSpinner() {
         lifecycleScope.launchWhenStarted {
             viewModel.getBlogsCategoryList().collect {
-                val list: List<String> = it.map { "${if (isEnglish) it.name else it.nameAr}" }
+                val list: MutableList<String> = it.map { "${if (isEnglish) it.name else it.nameAr}" } as MutableList
+                list.add(getString(R.string.choose))
                 val arrayAdapter = this@CreateBlogActivity?.let {
-                    ArrayAdapter<String>(
+                    HintAdapter(
                         it, android.R.layout.simple_list_item_1, list
                     )
                 }
@@ -94,6 +98,7 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogB
                     root.visibility = VISIBLE
                     label.text = getString(R.string.categories)
                     adsTypeSpinner.setAdapter(arrayAdapter)
+                    adsTypeSpinner.setSelection(list.size-1)
                     adsTypeSpinner.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -102,6 +107,7 @@ class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogB
                                 position: Int,
                                 id: Long
                             ) {
+                                if (position<it.size)
                                 blogCategoryID = it.get(position).id
                             }
 

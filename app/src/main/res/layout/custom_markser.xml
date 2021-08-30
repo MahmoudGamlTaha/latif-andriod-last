@@ -10,6 +10,7 @@
         android:layout_height="85dp"
         android:src="@drawable/ic_pin"
         android:layout_centerHorizontal="true"
+        android:id="@+id/pinLoc"
        />
     <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="45dp"

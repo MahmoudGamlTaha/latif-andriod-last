@@ -21,6 +21,7 @@ data class AdsModel(
     val images: List<ImagesModel>?,
     val breed: String?,
     val stock: String?,
+    val subs_color: String?,
     val latitude: Double=0.0,
     val longitude: Double=0.0,
     val external_link: Boolean=false,

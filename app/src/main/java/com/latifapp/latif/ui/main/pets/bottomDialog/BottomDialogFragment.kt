@@ -13,11 +13,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentBottomDialogBinding
-import com.latifapp.latif.ui.ZoomingImageActivity
+import com.latifapp.latif.ui.zommingImage.ZoomingImageActivity
 import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.details.PetImageAdapter
 import kotlinx.android.synthetic.main.fragment_bottom_dialog.*
-
+import java.io.Serializable
 
 
 class BottomDialogFragment : BottomSheetDialogFragment(), PetImageAdapter.Actions {
@@ -68,9 +68,10 @@ class BottomDialogFragment : BottomSheetDialogFragment(), PetImageAdapter.Action
         }
      }
 
-    override fun onImageClick(image: String) {
-        val intent =Intent(activity, ZoomingImageActivity::class.java)
-        intent.putExtra("image",image)
+    override fun onImageClick(images:List<String>?, position: Int) {
+        val intent = Intent(context, ZoomingImageActivity::class.java)
+        intent.putExtra("images", images as (Serializable))
+        intent.putExtra("position", position)
         startActivity(intent)
     }
 

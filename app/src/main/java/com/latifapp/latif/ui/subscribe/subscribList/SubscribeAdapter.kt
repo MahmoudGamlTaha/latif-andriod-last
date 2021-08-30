@@ -1,15 +1,15 @@
-package com.latifapp.latif.ui.subscribe
+package com.latifapp.latif.ui.subscribe.subscribList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.latifapp.latif.data.models.SubscribeModel
-import com.latifapp.latif.databinding.ClinicItemBinding
 import com.latifapp.latif.databinding.SubscribItemBinding
-import com.latifapp.latif.ui.main.clinic.ClinicAdapter
+import com.latifapp.latif.ui.main.items.PetsListAdapter
 
 
-class SubscribeAdapter : RecyclerView.Adapter<SubscribeAdapter.MyViewHolder>() {
+class SubscribeAdapter(val isEnglish:Boolean) : RecyclerView.Adapter<SubscribeAdapter.MyViewHolder>() {
+    var action: SubscribeAction? =null
      var list = mutableListOf<SubscribeModel>()
     set(value) {
         field.addAll(value)
@@ -30,8 +30,12 @@ class SubscribeAdapter : RecyclerView.Adapter<SubscribeAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.text.text = list.get(position).name
+        holder.binding.text.text = if (isEnglish)list.get(position).name else list.get(position).nameAr
+        holder.itemView.setOnClickListener { action?.subscribeClick("${list.get(position).id}") }
     }
 
     override fun getItemCount(): Int = list.size
+    interface SubscribeAction {
+        fun subscribeClick(id:String)
+    }
 }

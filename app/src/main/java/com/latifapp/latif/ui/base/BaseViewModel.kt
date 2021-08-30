@@ -10,6 +10,7 @@ import com.latifapp.latif.data.local.PreferenceConstants.Companion.Lang_PREFS
 import com.latifapp.latif.data.local.PreferenceConstants.Companion.USER_TOKEN_PREFS
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.utiles.Utiles
+import com.latifapp.latif.utiles.Utiles.LANGUAGE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,6 +48,7 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
             if (!AppPrefsStorage.language_.isNullOrEmpty())
                 appPrefsStorage.getValueAsFlow(Lang_PREFS, "en").collect {
                     language = it
+                    LANGUAGE = it
                     AppPrefsStorage.language_ = it
                 }
         }

@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 class BlogsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage):BaseViewModel(appPrefsStorage) {
     var page = 0
+
     fun getListOfBlogs(category: Int?): StateFlow<List<BlogsModel>> {
         val flow_ = MutableStateFlow<List<BlogsModel>>(arrayListOf())
         loader.value = true

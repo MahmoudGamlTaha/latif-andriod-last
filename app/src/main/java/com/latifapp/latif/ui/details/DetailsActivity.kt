@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.details
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -24,14 +25,15 @@ import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.databinding.ActivityDetailsBinding
 import com.latifapp.latif.databinding.CallDialogBinding
 import com.latifapp.latif.databinding.TopOptionMenuBinding
-import com.latifapp.latif.ui.ZoomingImageActivity
+import com.latifapp.latif.ui.zommingImage.ZoomingImageActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.dialog.ReportDialogFragment
 import com.latifapp.latif.ui.main.chat.chatPage.ChatPageActivity
-import com.latifapp.latif.ui.main.pets.PetsFragment
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_report_dialog.*
+import java.io.Serializable
 
 @AndroidEntryPoint
 class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>(),
@@ -48,8 +50,12 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
     private lateinit var callPopUp: PopupWindow
     private var id: Int? = null
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window = window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -118,8 +124,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
             val intent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(
-                    "http://maps.google.com/maps?saddr=${PetsFragment.Latitude_},${PetsFragment.Longitude_}" +
-                            "&daddr=${lat},${lag}"
+                    "http://maps.google.com/maps?f=d&daddr=${lat},${lag}"
                 )
             )
             startActivity(intent)
@@ -302,9 +307,10 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
         mMap?.getUiSettings()?.setScrollGesturesEnabled(false);
     }
 
-    override fun onImageClick(image: String) {
+    override fun onImageClick(images:List<String>?,position: Int) {
         val intent = Intent(this, ZoomingImageActivity::class.java)
-        intent.putExtra("image", image)
+        intent.putExtra("images", images as (Serializable))
+        intent.putExtra("position", position)
         startActivity(intent)
     }
 

@@ -58,23 +58,23 @@
         >
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/ic_loc"
             android:tint="@color/sunset_orange"
             android:id="@+id/mapBtn"
-            android:layout_margin="8dp"
+            android:layout_margin="5dp"
             />
         <View
             android:layout_width="5dp"
             android:layout_height="1dp"/>
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/toggel"
             android:tint="@color/sunset_orange"
             android:id="@+id/listeBtn"
-            android:layout_margin="8dp"
+            android:layout_margin="5dp"
             />
     </LinearLayout>
 

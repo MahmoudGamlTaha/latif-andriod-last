@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.main.blogs.blogsDetails
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,23 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.postsapplication.network.NetworkClient
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.ImagesModel
 import com.latifapp.latif.data.models.UserModel
 import com.latifapp.latif.databinding.ActivityBlogDetailsBinding
 import com.latifapp.latif.databinding.CallDialogBinding
-import com.latifapp.latif.ui.ZoomingImageActivity
+import com.latifapp.latif.ui.zommingImage.ZoomingImageActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.PetImageAdapter
+import com.latifapp.latif.utiles.MyContextWrapper
+import com.latifapp.latif.utiles.Utiles
 
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.Serializable
 
 @AndroidEntryPoint
 class BlogDetailsActivity : BaseActivity<BolgDetailsViewModel,ActivityBlogDetailsBinding>(),
@@ -32,8 +32,12 @@ class BlogDetailsActivity : BaseActivity<BolgDetailsViewModel,ActivityBlogDetail
     private var phoneNum: String?=""
     private lateinit var callPopUp: PopupWindow
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         val id= intent.extras?.getInt("id")
         viewModel.getDetailsOfBlog(id).observe(this, Observer {
             setListOfImages(it.images,it.image,it.externalLink)
@@ -125,9 +129,10 @@ class BlogDetailsActivity : BaseActivity<BolgDetailsViewModel,ActivityBlogDetail
         binding.loader.bar.visibility= View.GONE
     }
 
-    override fun onImageClick(image: String) {
-        val intent =Intent(this, ZoomingImageActivity::class.java)
-        intent.putExtra("image",image)
+    override fun onImageClick(images:List<String>?, position: Int) {
+        val intent = Intent(this, ZoomingImageActivity::class.java)
+        intent.putExtra("images", images as (Serializable))
+        intent.putExtra("position", position)
         startActivity(intent)
     }
 }

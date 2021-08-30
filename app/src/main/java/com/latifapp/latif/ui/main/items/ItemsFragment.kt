@@ -42,6 +42,10 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
                 startActivity(Intent(activity, SellActivity::class.java))
             }
         }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            setZeroPage()
+        }
     }
 
     private fun setList() {
@@ -60,7 +64,10 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
         }
         getTypeOfCategorAndItems()
     }
-
+    override fun onStart() {
+        super.onStart()
+        activity?.let { Utiles.setLocalization(it, lang) }
+    }
     private fun getTypeOfCategorAndItems() {
         lifecycleScope.launchWhenStarted {
             viewModel.typeFlow.collect {
@@ -99,6 +106,7 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
                     if (it.isNotEmpty())
                         isLoadingData = false
                 }
+                binding.swipeRefresh.setRefreshing(false)
             }
         }
     }
@@ -119,6 +127,10 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
 
     private fun selectedCategory(id: Int) {
         category = if (id == -1) null else id
+        setZeroPage()
+    }
+
+    private fun setZeroPage() {
         adapter.list.clear()
         viewModel.page = 0
         getPetsList()

@@ -114,11 +114,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
             latitude_map = Latitude_
             longitude_map = Longitude_
         }
-        Utiles.log_D("ncncncnncncncn'''", "${listOfPetsIsEmpty}")
         if (distance >= 50_000)
             viewModel.page = 0
         else {
-
             if (listOfPetsIsEmpty)
                 return
             viewModel.page++
@@ -128,6 +126,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
             viewModel.getItems(itemsType, category).collect {
 
                 if (it != null) {
+                    if (it.isEmpty())
+                        listOfPetsIsEmpty = true
+                    else      listOfPetsIsEmpty = false
                     val set = mutableSetOf<AdsModel>()
                     set.addAll(it)
                     var list = mutableSetOf<AdsModel>()
@@ -138,13 +139,13 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                                 list.add(model)
                             }
                         }
-                        listOfPetsIsEmpty = false
                     } else {
                         list = set
-                        listOfPetsIsEmpty = true
+
                     }
                     mapSets.addAll(set)
                     Utiles.log_D("ncncncnncncncn", "${list.size}")
+                    Utiles.log_D("ncncncnncncncn", "${it.size}")
                     if (!list.isEmpty()) {
                         setLPetsLocations(list)
                     }
@@ -316,10 +317,11 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     }
 
     private fun selectedCategory(id: Int) {
-
         category = if (id == -1) null else id
         mMap?.clear()
         mapSets.clear()
+        viewModel.page = -1
+        listOfPetsIsEmpty=false
         getPetsList()
     }
 

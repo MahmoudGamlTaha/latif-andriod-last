@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.fav
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.main.items.PetsListAdapter
+import com.latifapp.latif.utiles.MyContextWrapper
+import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -21,9 +24,13 @@ class FavActivity : BaseActivity<FavViewModel, ActivitySubscribBinding>() {
 
     private val adapter_ = PetsListAdapter()
     private var isLoadingData = false
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Utiles.setLocalization(this, lang)
         binding.toolbar.title.text = getString(R.string.favourite)
         binding.toolbar.backBtn.setOnClickListener {
             onBackPressed()

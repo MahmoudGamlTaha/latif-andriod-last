@@ -7,6 +7,9 @@ data class SubscribeModel(
     val price:Int?,
     val periodUnit:Any?,
     val name:String?,
+    val nameAr:String?,
     val description:String?,
+    val descriptionAr:String?,
+    val numberUser:String?,
 
 )

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".ui.ZoomingImageActivity">
+    tools:context=".ui.zommingImage.ZoomingImageActivity">
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -14,8 +14,8 @@
         android:src="@drawable/ic_back2"
         android:id="@+id/backBtn"/>
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/image"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

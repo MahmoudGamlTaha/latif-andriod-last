@@ -75,6 +75,15 @@
             android:id="@+id/profileContainer"
             android:visibility="gone"
             >
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/viewLine"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.32"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,8 +101,8 @@
                 app:layout_constraintTop_toTopOf="@id/name"
                 app:layout_constraintBottom_toBottomOf="@id/name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/name"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
+                app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/nameValue"
                  />
 
@@ -123,8 +132,8 @@
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@id/birthday"
                 app:layout_constraintBottom_toBottomOf="@id/birthday"
-                app:layout_constraintEnd_toEndOf="@id/nameValue"
-                app:layout_constraintStart_toStartOf="@id/nameValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/birthdayValue"
                 />
@@ -156,11 +165,12 @@
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@id/gender"
                 app:layout_constraintBottom_toBottomOf="@id/gender"
-                app:layout_constraintEnd_toEndOf="@id/nameValue"
-                app:layout_constraintStart_toStartOf="@id/nameValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/genderValue"
                 android:visibility="gone"
+                android:text="dkdkdkkdk"
                 />
 
             <View
@@ -188,10 +198,11 @@
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@id/email"
                 app:layout_constraintBottom_toBottomOf="@id/email"
-                app:layout_constraintEnd_toEndOf="@id/nameValue"
-                app:layout_constraintStart_toStartOf="@id/nameValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/emailValue"
+
                 />
 
             <View
@@ -219,8 +230,8 @@
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@id/phone"
                 app:layout_constraintBottom_toBottomOf="@id/phone"
-                app:layout_constraintEnd_toEndOf="@id/nameValue"
-                app:layout_constraintStart_toStartOf="@id/nameValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/phoneValue"
                 />
@@ -249,8 +260,8 @@
                 android:fontFamily="@font/poppins_regular"
                 app:layout_constraintTop_toTopOf="@id/address"
                 app:layout_constraintBottom_toBottomOf="@id/address"
-                app:layout_constraintEnd_toEndOf="@id/nameValue"
-                app:layout_constraintStart_toStartOf="@id/nameValue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/viewLine"
                 app:layout_constraintHorizontal_bias="0"
                 android:id="@+id/addressValue"
                 />

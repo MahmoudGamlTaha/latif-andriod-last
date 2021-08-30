@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.intrests
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.latifapp.latif.data.models.CategoryModel
 import com.latifapp.latif.databinding.ActivityIntresetsBinding
 import com.latifapp.latif.ui.auth.signup.fragments.interests.InterestsAdapter
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,8 +24,12 @@ class IntresetsActivity : BaseActivity<IntrestsViewModel,ActivityIntresetsBindin
     private var isLoadingData: Boolean=true
     private val adapter_: InterestsAdapter = InterestsAdapter()
     private var index=0
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         binding.recyclerView.apply {
             layoutManager= GridLayoutManager(this@IntresetsActivity,3)
             adapter=adapter_

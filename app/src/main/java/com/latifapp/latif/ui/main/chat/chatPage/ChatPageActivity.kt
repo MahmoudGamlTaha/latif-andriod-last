@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.main.chat.chatPage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import com.latifapp.latif.databinding.CallDialogBinding
 import com.latifapp.latif.databinding.ViewAdPopupBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,8 +37,13 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
     private lateinit var adapter_: ChatPageAdapter
     private var msgID: String? = null
     private lateinit var viewAdPopUp: PopupWindow
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         setList()
 
         if (intent.extras?.getString("adOwner_id") != null) {

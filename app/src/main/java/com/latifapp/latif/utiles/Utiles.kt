@@ -2,6 +2,7 @@ package com.latifapp.latif.utiles
 
 import android.app.Activity
 import android.content.res.Configuration
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
@@ -15,7 +16,7 @@ import java.util.*
 
 object Utiles {
 
-
+    var LANGUAGE:String="en"
     fun log_D(key: Any, value: Any?) {
         Log.d("$key", "$value")
     }
@@ -44,14 +45,24 @@ object Utiles {
         debounceJob = coroutineScope.launch {
             delay(waitMs)
             destinationFunction()
-        }}
+        }
+    }
 
 
-    fun setLocalization( activity: Activity,lang:String) {
-         val locale = Locale(lang?:"en")
+    fun setLocalization(activity: Activity, lang: String?) {
+        val locale = Locale(lang ?: "en")
         Locale.setDefault(locale)
         val config = Configuration()
-        config.locale = locale
-        activity.resources.updateConfiguration(config, activity.resources.displayMetrics)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+            activity.createConfigurationContext(config)
+        }
+        else {
+            config.locale = locale
+            activity.resources.updateConfiguration(config, activity.resources.getDisplayMetrics())
+
+        }
+
+
     }
 }

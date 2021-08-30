@@ -13,6 +13,10 @@ class PetImageAdapter(val images: List<ImagesModel>?) :
     RecyclerView.Adapter<PetImageAdapter.MyViewHolder>() {
 
     var action:Actions?=null
+    var imagesList:MutableList<String> = mutableListOf()
+    init {
+        imagesList= images?.map { imagesModel -> imagesModel.image } as MutableList<String>
+    }
     class MyViewHolder(val binding: PetImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
@@ -37,7 +41,7 @@ class PetImageAdapter(val images: List<ImagesModel>?) :
         }else holder.binding.image.setImageResource(R.drawable.ic_image)
 
         holder.itemView.setOnClickListener {
-            action?.onImageClick("${image?.image}")
+            action?.onImageClick(imagesList,position)
         }
     }
 
@@ -47,6 +51,6 @@ class PetImageAdapter(val images: List<ImagesModel>?) :
     }
 
     interface Actions{
-        fun onImageClick(image:String)
+        fun onImageClick(images:List<String>?,position: Int)
     }
 }

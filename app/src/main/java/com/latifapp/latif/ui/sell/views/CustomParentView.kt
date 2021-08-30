@@ -3,12 +3,13 @@ package com.latifapp.latif.ui.sell.views
 import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
+import com.latifapp.latif.utiles.HintAdapter
 
 abstract class CustomParentView<T>(val context:Context,val label:String,val action :ViewAction<T>?) {
     protected  var view: View? =null
     public  val view_: View?
     get() = view
-    var arrayAdapter:ArrayAdapter<String>? =null
+    var arrayAdapter:HintAdapter? =null
     init {
 
     }

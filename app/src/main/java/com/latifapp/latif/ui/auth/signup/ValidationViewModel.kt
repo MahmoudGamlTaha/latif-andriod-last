@@ -37,6 +37,10 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
             validateLiveData.value = LoginViewModel.SignUpFiled.country_
             valid = false
         }
+        if (govs.length < 3) {
+            validateLiveData.value = LoginViewModel.SignUpFiled.governorate_
+            valid = false
+        }
         if (city.isNullOrEmpty()) {
             validateLiveData.value = LoginViewModel.SignUpFiled.city_
             valid = false

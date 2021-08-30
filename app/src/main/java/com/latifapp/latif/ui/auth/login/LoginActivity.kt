@@ -25,15 +25,9 @@ class LoginActivity :BaseActivity<LoginViewModel,ActivityLoginBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
 
 
-        CoroutineScope(Dispatchers.Main).launch {
-            appPrefsStorage.setValue(Lang_PREFS,"en")
-            appPrefsStorage.getValueAsFlow(Lang_PREFS,"ar").collect {
-                Utiles.log_D("msmsmsmsm",it)
-            }
-
-        }
 
         viewModel.validateLiveData.observe(this, Observer {
             if (it !=null){
@@ -53,7 +47,7 @@ class LoginActivity :BaseActivity<LoginViewModel,ActivityLoginBinding>() {
         viewModel.successInputs.observe(this, Observer {
             if (it){
                 startActivity(Intent(this,MainActivity::class.java))
-                finish()
+                finishAffinity()
             }
         })
         viewModel.errorIputsMsg.observe(this, Observer {

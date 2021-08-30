@@ -13,6 +13,7 @@ import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
 import com.latifapp.latif.ui.main.items.PetsListAdapter
 import com.latifapp.latif.utiles.AppConstants
+import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -30,6 +31,10 @@ class ServicesItemsListFragment :BaseFragment<ServiceItemsViewMode, FragmentServ
         }
 
 
+    }
+    override fun onStart() {
+        super.onStart()
+        activity?.let { Utiles.setLocalization(it, lang) }
     }
 
     private fun setList() {

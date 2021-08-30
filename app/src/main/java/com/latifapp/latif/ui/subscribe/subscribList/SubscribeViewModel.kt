@@ -1,4 +1,4 @@
-package com.latifapp.latif.ui.subscribe
+package com.latifapp.latif.ui.subscribe.subscribList
 
 import androidx.lifecycle.viewModelScope
 import com.latifapp.latif.data.local.AppPrefsStorage

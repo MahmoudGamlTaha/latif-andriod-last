@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -25,6 +24,7 @@ import com.latifapp.latif.ui.main.pets.PetsFragment.Companion.Longitude_
 import com.latifapp.latif.ui.map.MapsActivity
 import com.latifapp.latif.ui.sell.adapters.ImagesAdapter
 import com.latifapp.latif.ui.sell.views.*
+import com.latifapp.latif.utiles.HintAdapter
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
 import com.latifapp.latif.utiles.getRealPathFromGallery
@@ -39,7 +39,7 @@ import java.io.File
 import java.util.ArrayList
 
 @AndroidEntryPoint
-class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBinding>(),
+class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBinding>(),
     AdapterView.OnItemSelectedListener {
     private lateinit var typeList: List<AdsTypeModel>
     private var items = arrayOf<String>()
@@ -53,8 +53,9 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
     private val CurrentFormRequiredCond: MutableMap<String, String?> = mutableMapOf()
     private var changeableValue: MutableLiveData<Pair<String, String>>? = null
     private val viewsForm: MutableMap<View, RequireModel> = mutableMapOf()
+
     companion object {
-        var Latitude_Filter= Latitude_
+        var Latitude_Filter = Latitude_
 
         var Longitude_Filter = Longitude_
     }
@@ -65,7 +66,8 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lat = PetsFragment.Latitude_
+
+         lat = PetsFragment.Latitude_
         lng = PetsFragment.Longitude_
         items = arrayOf<String>(
             getString(R.string.camera),
@@ -73,13 +75,18 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
             getString(R.string.cancel_)
         )
 
-        if (viewModel.isSEllAction)
-        getAdsType()
+        if (viewModel.isSellAction)
+            getAdsType()
 
         lifecycleScope.launchWhenStarted {
             viewModel.submitClick.collect {
                 if (it)
-                    viewModel.submitAdForm(hashMap,CurrentForm,CurrentFormRequiredCond,CurrentFormEng)
+                    viewModel.submitAdForm(
+                        hashMap,
+                        CurrentForm,
+                        CurrentFormRequiredCond,
+                        CurrentFormEng
+                    )
             }
         }
     }
@@ -97,9 +104,10 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
 
 
     private fun setAdsTypeSpinnerData() {
-        val list_ = typeList.map { if (isEnglish)it.name else it.nameAr }
+        val list_ = typeList.map { if (isEnglish) it.name else it.nameAr } as MutableList
+        list_.add(getString(R.string.choose))
         val arrayAdapter = requireActivity()?.let {
-            ArrayAdapter<String>(
+            HintAdapter(
                 it, android.R.layout.simple_list_item_1, list_
             )
         }
@@ -108,10 +116,12 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
             adsTypeSpinner.setAdapter(arrayAdapter)
             adsTypeSpinner.onItemSelectedListener = this@CreationFormFragment
             label.text = getString(R.string.ads_types)
-           root.visibility = View.VISIBLE
-
+            root.visibility = View.VISIBLE
+            adsTypeSpinner.setSelection(list_.size - 1)
         }
+
     }
+
     private fun setFormViews(form: List<RequireModel>) {
         CurrentForm.clear()
         CurrentFormEng.clear()
@@ -134,15 +144,32 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
                 else -> view_ = createEditText(model_)
             }
 
-            CurrentForm[model_.name.toString()] = model_.required
-            CurrentFormEng[model_.name.toString()] = model_.label
-            CurrentFormRequiredCond[model_.name.toString()] = model_.requiredcond
-            Utiles.log_D("mcmcmmcmcmcmmccm",CurrentFormRequiredCond)
+            setCondtions(model_)
+            Utiles.log_D("mcmcmmcmcmcmmccm", CurrentFormRequiredCond)
             if (view_ != null) {
                 if (!model_.show.isNullOrEmpty())
                     viewsForm.put(view_, model_)
             }
         }
+
+    }
+
+    private fun setCondtions(model_: RequireModel) {
+        if (model_?.required == true) {
+            CurrentForm[model_.name.toString()] = model_.required
+            CurrentFormEng[model_.name.toString()] = model_.label
+            CurrentFormRequiredCond[model_.name.toString()] = model_.requiredcond
+            Utiles.log_D("cncnncncncncn11545454s54454554", model_.name)
+            Utiles.log_D("cncnncncncncn11545454s54454554", CurrentFormRequiredCond)
+        }
+    }
+
+    private fun removeCondtions(model_: RequireModel) {
+        CurrentForm.remove(model_.name.toString())
+        CurrentFormEng.remove(model_.name.toString())
+        CurrentFormRequiredCond.remove(model_.name.toString())
+        Utiles.log_D("cncnncncncncn11545454s54454554", model_.name)
+        Utiles.log_D("cncnncncncncn11545454s54454554", CurrentFormRequiredCond)
 
     }
 
@@ -154,7 +181,7 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
 
             if (name.equals(values.name)) // cause type cant control show or hide of it self
                 return
-            Utiles.log_D("cncnncncncncn5512",name +"      "+ values.name)
+            Utiles.log_D("cncnncncncncn5512", name + "      " + values.name)
 
             for (value in values.show!!) {
                 if (hashMap.containsKey(value.key)) {
@@ -196,17 +223,21 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
 
     private fun getDataUrl(curr: CustomSpinner, model_: RequireModel): View? {
         viewModel.getUrlInfo(model_).observe(viewLifecycleOwner, Observer {
-
             if (it != null) {
-                if (it.options?.isEmpty() == true)
+                if (it.options?.isEmpty() == true) {
                     curr.view_?.visibility = View.GONE
-                else {
-
+                    removeCondtions(model_)
+                } else {
+                    setCondtions(model_)
                     curr.list_ = it.options!!
-                    val list: List<String> = it.options!!.map { "${it.label}" }
-                    curr.arrayAdapter!!.clear()
-                    curr.arrayAdapter!!.addAll(list)
-                    curr.arrayAdapter!!.notifyDataSetChanged()
+                    val list: MutableList<String> =
+                        it.options!!.map { "${it.label}" } as MutableList<String>
+                    list.add(getString(R.string.choose))
+                    curr.arrayAdapter = HintAdapter(
+                        context, android.R.layout.simple_list_item_1, list
+                    )
+                    curr.spinnerView.setAdapter(curr.arrayAdapter)
+                    curr.spinnerView.setSelection(list.size - 1)
                     curr.view_?.visibility = View.VISIBLE
                 }
             }
@@ -270,6 +301,10 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
 
     private fun createMapBtn(model: RequireModel): View? {
         binding.mapContainer.visibility = View.VISIBLE
+        if (viewModel.isSellAction) {
+            setHashMapValues("latitude", "$lat")
+            setHashMapValues("longitude", "$lng")
+        }
         binding.mapBtn.setOnClickListener {
             // intent to map
             if (!Permissions.checkLocationPermissions(requireActivity())) {
@@ -364,7 +399,8 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
         var header = model.label
         if (!isEnglish)
             header = model.label_ar
-        setHashMapValues("${model.name}", "false")
+        if (viewModel.isSellAction)
+            setHashMapValues("${model.name}", "false")
         val switch = CustomSwitch(requireActivity(), header!!, object :
             CustomParentView.ViewAction<Boolean> {
             override fun getActionId(isON: Boolean) {
@@ -499,8 +535,8 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
             } else if (requestCode == Permissions.MapRequest) {
                 lat = data!!.extras!!.getDouble("lat")
                 lng = data!!.extras!!.getDouble("lng")
-                Latitude_Filter=lat
-                Longitude_Filter=lng
+                Latitude_Filter = lat
+                Longitude_Filter = lng
                 setHashMapValues("latitude", "$lat")
                 setHashMapValues("longitude", "$lng")
                 val placename = data!!.extras!!.getString("placeName")
@@ -508,6 +544,7 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
             }
         }
     }
+
     fun setHashMapValues(key: String, value: String) {
         if (value.isNullOrEmpty())
             hashMap.remove(key)
@@ -518,31 +555,35 @@ class CreationFormFragment:BaseFragment<SellViewModel,FragmentCreationFormBindin
         }
 
 
-        Utiles.log_D("cncnncncncncn", hashMap)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        getForm(typeList.get(position).code)
-        binding.container.removeAllViews()
-        binding.mapContainer.visibility = View.GONE
-        binding.placeNme.text = ""
-        hashMap.clear()
-        changeableValue = null
-     }
-     fun getForm(type: String?) {
+        if (position < typeList.size) {
+            getForm(typeList.get(position).code)
+            binding.container.removeAllViews()
+            binding.mapContainer.visibility = View.GONE
+            binding.placeNme.text = ""
+            hashMap.clear()
+            changeableValue = null
+        }
+    }
+
+    fun getForm(type: String?) {
         lifecycleScope.launchWhenStarted {
             viewModel.getCreateForm(type!!).collect {
                 if (!it.form.isNullOrEmpty()) {
 
-                     setFormViews(it.form)
+                    setFormViews(it.form)
                 }
             }
         }
     }
+
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
+
     override fun showLoader() {
-     }
+    }
 
     override fun hideLoader() {
     }

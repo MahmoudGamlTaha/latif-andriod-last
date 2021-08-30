@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.filter.filter_list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.latifapp.latif.databinding.ActivityFilterBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.filter.filter_list.fragment.FilterListFragment
 import com.latifapp.latif.ui.filter.filter_list.fragment.FilterMapFragment
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +25,12 @@ class FilterActivity : BaseActivity<FilterListViewModel, ActivityFilterBinding>(
     private var isMaping: Boolean = true
     private var hashMap: MutableMap<String, Any> = mutableMapOf()
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
 
         binding.backBtn.setOnClickListener {
             onBackPressed()

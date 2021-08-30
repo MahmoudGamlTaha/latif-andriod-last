@@ -8,8 +8,13 @@ import retrofit2.http.*
 interface NetworkApis {
     @GET("api/public/blogs")
     suspend fun getBlogs(
-        @Query("page") page: Int,
-        @Nullable @Query("category") category: Int?
+        @Query("page") page: Int
+    ): ResponseModel<List<BlogsModel>>
+    @GET("api/public/blogs/blog-by-category")
+    suspend fun getBlogsWithCategory(
+        @Query("id") id: Int?,
+        @Query("page") page: Int
+
     ): ResponseModel<List<BlogsModel>>
 
     @GET("api/public/blogs/id={id}")
@@ -28,7 +33,7 @@ interface NetworkApis {
     @GET("api/public/ads-type/list")
     suspend fun getAdsTypeList(): ResponseModel<List<AdsTypeModel>>
 
-    @GET("api/public/cat-by-adType/type={type}")
+    @GET("api/public/cat-by-adType/type={type}/0/andriod")
     suspend fun getCatsTypeList(@Path("type") type: Int): ResponseModel<List<CategoryModel>>
 
     @GET
@@ -84,6 +89,9 @@ interface NetworkApis {
 
     @GET("api/public/subscriptionTypes")
     suspend fun getSubscribeList(@Query("page") page: Int): ResponseModel<List<SubscribeModel>>
+
+    @GET("api/public/subscriptionTypes/getById")
+    suspend fun getSubscribeDetails(@Query("id") id: String): ResponseModel<SubscribeModel>
 
 
     @POST("api/public/account/registration")
@@ -147,6 +155,8 @@ interface NetworkApis {
 
     @GET("api/public/city/find-by-country-id")
     suspend fun getCities(@Query("country") id: String): ResponseModel<List<CityModel>>
+
     @POST("api/account/logout")
     suspend fun logout(@Query("user") id: String): ResponseModel<Boolean>
+
 }

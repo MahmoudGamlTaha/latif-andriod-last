@@ -108,5 +108,11 @@
     <string name="selectAtLeastOne">من فضلك ع الاقل اختر واحدة</string>
     <string name="other">اخرى</string>
     <string name="cannotChat">هذا الاعلان خاص بك لذلك لا يمكنك اجراء محادثة</string>
-    <string name="viewAd">View Ad</string>
+    <string name="viewAd">عرض الاعلان</string>
+    <string name="choose">اختر</string>
+    <string name="addFilterValue">من فضلك اختر قيمة ع الاقل من اجل الفلتر</string>
+    <string name="periodInDays">مدة الاعلان</string>
+    <string name="users">المستخدمين</string>
+    <string name="periodUnit">وحدة الفترة</string>
+    <string name="ads_numbers">عدد الاعلانات</string>
 </resources>

@@ -1,9 +1,9 @@
 package com.latifapp.latif.ui.main.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -23,9 +23,10 @@ import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.filter.filter_form.FilterFormActivity
 import com.latifapp.latif.ui.main.pets.PetsAdapter
 import com.latifapp.latif.ui.main.profile.ProfileActivity
-import com.latifapp.latif.ui.subscribe.SubscribeActivity
+import com.latifapp.latif.ui.subscribe.subscribList.SubscribeActivity
 import com.latifapp.latif.utiles.AppConstants
 import com.latifapp.latif.utiles.AppConstants.PETS_STR
+import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,8 +52,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     private val accessoriesType =
         MainViewModel.TYPES(AppConstants.ACCESSORIES, AppConstants.ACCESSORIES_STR)
 
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Utiles.setLocalization(this, lang)
         searchBtn = binding.toolbar.searchBtn
         searchView = binding.toolbar.searchView
         toolBarTitle = binding.toolbar.title
@@ -168,23 +174,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 bottomAdapter.show(selectedItemPosition)
                 isMappingDisplay = true
                 displayCategoriesAndFilter(true)
+                setScaleView(mapBtn, listeBtn)
             }
             R.id.items_fragments -> {
                 bottomAdapter.show(selectedItemPosition)
                 isMappingDisplay = false
                 displayCategoriesAndFilter(true)
+                setScaleView(listeBtn,mapBtn)
             }
-//            R.id.clinic_fragments -> {
-//                bottomAdapter.show(2)
-//            }
-//            R.id.services_fragments -> {
-//                bottomAdapter.show(3)
-//            }
-//            R.id.chat_fragments -> {
-//                bottomAdapter.show(4)
-//                searchBtn.visibility = GONE
-//                binding.toggleBtn.visibility = GONE
-//            }
             R.id.blogs_fragments -> {
                 bottomAdapter.show(4)
                 displayCategoriesAndFilter(false)
