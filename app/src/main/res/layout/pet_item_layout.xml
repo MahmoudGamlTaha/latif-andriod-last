@@ -4,19 +4,19 @@
     android:layout_height="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-     android:padding="5dp"
+    android:padding="5dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
 
     android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/rootv"
-        android:gravity="center"
-         >
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:id="@+id/rootv"
+      android:gravity="center"
+      >
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -41,5 +41,5 @@
         android:layout_marginTop="3dp"
         android:id="@+id/text"
         />
-</LinearLayout>
+  </LinearLayout>
 </LinearLayout>

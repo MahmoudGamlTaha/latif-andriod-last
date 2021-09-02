@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:textSize="14sp"
+        android:textSize="14sp"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/sunset_orange"
         android:text="@string/date"

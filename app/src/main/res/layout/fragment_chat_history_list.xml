@@ -7,13 +7,13 @@
     tools:context=".ui.main.chat.chatHistoryList.ChatHistoryListActivity"
     >
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/chatList"
-       tools:itemCount="8"
-       tools:listitem="@layout/chat_history_item_layout"
-       />
-   <include layout="@layout/loader_"
-       android:id="@+id/loader"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chatList"
+        tools:itemCount="8"
+        tools:listitem="@layout/chat_history_item_layout"
+        />
+    <include layout="@layout/loader_"
+        android:id="@+id/loader"/>
 </RelativeLayout>

@@ -35,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@id/petName"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/statusTxt"
-             />
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/yellow_orange"
             android:textSize="13sp"
-             android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintTop_toBottomOf="@id/priceTxt"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
             android:textColor="@color/white"
             android:textSize="13sp"
             android:text="@string/reportAd"
-             android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/hidBtn"
             app:layout_constraintTop_toTopOf="@id/locTxt"

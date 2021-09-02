@@ -49,11 +49,11 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-             >
+            >
 
             <include layout="@layout/custom_spinner_layout"
                 android:id="@+id/spinner"
-                 />
+                />
 
             <EditText
                 android:id="@+id/titleEx"
@@ -69,7 +69,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:textColorHint="@color/dorado"
                 android:textSize="14sp"
-                  />
+                />
             <EditText
                 android:id="@+id/descriptionEx"
                 android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                 android:id="@+id/submitBtn"
+                android:id="@+id/submitBtn"
                 android:layout_marginTop="20dp"
                 android:textSize="15sp"
                 android:textAllCaps="false"

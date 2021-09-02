@@ -59,7 +59,7 @@
         android:gravity="center"
         android:minWidth="40dp"
         android:textAllCaps="false"
-        android:textColor="@color/red"
+        android:textColor="@color/dark_red"
         android:textSize="15sp" />
     <include layout="@layout/loader_"
         android:id="@+id/loader"

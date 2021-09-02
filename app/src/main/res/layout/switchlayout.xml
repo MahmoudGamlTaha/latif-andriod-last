@@ -6,16 +6,16 @@
     android:orientation="horizontal"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fontFamily="@font/poppins_regular"
-    android:textColor="@color/gray"
-    android:textSize="13sp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="5dp"
-    android:id="@+id/labelTxt"
-    android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/gray"
+        android:textSize="13sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:id="@+id/labelTxt"
+        android:layout_gravity="center"/>
     <com.github.angads25.toggle.widget.LabeledSwitch
         android:layout_width="45dp"
         android:layout_height="20dp"

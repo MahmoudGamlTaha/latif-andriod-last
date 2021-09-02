@@ -8,15 +8,15 @@
     android:layout_gravity="center_horizontal"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        >
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingStart="20dp"
+      android:paddingEnd="20dp"
+      android:layout_marginTop="20dp"
+      android:gravity="center_vertical"
+      >
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -29,19 +29,19 @@
         android:layout_height="wrap_content"
         android:textColor="@color/yellow_orange"
         android:text="Veterinary Clinic"
-         android:fontFamily="@font/poppins_bold"
+        android:fontFamily="@font/poppins_bold"
         android:layout_marginStart="10dp"
         android:gravity="center"
         android:id="@+id/title"
         android:textSize="17sp"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:background="@color/yellow_orange"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        />
+  </LinearLayout>
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="0.8dp"
+      android:background="@color/yellow_orange"
+      android:layout_marginLeft="30dp"
+      android:layout_marginBottom="20dp"
+      android:layout_marginRight="30dp"
+      android:layout_marginTop="30dp"
+      />
 </LinearLayout>

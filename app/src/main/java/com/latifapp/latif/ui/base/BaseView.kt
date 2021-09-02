@@ -29,7 +29,7 @@ open interface BaseView<B: ViewBinding> {
             snackbarView.setBackgroundResource(R.drawable.edittext_bg)
             val textView =
                 snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-            textView.setTextColor(ContextCompat.getColor(context, R.color.red))
+            textView.setTextColor(ContextCompat.getColor(context, R.color.dark_red))
             textView.textSize = 15f
             textView.gravity = Gravity.CENTER
             textView.maxLines = 1

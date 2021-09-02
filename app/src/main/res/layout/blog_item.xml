@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                 android:id="@+id/authorName"
+                android:id="@+id/authorName"
                 android:textColor="@color/yellow_orange"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_weight="1"

@@ -74,7 +74,7 @@
             android:text="@string/reportAd"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_bold"
-             android:backgroundTint="@color/sunset_orange"
+            android:backgroundTint="@color/sunset_orange"
             android:id="@+id/reportAdBtn"/>
     </androidx.cardview.widget.CardView>
 

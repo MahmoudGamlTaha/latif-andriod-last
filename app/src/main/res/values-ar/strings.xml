@@ -115,4 +115,10 @@
     <string name="users">المستخدمين</string>
     <string name="periodUnit">وحدة الفترة</string>
     <string name="ads_numbers">عدد الاعلانات</string>
+    <string name="MEDICAL">طبي</string>
+    <string name="OCCASIONAL">مناسبات</string>
+    <string name="TRASNPORTATION">مواصلات</string>
+    <string name="CONTRACT">مقاولات</string>
+    <string name="EDUCATIONAL">تعليمي</string>
+    <string name="OTHERS">اخرى</string>
 </resources>

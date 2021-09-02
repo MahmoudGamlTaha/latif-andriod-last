@@ -37,7 +37,7 @@
             android:lines="1"
             android:maxWidth="90dp"
             android:text="Cat sksk"
-            android:textColor="@color/red"
+            android:textColor="@color/dark_red"
             android:fontFamily="@font/poppins_regular"
             android:textSize="13sp"
             android:layout_gravity="center"

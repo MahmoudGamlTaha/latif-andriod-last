@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:minWidth="170dp"
+            android:minWidth="170dp"
             android:elevation="5dp"
             android:gravity="center"
             android:orientation="vertical"

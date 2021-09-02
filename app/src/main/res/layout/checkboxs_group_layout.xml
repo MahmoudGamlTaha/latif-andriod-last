@@ -4,17 +4,17 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
- android:paddingTop="15dp"    >
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/label"
-    android:textSize="16sp"
-    android:fontFamily="@font/poppins_regular"
-    android:textColor="@color/gray"
-    android:text=""
-    android:includeFontPadding="false"
-    />
+    android:paddingTop="15dp"    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/gray"
+        android:text=""
+        android:includeFontPadding="false"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

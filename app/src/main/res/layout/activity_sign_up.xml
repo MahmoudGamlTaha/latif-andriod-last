@@ -7,83 +7,83 @@
     android:layout_height="match_parent"
     >
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.auth.signup.SignUpActivity">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bottom_curve_bg"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/bg">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.auth.signup.SignUpActivity">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bottom_curve_bg"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/bg">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/signUp"
+                />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bg"
+            app:layout_constraintVertical_bias="0.85" />
+
+        <fragment
+            android:id="@+id/fragment_container"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view2"
+            app:layout_constraintBottom_toTopOf="@id/backBtn"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/signup_nav_graph"
+            />
         <TextView
+            android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:fontFamily="@font/poppins_bold"
-             android:text="@string/signUp"
+            android:drawableStart="@drawable/left_arrow_red"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textColor="@color/sunset_orange"
+            android:drawableTint="@color/sunset_orange"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
-    <View
-        android:id="@+id/view2"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        app:layout_constraintBottom_toBottomOf="@id/bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bg"
-        app:layout_constraintVertical_bias="0.85" />
-
-    <fragment
-        android:id="@+id/fragment_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/view2"
-        app:layout_constraintBottom_toTopOf="@id/backBtn"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/signup_nav_graph"
-        />
-    <TextView
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/left_arrow_red"
-        android:drawablePadding="8dp"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/back"
-        android:textAllCaps="false"
-        android:textColor="@color/sunset_orange"
-        android:drawableTint="@color/sunset_orange"
-        android:textSize="15sp"
-        android:fontFamily="@font/poppins_regular"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-         />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <include layout="@layout/loader_"
         android:id="@+id/loader"/>
 </RelativeLayout>

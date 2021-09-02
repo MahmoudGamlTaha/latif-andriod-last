@@ -131,7 +131,7 @@
                     android:background="@drawable/ic_rectangle"
                     android:id="@+id/callBtn"/>
 
-                 <TextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/priceTxt"
@@ -167,7 +167,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/numAdsTxt"
                     android:layout_marginStart="20dp"
                     android:src="@drawable/placeholder"
-                    android:background="@color/red"
+                    android:background="@color/dark_red"
                     app:riv_oval="true"
                     app:riv_border_color="@color/white"
                     app:riv_border_width="0.5dp"

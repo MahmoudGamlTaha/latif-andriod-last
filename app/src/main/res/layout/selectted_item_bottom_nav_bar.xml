@@ -14,7 +14,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
-        app:cardBackgroundColor="@color/red"
+        app:cardBackgroundColor="@color/dark_red"
          app:cardCornerRadius="25dp"
         android:elevation="3dp"
         >
@@ -35,7 +35,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 app:srcCompat="@drawable/ic_cat"
-                android:tint="@color/red"
+                android:tint="@color/dark_red"
                 android:id="@+id/image"
                 />
 

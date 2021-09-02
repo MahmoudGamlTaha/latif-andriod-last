@@ -7,12 +7,12 @@
     android:gravity="center_horizontal"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
-<ImageView
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    app:srcCompat="@drawable/ic_vet"
-    android:id="@+id/image"
-    />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/ic_vet"
+        android:id="@+id/image"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
