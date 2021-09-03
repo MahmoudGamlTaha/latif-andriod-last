@@ -4,22 +4,22 @@
     <item
         android:id="@+id/item_pets"
         android:icon="@drawable/ic_pets"
-        android:title="@string/pets" />
+        android:title="@string/MEDICAL" />
     <item
         android:id="@+id/item_blogs"
         android:icon="@drawable/ic_leash"
-        android:title="@string/blogs" />
+        android:title="@string/EDUCATIONAL" />
     <item
         android:id="@+id/item_clinic"
         android:icon="@drawable/ic_clinic"
-        android:title="@string/clinic" />
+        android:title="@string/CONTRACT" />
 
     <item
         android:id="@+id/item_service"
         android:icon="@drawable/ic_services"
-        android:title="@string/service" />
+        android:title="@string/OCCASIONAL" />
     <item
         android:id="@+id/item_chat"
         android:icon="@drawable/ic_writing"
-        android:title="@string/blogs" />
+        android:title="@string/TRANSPORTATION" />
 </menu>

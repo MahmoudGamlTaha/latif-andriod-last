@@ -13,7 +13,7 @@ import com.latifapp.latif.ui.main.pets.PetsAdapter
 
 class ClinicAdapter : RecyclerView.Adapter<ClinicAdapter.MyViewHolder>() {
 
-    var list: List<CategoryModel> = mutableListOf()
+    var list: List<CategoryModel> = mutableListOf<CategoryModel>()
         set(value) {
             field=value
             notifyDataSetChanged()

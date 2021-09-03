@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pets"
+        android:text="@string/MEDICAL"
         android:textSize="18sp"
         android:fontFamily="@font/poppins_bold"
         android:textColor="@color/black"

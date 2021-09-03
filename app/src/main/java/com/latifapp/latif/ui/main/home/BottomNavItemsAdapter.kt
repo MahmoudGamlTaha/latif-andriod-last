@@ -4,6 +4,7 @@ import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.util.CollectionUtils
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ItemBottomNavBarBinding
 import com.latifapp.latif.databinding.PetItemLayoutBinding
@@ -15,12 +16,12 @@ class BottomNavItemsAdapter(val action:Action): RecyclerView.Adapter<RecyclerVie
     private val SELECT_ITEM=0
     private val UN_SELECT_ITEM=1
     private var selectedPosition=0
-    val list = listOf<ClinicAdapter.Model>(
-        ClinicAdapter.Model(R.string.pets, R.drawable.ic_pets),
-        ClinicAdapter.Model(R.string.items, R.drawable.ic_leash),
-        ClinicAdapter.Model(R.string.clinic, R.drawable.ic_clinic),
-        ClinicAdapter.Model(R.string.service, R.drawable.ic_services),
-        ClinicAdapter.Model(R.string.blogs, R.drawable.ic_writing)
+    val list = CollectionUtils.listOf<ClinicAdapter.Model>(
+        ClinicAdapter.Model(R.string.MEDICAL, R.drawable.ic_clinic),
+        ClinicAdapter.Model(R.string.OCCASIONAL, R.drawable.ic_leash),
+        ClinicAdapter.Model(R.string.TRANSPORTATION, R.drawable.ic_clinic),
+        ClinicAdapter.Model(R.string.EDUCATIONAL, R.drawable.ic_services),
+        ClinicAdapter.Model(R.string.CONTRACT, R.drawable.ic_writing)
     )
 
     class MyViewHolder constructor(val binding: ItemBottomNavBarBinding) :
