@@ -6,7 +6,7 @@
     app:startDestination="@id/registerFragment">
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.latifapp.latif.ui.auth.signup.fragments.regester.registerFragment"
+        android:name="com.service.khdmaa.ui.auth.signup.fragments.regester.registerFragment"
         tools:layout="@layout/fragment_register" >
         <action android:id="@+id/navTo_policyFragment"
             app:destination="@id/policyFragment"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/policyFragment"
-        android:name="com.latifapp.latif.ui.auth.signup.fragments.policy.PolicyFragment"
+        android:name="com.service.khdmaa.ui.auth.signup.fragments.policy.PolicyFragment"
         tools:layout="@layout/fragment_policy">
 
         <action android:id="@+id/navTo_interestsFragment"
@@ -24,6 +24,6 @@
     </fragment>
     <fragment
         android:id="@+id/interestsFragment"
-        android:name="com.latifapp.latif.ui.auth.signup.fragments.interests.InterestsFragment"
+        android:name="com.service.khdmaa.ui.auth.signup.fragments.interests.InterestsFragment"
         tools:layout="@layout/fragment_interests" />
 </navigation>
