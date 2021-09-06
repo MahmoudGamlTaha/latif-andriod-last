@@ -18,10 +18,10 @@ class BottomNavItemsAdapter(val action:Action): RecyclerView.Adapter<RecyclerVie
     private var selectedPosition=0
     val list = CollectionUtils.listOf<ClinicAdapter.Model>(
         ClinicAdapter.Model(R.string.MEDICAL, R.drawable.ic_clinic),
-        ClinicAdapter.Model(R.string.OCCASIONAL, R.drawable.ic_leash),
-        ClinicAdapter.Model(R.string.TRANSPORTATION, R.drawable.ic_clinic),
-        ClinicAdapter.Model(R.string.EDUCATIONAL, R.drawable.ic_services),
-        ClinicAdapter.Model(R.string.CONTRACT, R.drawable.ic_writing)
+        ClinicAdapter.Model(R.string.OCCASIONAL, R.drawable.ic_occasion),
+        ClinicAdapter.Model(R.string.service, R.drawable.ic_services),
+        ClinicAdapter.Model(R.string.EDUCATIONAL, R.drawable.ic_edu),
+        ClinicAdapter.Model(R.string.OTHERS, R.drawable.ic_others)
     )
 
     class MyViewHolder constructor(val binding: ItemBottomNavBarBinding) :

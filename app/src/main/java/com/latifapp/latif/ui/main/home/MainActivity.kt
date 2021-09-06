@@ -46,11 +46,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     lateinit var toolBarTitle: TextView
     private var type = ""
     private val petsAdapter = PetsAdapter()
-    private val petsType = MainViewModel.TYPES(AppConstants.PETS, PETS_STR)
-    private val petsCareType = MainViewModel.TYPES(AppConstants.PET_CARE, AppConstants.PET_CARE_STR)
+    private val MedicalType = MainViewModel.TYPES(AppConstants.MEDICAL, AppConstants.MEDICAL_STR)
+    private val occasinalType = MainViewModel.TYPES(AppConstants.OCCASIONAL, AppConstants.OCCASIONAL_STR)
     private val serviceType = MainViewModel.TYPES(AppConstants.SERVICE, AppConstants.SERVICE_STR)
-    private val accessoriesType =
-        MainViewModel.TYPES(AppConstants.ACCESSORIES, AppConstants.ACCESSORIES_STR)
+    private val commericalType = MainViewModel.TYPES(AppConstants.COMMERICIAL, AppConstants.COMMERCIAL_STR)
+    private val otherType = MainViewModel.TYPES(AppConstants.OTHERS, AppConstants.OTHERS_STR)
 
 
     override fun attachBaseContext(newBase: Context?) {
@@ -216,23 +216,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 else
                     Intent(this, ProfileActivity::class.java)
             )
-            MenuAdapter.MenuEnum.blogs -> {
+            MenuAdapter.MenuEnum.others -> {
                 isMappingDisplay = false
                 navigation.navigate(R.id.nav_blogs_fragments)
             }
-            MenuAdapter.MenuEnum.pets -> {
+            MenuAdapter.MenuEnum.medical -> {
                 isMappingDisplay = false
                 selectedItem(0)
             }
-            MenuAdapter.MenuEnum.items -> {
+            MenuAdapter.MenuEnum.occasion -> {
                 isMappingDisplay = false
                 selectedItem(1)
             }
-            MenuAdapter.MenuEnum.service -> {
+            MenuAdapter.MenuEnum.education -> {
                 isMappingDisplay = false
                 selectedItem(3)
             }
-            MenuAdapter.MenuEnum.clinic -> {
+            MenuAdapter.MenuEnum.service -> {
                 isMappingDisplay = false
                 selectedItem(2)
             }
@@ -270,22 +270,22 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         }
         when (pos) {
             0 -> {
-                type = PETS_STR
-                viewModel.typeFlow.value = petsType
+                type = AppConstants.MEDICAL_STR
+                viewModel.typeFlow.value = MedicalType
             }
             1 -> {
-                type = AppConstants.ACCESSORIES_STR
-                viewModel.typeFlow.value = accessoriesType
+                type = AppConstants.OCCASIONAL_STR
+                viewModel.typeFlow.value = occasinalType
             }
             2 -> {
-                type = AppConstants.PET_CARE_STR
-                viewModel.typeFlow.value = petsCareType
+                type = AppConstants.COMMERCIAL_STR
+                viewModel.typeFlow.value = commericalType
             }
             3 -> {
                 type = AppConstants.SERVICE_STR
                 viewModel.typeFlow.value = serviceType
             }
-            4 -> menuClick(MenuAdapter.MenuEnum.blogs)
+            4 -> menuClick(MenuAdapter.MenuEnum.others)
         }
 
     }

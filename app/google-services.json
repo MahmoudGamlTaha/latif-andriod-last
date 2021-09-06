@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "49792100598",
-    "project_id": "latifapp-4084e",
-    "storage_bucket": "latifapp-4084e.appspot.com"
+    "project_number": "247734993211",
+    "project_id": "khdma-f9ef5",
+    "storage_bucket": "khdma-f9ef5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:49792100598:android:ac49f1ef79775d27f524d7",
+        "mobilesdk_app_id": "1:247734993211:android:e7e2bfb86b660215dcf71e",
         "android_client_info": {
-          "package_name": "com.latifapp.latif"
+          "package_name": "com.service.khdmaa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "49792100598-cufkrd26r5c6sh91uvniiqq2okfh7be4.apps.googleusercontent.com",
+          "client_id": "247734993211-osqnh5t0u4bdf3ha2fkih4sa43l4orql.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD5r2qyO5tcdlUagUwsF_CVa2WIs_9fuOY"
+          "current_key": "AIzaSyCEiue-r7OVm0G6r5d0pmBcDKt3W3QU7Wk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "49792100598-cufkrd26r5c6sh91uvniiqq2okfh7be4.apps.googleusercontent.com",
+              "client_id": "247734993211-osqnh5t0u4bdf3ha2fkih4sa43l4orql.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

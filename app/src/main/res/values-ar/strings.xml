@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Latif</string>
+    <string name="app_name">5dmaa.com</string>
     <string name="user_name">رقم الموبايل</string>
     <string name="password">كلمة المرور</string>
     <string name="login">تسجيل الدخول</string>
@@ -120,5 +120,8 @@
     <string name="TRANSPORTATION">مواصلات</string>
     <string name="CONTRACT">مقاولات</string>
     <string name="EDUCATIONAL">تعليمي</string>
+    <string name = "SHOPS">محلات</string>
+    <string name="PLACES"></string>
     <string name="OTHERS">اخرى</string>
+    <string name="advertise">اعلن</string>
 </resources>

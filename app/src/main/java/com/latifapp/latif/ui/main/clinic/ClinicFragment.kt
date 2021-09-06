@@ -50,7 +50,7 @@ class ClinicFragment : BaseFragment<ServiceViewModel, FragmentClinicBinding>() {
 
     private fun getCategories() {
         lifecycleScope.launchWhenStarted {
-            viewModel.getCategoriesList(AppConstants.PET_CARE).collect {
+            viewModel.getCategoriesList(AppConstants.OCCASIONAL).collect {
                 if (!it.isNullOrEmpty()) {
                     clinicAdapter.list = (it)
 

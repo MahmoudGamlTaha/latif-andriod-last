@@ -31,7 +31,7 @@ appPrefsStorage, repo
 
 
 
-    class TYPES(val categoryType:Int= AppConstants.PETS, val itemType:String= AppConstants.PETS_STR)
+    class TYPES(val categoryType:Int= AppConstants.MEDICAL, val itemType:String= AppConstants.MEDICAL_STR)
 
     override fun onCleared() {
         super.onCleared()
