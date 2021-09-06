@@ -19,8 +19,8 @@ class BottomNavItemsAdapter(val action:Action): RecyclerView.Adapter<RecyclerVie
     val list = CollectionUtils.listOf<ClinicAdapter.Model>(
         ClinicAdapter.Model(R.string.MEDICAL, R.drawable.ic_clinic),
         ClinicAdapter.Model(R.string.OCCASIONAL, R.drawable.ic_occasion),
+        ClinicAdapter.Model(R.string.commerical, R.drawable.ic_commerical),
         ClinicAdapter.Model(R.string.service, R.drawable.ic_services),
-        ClinicAdapter.Model(R.string.EDUCATIONAL, R.drawable.ic_edu),
         ClinicAdapter.Model(R.string.OTHERS, R.drawable.ic_others)
     )
 
