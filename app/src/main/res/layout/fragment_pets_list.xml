@@ -52,7 +52,7 @@
      android:layout_marginTop="20dp"
      android:layout_marginEnd="20dp"
      android:layout_marginBottom="20dp"
-     android:background="@drawable/bottom_curve_bg"
+     android:background="@drawable/btn_adv_bg"
      android:elevation="3dp"
      android:text="@string/advertise"
      android:fontFamily="@font/poppins_bold"

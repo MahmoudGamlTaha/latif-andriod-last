@@ -27,7 +27,7 @@ import javax.net.ssl.X509TrustManager
 @InstallIn(SingletonComponent::class)
 object NetworkClient {
     val BASE_URL = "https://khedma-all.herokuapp.com/"
-     private val TIMEOUT_MIN = 2
+     private val TIMEOUT_MIN = 3
 
 
 

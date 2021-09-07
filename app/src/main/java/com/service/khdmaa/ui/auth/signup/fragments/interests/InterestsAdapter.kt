@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.service.khdmaa.R
 import com.service.khdmaa.data.models.CategoryModel
 import com.service.khdmaa.databinding.InterestItemBinding
+import com.service.khdmaa.utiles.Utiles
 
 class InterestsAdapter() : RecyclerView.Adapter<InterestsAdapter.MyViewHolder>() {
-    var lang: String = "en"
+    var lang: String = Utiles.LANGUAGE
     var list: MutableList<CategoryModel> = mutableListOf()
         set(value) {
             field.addAll(value)

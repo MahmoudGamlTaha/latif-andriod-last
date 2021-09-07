@@ -3,13 +3,17 @@ package com.service.khdmaa.ui.main.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.util.CollectionUtils
 import com.service.khdmaa.R
 import com.service.khdmaa.databinding.MenuItemBinding
 
 class MenuAdapter(val action: MenuAction) : RecyclerView.Adapter<MenuAdapter.MyViewHolder>() {
-    val list = listOf(
+    val list = CollectionUtils.listOf(
         R.string.MEDICAL, R.string.OCCASIONAL,
-        R.string.EDUCATIONAL, R.string.service,R.string.subscribe,
+        R.string.commerical,
+        R.string.service,
+        R.string.OTHERS,
+        R.string.subscribe,
         R.string.profile
     )
 
@@ -33,10 +37,11 @@ class MenuAdapter(val action: MenuAction) : RecyclerView.Adapter<MenuAdapter.MyV
             when (position) {
                 0 -> anEnum = MenuEnum.medical
                 1 -> anEnum = MenuEnum.occasion
-                2 -> anEnum = MenuEnum.education
+                2 -> anEnum = MenuEnum.commerical
                 3 -> anEnum = MenuEnum.service
-                4 -> anEnum = MenuEnum.subscribe
-                5 -> anEnum = MenuEnum.profile
+                4 -> anEnum = MenuEnum.others
+                5 -> anEnum = MenuEnum.subscribe
+                6 -> anEnum = MenuEnum.profile
             }
             action.menuClick(anEnum)
         }
@@ -45,7 +50,7 @@ class MenuAdapter(val action: MenuAction) : RecyclerView.Adapter<MenuAdapter.MyV
     override fun getItemCount(): Int = list.size
 
     public enum class MenuEnum {
-        medical, occasion, service, education, profile,subscribe,clinic,others
+        medical, occasion, service, education, profile,subscribe,commerical,others
     }
 
     public interface MenuAction {

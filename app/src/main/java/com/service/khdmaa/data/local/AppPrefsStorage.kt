@@ -22,7 +22,7 @@ class AppPrefsStorage  @Inject constructor(
     // since @Singleton scope is used, dataStore will have the same instance every timeco
     companion object {
         var token:String = ""
-        var language_:String = "en"
+        var language_:String = "ar"
     }
 
     private val dataStore: DataStore<Preferences> =

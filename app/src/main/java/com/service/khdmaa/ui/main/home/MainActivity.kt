@@ -228,13 +228,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 isMappingDisplay = false
                 selectedItem(1)
             }
-            MenuAdapter.MenuEnum.education -> {
+            MenuAdapter.MenuEnum.commerical -> {
                 isMappingDisplay = false
-                selectedItem(3)
+                selectedItem(2)
             }
             MenuAdapter.MenuEnum.service -> {
                 isMappingDisplay = false
-                selectedItem(2)
+                selectedItem(3)
             }
             MenuAdapter.MenuEnum.subscribe -> startActivity(
                 Intent(
@@ -242,6 +242,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                     SubscribeActivity::class.java
                 )
             )
+            MenuAdapter.MenuEnum.profile ->{
+                isMappingDisplay = false
+                selectedItem(6)
+            }
+
+
         }
         runBlocking {
             binding.drawerLayout.closeDrawers()
@@ -286,6 +292,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 viewModel.typeFlow.value = serviceType
             }
             4 -> menuClick(MenuAdapter.MenuEnum.others)
+
+            5 -> menuClick(MenuAdapter.MenuEnum.subscribe)
+
+            6 ->menuClick(MenuAdapter.MenuEnum.profile)
         }
 
     }

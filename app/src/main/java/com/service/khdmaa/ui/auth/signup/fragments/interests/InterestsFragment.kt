@@ -36,11 +36,8 @@ class InterestsFragment :  BaseFragment<SignUpViewModel, FragmentInterestsBindin
 
 
         binding.doneBtn.setOnClickListener {
-            if (adapter_.selectedList.isEmpty())
-            {
-                toastMsg_Warning(getString(R.string.selectAtLeastOne), binding.root, requireContext())
-            }
-            else {
+
+
 
                 viewModel.interestList=adapter_.selectedList.toMutableList()
                 viewModel.register().observe(viewLifecycleOwner, Observer {
@@ -51,7 +48,6 @@ class InterestsFragment :  BaseFragment<SignUpViewModel, FragmentInterestsBindin
 
                     }
                 })
-            }
             Utiles.log_D("xmmxmxmmxmxmx",adapter_.selectedList)
         }
         getList()

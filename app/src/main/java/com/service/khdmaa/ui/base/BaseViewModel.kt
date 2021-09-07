@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
     private val networkErrorMsgEn = "No Connection !!"
     private val networkErrorMsgAr = "لا يوجد اتصال بالشبكة !!"
-    private var language = "en"
+    private var language = Utiles.LANGUAGE
     val lang: String
         get() = language
     private var tokenStr = ""
@@ -46,7 +46,7 @@ open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
     init {
         viewModelScope.launch {
             if (!AppPrefsStorage.language_.isNullOrEmpty())
-                appPrefsStorage.getValueAsFlow(Lang_PREFS, "en").collect {
+                appPrefsStorage.getValueAsFlow(Lang_PREFS, com.service.khdmaa.utiles.Utiles.LANGUAGE).collect {
                     language = it
                     LANGUAGE = it
                     AppPrefsStorage.language_ = it

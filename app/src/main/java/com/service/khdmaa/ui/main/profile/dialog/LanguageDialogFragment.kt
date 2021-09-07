@@ -11,13 +11,14 @@ import com.service.khdmaa.R
 import com.service.khdmaa.databinding.FragmentLanguageDialogBinding
 import com.service.khdmaa.databinding.FragmentReportDialogBinding
 import com.service.khdmaa.ui.details.DetailsViewModel
+import com.service.khdmaa.utiles.Utiles
 import javax.inject.Inject
 
 
 class LanguageDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentLanguageDialogBinding
 
-    var lang = ""
+    var lang = Utiles.LANGUAGE
     lateinit var action: LanguageAction
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -53,7 +53,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="21dp"
-        android:background="@drawable/bottom_curve_bg"
+        android:background="@drawable/btn_adv_bg"
         android:elevation="3dp"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"

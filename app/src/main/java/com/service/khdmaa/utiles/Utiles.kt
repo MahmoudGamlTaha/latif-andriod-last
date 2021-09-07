@@ -16,7 +16,7 @@ import java.util.*
 
 object Utiles {
 
-    var LANGUAGE:String="en"
+    var LANGUAGE:String="ar"
     fun log_D(key: Any, value: Any?) {
         Log.d("$key", "$value")
     }
@@ -50,7 +50,7 @@ object Utiles {
 
 
     fun setLocalization(activity: Activity, lang: String?) {
-        val locale = Locale(lang ?: "en")
+        val locale = Locale(lang ?: "ar")
         Locale.setDefault(locale)
         val config = Configuration()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
