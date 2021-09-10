@@ -182,7 +182,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 displayCategoriesAndFilter(true)
                 setScaleView(listeBtn,mapBtn)
             }
-            R.id.blogs_fragments -> {
+            R.id.other_fragment -> {
                 bottomAdapter.show(4)
                 displayCategoriesAndFilter(false)
             }

@@ -183,7 +183,7 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
                 true
             }
             popupBinding.shareBtn.setOnClickListener {
-                val url = "https://latifapp.com?adsID=$id"
+                val url = "https://5dmaa.com?adsID=$id"
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, url)

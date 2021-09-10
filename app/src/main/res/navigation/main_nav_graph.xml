@@ -104,14 +104,22 @@
         tools:layout="@layout/fragment_services" />
     <action
         android:id="@+id/nav_blogs_fragments"
-        app:destination="@id/blogs_fragments"
+        app:destination="@id/other_fragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"
         app:popUpTo="@id/pets_fragments" />
     <fragment
-        android:id="@+id/blogs_fragments"
-        android:name="com.service.khdmaa.ui.main.blogs.blogsList.BlogsFragment"
-        tools:layout="@layout/fragment_blogs" />
+        android:id="@+id/other_fragment"
+        android:name="com.service.khdmaa.ui.main.services.OtherFragment"
+        tools:layout="@layout/fragment_services">
+        <action
+            android:id="@+id/nav_services_list_fragments"
+            app:destination="@id/services_list_fragments"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>
