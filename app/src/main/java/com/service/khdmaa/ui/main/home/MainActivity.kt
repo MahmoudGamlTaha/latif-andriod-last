@@ -218,7 +218,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             )
             MenuAdapter.MenuEnum.others -> {
                 isMappingDisplay = false
-                navigation.navigate(R.id.nav_blogs_fragments)
+                //navigation.navigate(R.id.nav_blogs_fragments)
+                selectedItem(9)
             }
             MenuAdapter.MenuEnum.medical -> {
                 isMappingDisplay = false
@@ -290,6 +291,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             3 -> {
                 type = AppConstants.SERVICE_STR
                 viewModel.typeFlow.value = serviceType
+            }
+            9 -> {
+                type = AppConstants.OTHERS_STR
+                viewModel.typeFlow.value = otherType
             }
             4 -> menuClick(MenuAdapter.MenuEnum.others)
 
