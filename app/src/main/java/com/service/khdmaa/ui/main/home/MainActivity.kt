@@ -183,8 +183,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 setScaleView(listeBtn,mapBtn)
             }
             R.id.other_fragment -> {
-                bottomAdapter.show(4)
-                displayCategoriesAndFilter(false)
+                bottomAdapter.show(selectedItemPosition)
+                isMappingDisplay = false
+                displayCategoriesAndFilter(true)
+                setScaleView(listeBtn,mapBtn)
             }
         }
     }
@@ -219,7 +221,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             MenuAdapter.MenuEnum.others -> {
                 isMappingDisplay = false
                 //navigation.navigate(R.id.nav_blogs_fragments)
-                selectedItem(9)
+                selectedItem(4)
             }
             MenuAdapter.MenuEnum.medical -> {
                 isMappingDisplay = false
@@ -269,7 +271,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     }
 
     override fun selectedItem(pos: Int) {
-        if (pos != 4) // blogs when back >> back to  map on selected position of bottom filter
+        if (pos != 5) // blogs when back >> back to  map on selected position of bottom filter
             selectedItemPosition = pos
 
         if (!isMappingDisplay) {
@@ -292,11 +294,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 type = AppConstants.SERVICE_STR
                 viewModel.typeFlow.value = serviceType
             }
-            9 -> {
+            4 -> {
                 type = AppConstants.OTHERS_STR
                 viewModel.typeFlow.value = otherType
             }
-            4 -> menuClick(MenuAdapter.MenuEnum.others)
+           // 4 -> menuClick(MenuAdapter.MenuEnum.others)
 
             5 -> menuClick(MenuAdapter.MenuEnum.subscribe)
 

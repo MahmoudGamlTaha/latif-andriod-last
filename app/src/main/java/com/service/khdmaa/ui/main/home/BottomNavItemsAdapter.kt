@@ -45,6 +45,7 @@ class BottomNavItemsAdapter(val action:Action): RecyclerView.Adapter<RecyclerVie
     }
 
     override fun getItemViewType(position: Int): Int {
+
         if (selectedPosition==position)
             return SELECT_ITEM
         else return UN_SELECT_ITEM

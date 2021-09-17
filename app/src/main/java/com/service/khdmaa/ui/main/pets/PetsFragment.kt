@@ -81,6 +81,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
     private fun getTypeOfCategorAndItems() {
         lifecycleScope.launchWhenStarted {
+
             viewModel.typeFlow.collect {
                 categoryType = it.categoryType
                 itemsType = it.itemType
