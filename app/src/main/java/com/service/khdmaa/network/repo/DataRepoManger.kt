@@ -198,4 +198,7 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
     override suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>> {
         return safeApiCall { apis.logout(id) }
     }
+    override suspend fun getInterstList(): ResultWrapper<ResponseModel<List<CategoryModel>>>{
+        return safeApiCall { apis.getInterstList() }
+    }
 }

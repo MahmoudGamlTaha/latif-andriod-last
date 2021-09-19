@@ -71,4 +71,5 @@ interface DataRepo {
     suspend fun getCountries(): ResultWrapper<ResponseModel<List<CountryModel>>>
     suspend fun getCities(countyId: String): ResultWrapper<ResponseModel<List<CityModel>>>
     suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>>
+    suspend fun getInterstList(): ResultWrapper<ResponseModel<List<CategoryModel>>>
 }

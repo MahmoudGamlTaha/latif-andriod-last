@@ -158,5 +158,6 @@ interface NetworkApis {
 
     @POST("api/account/logout")
     suspend fun logout(@Query("user") id: String): ResponseModel<Boolean>
-
+    @GET("/api/public/category-interest")
+    suspend fun getInterstList():ResponseModel<List<CategoryModel>>
 }

@@ -28,7 +28,7 @@ open class IntrestsViewModel @Inject constructor(appPrefsStorage: AppPrefsStorag
 
         viewModelScope.launch(Dispatchers.IO) {
              
-            val result = repo.getAllCategories(page)
+            val result = repo.getInterstList()
             when (result) {
                 is ResultWrapper.Success -> {
                     withContext(Dispatchers.Main) {

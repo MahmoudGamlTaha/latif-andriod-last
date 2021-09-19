@@ -36,6 +36,7 @@ class IntresetsActivity : BaseActivity<IntrestsViewModel,ActivityIntresetsBindin
             adapter_.lang=viewModel.lang
             addOnScrollListener(scrollListener)
         }
+
         getList()
         getMyCategories()
 
@@ -83,7 +84,8 @@ class IntresetsActivity : BaseActivity<IntrestsViewModel,ActivityIntresetsBindin
     private fun getList() {
         viewModel.getAllCategories(index).observe(this, Observer {
              if (!it.isNullOrEmpty()) {
-                adapter_.list = it as MutableList<CategoryModel>
+                 adapter_.list.clear()
+                 adapter_.list = it as MutableList<CategoryModel>
                 isLoadingData = false
                  index++
             }

@@ -13,6 +13,7 @@ class InterestsAdapter() : RecyclerView.Adapter<InterestsAdapter.MyViewHolder>()
     var lang: String = Utiles.LANGUAGE
     var list: MutableList<CategoryModel> = mutableListOf()
         set(value) {
+            field.clear()
             field.addAll(value)
             notifyDataSetChanged()
         }
