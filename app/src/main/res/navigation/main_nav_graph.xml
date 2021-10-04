@@ -24,11 +24,11 @@
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/pets_list_fragments"
-        android:name="com.latifapp.latif.ui.main.petsList.PetsListFragment"
+        android:name="com.service.khdmaa.ui.main.petsList.PetsListFragment"
         tools:layout="@layout/fragment_pets_list" />
     <fragment
         android:id="@+id/pets_fragments"
-        android:name="com.latifapp.latif.ui.main.pets.PetsFragment"
+        android:name="com.service.khdmaa.ui.main.pets.PetsFragment"
         tools:layout="@layout/fragment_pets" />
     <action
         android:id="@+id/nav_items_fragments"
@@ -41,7 +41,7 @@
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/items_fragments"
-        android:name="com.latifapp.latif.ui.main.items.ItemsFragment"
+        android:name="com.service.khdmaa.ui.main.items.ItemsFragment"
         tools:layout="@layout/fragment_items" />
     <action
         android:id="@+id/nav_clinic_fragments"
@@ -53,7 +53,7 @@
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/clinic_fragments"
-        android:name="com.latifapp.latif.ui.main.clinic.ClinicFragment"
+        android:name="com.service.khdmaa.ui.main.clinic.ClinicFragment"
         tools:layout="@layout/fragment_clinic" >
         <action
             android:id="@+id/nav_clinic_list_fragments"
@@ -64,7 +64,7 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/clinic_list_fragments"
-        android:name="com.latifapp.latif.ui.main.clinic.ClinicItemsListFragment"
+        android:name="com.service.khdmaa.ui.main.clinic.ClinicItemsListFragment"
         />
     <action
         android:id="@+id/nav_chat_fragments"
@@ -76,7 +76,7 @@
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/chat_fragments"
-        android:name="com.latifapp.latif.ui.main.chat.chatHistoryList.ChatHistoryListActivity"
+        android:name="com.service.khdmaa.ui.main.chat.chatHistoryList.ChatHistoryListActivity"
         tools:layout="@layout/fragment_chat_history_list" />
     <action
         android:id="@+id/nav_services_fragments"
@@ -88,7 +88,7 @@
         app:popUpTo="@id/pets_fragments" />
     <fragment
         android:id="@+id/services_fragments"
-        android:name="com.latifapp.latif.ui.main.services.ServicesFragment"
+        android:name="com.service.khdmaa.ui.main.services.ServicesFragment"
         tools:layout="@layout/fragment_services">
         <action
             android:id="@+id/nav_services_list_fragments"
@@ -100,18 +100,26 @@
     </fragment>
     <fragment
         android:id="@+id/services_list_fragments"
-        android:name="com.latifapp.latif.ui.main.services.ServicesItemsListFragment"
+        android:name="com.service.khdmaa.ui.main.services.ServicesItemsListFragment"
         tools:layout="@layout/fragment_services" />
     <action
         android:id="@+id/nav_blogs_fragments"
-        app:destination="@id/blogs_fragments"
+        app:destination="@id/other_fragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"
         app:popUpTo="@id/pets_fragments" />
     <fragment
-        android:id="@+id/blogs_fragments"
-        android:name="com.latifapp.latif.ui.main.blogs.blogsList.BlogsFragment"
-        tools:layout="@layout/fragment_blogs" />
+        android:id="@+id/other_fragment"
+        android:name="com.service.khdmaa.ui.main.services.OtherFragment"
+        tools:layout="@layout/fragment_services">
+        <action
+            android:id="@+id/nav_services_list_fragments"
+            app:destination="@id/services_list_fragments"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

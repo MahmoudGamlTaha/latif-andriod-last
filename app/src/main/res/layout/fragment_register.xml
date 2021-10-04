@@ -124,21 +124,6 @@
                 android:textSize="14sp"
                 android:inputType="text"
                 />
-            <EditText
-                android:id="@+id/governorateEx"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/edittext_bg"
-                android:gravity="center_vertical"
-                android:hint="@string/governorate"
-                android:minHeight="40dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dorado"
-                android:textSize="14sp"
-                android:inputType="text"
-                />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
