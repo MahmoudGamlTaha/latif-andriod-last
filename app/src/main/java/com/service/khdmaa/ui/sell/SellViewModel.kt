@@ -181,13 +181,23 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
                     try {
                         val str = hashMap[key]
                         if (str == null || str.toString().trim().isEmpty()) {
-
-                            errorMsg.value = "The " + CurrentFormEng[key] + " Field is mandatory"
-
+                             if(lang.equals("en")) {
+                                 errorMsg.value =
+                                     "The " + CurrentFormEng[key] + " Field is mandatory"
+                             }else{
+                                 errorMsg.value =
+                                     "قيمة " + CurrentFormEng[key] + " مطلوبة"
+                             }
                             return
                         }
                     } catch (e: Exception) {
-                        errorMsg.value = "The " + CurrentFormEng[key] + " Field is mandatory"
+                        if(lang.equals("en")) {
+                            errorMsg.value =
+                                "The " + CurrentFormEng[key] + " Field is mandatory"
+                        }else{
+                            errorMsg.value =
+                                "قيمة " + CurrentFormEng[key] + " مطلوبة"
+                        }
 
                         return
                     }
