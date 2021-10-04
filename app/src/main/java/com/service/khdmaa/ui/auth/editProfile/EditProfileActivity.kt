@@ -84,7 +84,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
             val city = viewModel.cityId
             val address = binding.addressEx.text.toString()
             val govs = binding.governorateEx.text.toString()
-            if (viewModel.validate(name, email, "", phone, country, address, city, govs, false))
+            if (viewModel.validate(name, email, "", phone, country, address, city, false))
                 viewModel.edit().observe(this, Observer {
                     if (it != null) {
                         intent.putExtra("model", it)

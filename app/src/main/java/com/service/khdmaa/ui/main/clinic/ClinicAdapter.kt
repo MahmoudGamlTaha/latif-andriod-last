@@ -39,6 +39,7 @@ class ClinicAdapter : RecyclerView.Adapter<ClinicAdapter.MyViewHolder>() {
             var image = category.icon
 
             Glide.with(holder.itemView.context).load(image)
+                .override(48,48)
                 .error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
         }else holder.binding.image.setImageResource(R.drawable.ic_image)

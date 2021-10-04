@@ -99,7 +99,9 @@ class PetsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (!category.icon.isNullOrEmpty()) {
             var image = category.icon
 
-            Glide.with(holder.itemView.context).load(image).error(R.drawable.ic_image)
+            Glide.with(holder.itemView.context).load(image)
+                .override(36,36)
+                .error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
         } else holder.binding.image.setImageResource(R.drawable.ic_image)
     }

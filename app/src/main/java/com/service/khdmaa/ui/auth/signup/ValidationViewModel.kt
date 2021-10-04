@@ -19,7 +19,7 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
         country: String,
         address: String,
         city: String,
-        govs: String,
+      //  govs: String,
         checkPass:Boolean=true
     ): Boolean {
         var valid = true
@@ -37,10 +37,7 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
             validateLiveData.value = LoginViewModel.SignUpFiled.country_
             valid = false
         }
-        if (govs.length < 3) {
-            validateLiveData.value = LoginViewModel.SignUpFiled.governorate_
-            valid = false
-        }
+
         if (city.isNullOrEmpty()) {
             validateLiveData.value = LoginViewModel.SignUpFiled.city_
             valid = false
@@ -67,7 +64,6 @@ open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
                 city = city,
                 country = country,
                 email = email,
-                state = govs,
                 name = name,
                 phone = phone
             )

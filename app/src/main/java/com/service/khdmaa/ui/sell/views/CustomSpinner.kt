@@ -15,7 +15,7 @@ import com.service.khdmaa.databinding.CustomSpinnerLayoutBinding
 import com.service.khdmaa.utiles.HintAdapter
 
 
-class CustomSpinner(context_: Context, label: String,var list_: List<OptionsModel>,action :ViewAction<String>) :
+class CustomSpinner(context_: Context, label: String,var list_: List<OptionsModel>,action :ViewAction<String>,var lang:Boolean) :
     CustomParentView<String>(context_, label,action),
       AdapterView.OnItemSelectedListener {
 
@@ -23,8 +23,12 @@ class CustomSpinner(context_: Context, label: String,var list_: List<OptionsMode
 
     override fun createView() {
         Log.d("djdjdjdjjjdjdjd2",label)
-
-        val list:MutableList<String> = list_.map { "${it.label}" } as MutableList<String>
+        val list:MutableList<String>
+          if(lang) {
+              list = list_.map { "${it.label}" } as MutableList<String>
+          }else{
+              list = list_.map { "${it.label_ar}" } as MutableList<String>
+          }
         list.add(context.getString(R.string.choose))
         val spinner= CustomSpinnerLayoutBinding.inflate(LayoutInflater.from(context))
          val arrayAdapter = context?.let {

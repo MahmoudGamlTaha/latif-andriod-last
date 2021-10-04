@@ -70,8 +70,8 @@ class registerFragment : Fragment() {
             val country = viewModel.countryId
             val city = viewModel.cityId
             val address = binding.addressEx.text.toString()
-            val govs = binding.governorateEx.text.toString()
-            if (viewModel.validate(name, email, password, phone, country, address, city, govs))
+           // val govs = binding.governorateEx.text.toString()
+            if (viewModel.validate(name, email, password, phone, country, address, city))
                 navController.navigate(R.id.navTo_policyFragment)
         })
 
@@ -85,9 +85,6 @@ class registerFragment : Fragment() {
                     LoginViewModel.SignUpFiled.address_ -> binding.addressEx.setError(getString(R.string.valid_address))
                     LoginViewModel.SignUpFiled.city_ -> binding.cityEx.setError(getString(R.string.valid_city))
                     LoginViewModel.SignUpFiled.country_ -> binding.countryEx.setError(getString(R.string.valid_country))
-                    LoginViewModel.SignUpFiled.governorate_ -> binding.governorateEx.setError(
-                        getString(R.string.valid_govs)
-                    )
                 }
         })
     }

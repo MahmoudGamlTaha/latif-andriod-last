@@ -53,7 +53,8 @@ open class CategoriesViewModel(appPrefsStorage: AppPrefsStorage, val repo: DataR
 
                             OptionsModel(
                                 label = if (lang.equals("en")) it.category.name else it.category.nameAr,
-                                code = "${it.category.id}"
+                                code = "${it.category.id}",
+                                label_ar = it.category.nameAr
                             )
                     }
 

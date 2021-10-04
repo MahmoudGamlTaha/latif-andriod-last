@@ -27,7 +27,8 @@ data class ShowConditionModel(
 
 data class OptionsModel(
     val code: String?,
-    val label: String?
+    val label: String?,
+    val label_ar:String?
 )
 
 data class SaveformModelRequest(

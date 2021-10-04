@@ -421,7 +421,8 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
             override fun getActionId(text: String) {
                 setHashMapValues("${model.name}", "$text")
             }
-        }
+        },
+            isEnglish
         )
         Utiles.log_D("smsmmsmsmsmsms", "$text")
         binding.container.addView(text.getView())

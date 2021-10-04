@@ -181,6 +181,7 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
                     try {
                         val str = hashMap[key]
                         if (str == null || str.toString().trim().isEmpty()) {
+
                             errorMsg.value = "The " + CurrentFormEng[key] + " Field is mandatory"
 
                             return

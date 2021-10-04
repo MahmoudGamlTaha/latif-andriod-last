@@ -13,7 +13,7 @@ public data class RegisterRequest(
     val city: String,
     val country: String,
     val address: String,
-    val state: String,
+    val state: String? = null,
     var id: String? = null,
     var avatar: String? = null,
     var device: String? = "android",
