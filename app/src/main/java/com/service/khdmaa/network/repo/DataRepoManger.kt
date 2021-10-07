@@ -4,6 +4,7 @@ import com.service.khdmaa.network.NetworkApis
 import com.service.khdmaa.data.models.*
 import com.service.khdmaa.network.*
 import com.service.khdmaa.utiles.Utiles
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
@@ -200,5 +201,9 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
     }
     override suspend fun getInterstList(): ResultWrapper<ResponseModel<List<CategoryModel>>>{
         return safeApiCall { apis.getInterstList() }
+    }
+
+    override suspend fun UploadFiles(file: MultipartBody.Part, module: String): ResultWrapper<ResponseModel<Any>>{
+        return safeApiCall { apis.UploadFiles(file,module) }
     }
 }

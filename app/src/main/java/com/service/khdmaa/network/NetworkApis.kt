@@ -2,6 +2,7 @@ package com.service.khdmaa.network
 
 import androidx.annotation.Nullable
 import com.service.khdmaa.data.models.*
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 
@@ -160,4 +161,8 @@ interface NetworkApis {
     suspend fun logout(@Query("user") id: String): ResponseModel<Boolean>
     @GET("/api/public/category-interest")
     suspend fun getInterstList():ResponseModel<List<CategoryModel>>
+
+    @Multipart
+    @POST("api/public/uploader/upload")
+    suspend fun UploadFiles(@Part file: MultipartBody.Part,@Query("module") module: String): ResponseModel<Any>
 }

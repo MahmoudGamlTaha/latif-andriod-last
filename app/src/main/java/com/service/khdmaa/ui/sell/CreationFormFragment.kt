@@ -53,7 +53,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
     private val CurrentFormRequiredCond: MutableMap<String, String?> = mutableMapOf()
     private var changeableValue: MutableLiveData<Pair<String, String>>? = null
     private val viewsForm: MutableMap<View, RequireModel> = mutableMapOf()
-
+    private var CurrentSelectedPos = 0
     companion object {
         var Latitude_Filter = Latitude_
 
@@ -517,6 +517,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
                     val imagesList: ArrayList<Image> =
                         data!!.getParcelableArrayListExtra(Config.EXTRA_IMAGES)!!
                     val list = mutableListOf<String>()
+
                     for (model in imagesList) {
                         val uri = Uri.fromFile(File(model.path))
                         val path: String = uri.getRealPathFromGallery(requireActivity())
@@ -524,7 +525,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
                         list.add(path)
                     }
                     for (image in list)
-                        viewModel.uploadImage(image).observe(requireActivity(), Observer {
+                        viewModel.uploadImage(image,typeList.get(this.CurrentSelectedPos).code!!).observe(requireActivity(), Observer {
                             if (!it.isNullOrEmpty() && !it.equals("-1"))
                                 liveData.postValue(it)
                         })
@@ -560,6 +561,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (position < typeList.size) {
+            CurrentSelectedPos=position;
             getForm(typeList.get(position).code)
             binding.container.removeAllViews()
             binding.mapContainer.visibility = View.GONE

@@ -2,6 +2,7 @@ package com.service.khdmaa.network.repo
 
 import com.service.khdmaa.data.models.*
 import com.service.khdmaa.network.ResultWrapper
+import okhttp3.MultipartBody
 import retrofit2.http.Query
 
 interface DataRepo {
@@ -72,4 +73,6 @@ interface DataRepo {
     suspend fun getCities(countyId: String): ResultWrapper<ResponseModel<List<CityModel>>>
     suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>>
     suspend fun getInterstList(): ResultWrapper<ResponseModel<List<CategoryModel>>>
+    suspend fun UploadFiles(file: MultipartBody.Part,module: String): ResultWrapper<ResponseModel<Any>>
+
 }
