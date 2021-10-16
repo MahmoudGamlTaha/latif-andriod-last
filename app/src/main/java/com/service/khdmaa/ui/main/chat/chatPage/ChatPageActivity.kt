@@ -19,7 +19,6 @@ import com.service.khdmaa.R
 import com.service.khdmaa.data.models.ChatResponseModel
 import com.service.khdmaa.data.models.MsgNotification
 import com.service.khdmaa.databinding.ActivityChatPageBinding
-import com.service.khdmaa.databinding.CallDialogBinding
 import com.service.khdmaa.databinding.ViewAdPopupBinding
 import com.service.khdmaa.ui.base.BaseActivity
 import com.service.khdmaa.ui.details.DetailsActivity

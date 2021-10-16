@@ -86,7 +86,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 "Notification",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
-            notificationChannel.description = "Latif Notification"
+            notificationChannel.description = "5dmaa Notification"
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = getColor(R.color.colorAccent)
             notificationChannel.vibrationPattern = longArrayOf(0, 1000, 500, 1000)
