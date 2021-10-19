@@ -102,7 +102,8 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
                 binding.priceTxt.text = "${it.price} EGP"
                 binding.petName.text = it.name
                 binding.locationTxt.text = it.city
-                binding.descriptionTxt.text = it.description
+                binding.descriptionTxt.text = it.description+"\r\n"+it.short_description
+
                 moveToLocation(it.latitude, it.longitude)
                 setSellerInfo(it.createdBy, it.external_link)
                 if (!it.extra.isNullOrEmpty())
