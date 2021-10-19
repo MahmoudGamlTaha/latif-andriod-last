@@ -25,16 +25,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(msg: RemoteMessage) {
         super.onMessageReceived(msg)
         Utiles.log_D("onMessageReceived", msg)
+        val click_action = msg.notification?.clickAction
+        Utiles.log_D("Click action", click_action)
         if (msg.notification != null && msg.data.isNullOrEmpty()) {
+
+
             Utiles.log_D("onMessageReceived", Gson().toJson(msg.notification))
             showNotification(
                 msg.notification?.getTitle(),
                 msg.notification?.getBody()
             )
-        } else showNotification(msg.data)
+        } else showNotification(msg.data , click_action)
     }
 
-    private fun showNotification(data: Map<String, String>) {
+    private fun showNotification(data: Map<String, String>, click_action: String?) {
         Log.d("nbnbnbnbnbnnbnnb2", data.toString())
         var title = ""
         var body = ""
@@ -65,7 +69,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 this, 1,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
-
+           val intent2 = Intent(click_action)
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
 

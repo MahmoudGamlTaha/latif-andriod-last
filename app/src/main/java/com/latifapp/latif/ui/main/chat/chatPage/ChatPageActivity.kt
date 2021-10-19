@@ -75,6 +75,7 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
         MSG_LIVE_DATA = MutableLiveData<MsgNotification>(null)
         if (!viewModel.room.isNullOrEmpty())
             getChat()
+
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }
