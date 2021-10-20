@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.service.khdmaa.R
 import com.service.khdmaa.data.models.AdsModel
 import com.service.khdmaa.databinding.PetItemViewBinding
+import com.service.khdmaa.utiles.Utiles
 
 
 open class PetsListAdapter : RecyclerView.Adapter<PetsListAdapter.MyViewHolder>() {
@@ -35,7 +36,12 @@ open class PetsListAdapter : RecyclerView.Adapter<PetsListAdapter.MyViewHolder>(
         holder.binding.petName.text = "${model.name}"
         holder.binding.dateTxt.text = "${model.created_at}"
         holder.binding.priceTxt.text = "${model.price} EGP"
-        holder.binding.locTxt.text = "${model.short_description}"
+        var length = "${model.short_description}"?.length - 1
+        if(length > 30){
+            length = 30
+        }
+        Utiles.log_D("length short", length)
+        holder.binding.locTxt.text = "${model.short_description}"?.substring(0, length)+"..."
         holder.binding.cityTxt.text="${model.city}"
 
         var ads_type: String? =null

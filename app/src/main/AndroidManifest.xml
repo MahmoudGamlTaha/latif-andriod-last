@@ -29,7 +29,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Latif"
+        android:theme="@style/Theme.khdmaa"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.subscribe.subscribeDetails.SubscribDetailsActivity"></activity>
         <activity android:name=".ui.intrests.IntresetsActivity" />
@@ -73,8 +73,12 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".ui.sell.SellActivity" />
         <activity android:name=".ui.main.chat.chatPage.ChatPageActivity"
-                  android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+                  android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="click_action"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.filter.filter_list.FilterActivity" />
         <activity android:name=".ui.filter.filter_form.FilterFormActivity" />
         <activity android:name=".ui.subscribe.subscribList.SubscribeActivity" />
