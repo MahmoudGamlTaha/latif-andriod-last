@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latifapp.latif.data.models.AdsModel
@@ -19,8 +21,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FilterListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: FilterListViewModel
+      val viewModel by activityViewModels<FilterListViewModel>()
     lateinit var binding: FragmentListFilterBinding
     override fun onCreateView(
         inflater: LayoutInflater,

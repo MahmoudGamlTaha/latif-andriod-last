@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -22,8 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class registerFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: SignUpViewModel
+     val viewModel by activityViewModels<SignUpViewModel>()
     private lateinit var binding: FragmentRegisterBinding
     lateinit var navController: NavController
     override fun onCreateView(

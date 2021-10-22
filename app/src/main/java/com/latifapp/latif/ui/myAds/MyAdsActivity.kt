@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.items.PetsListAdapter
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
@@ -23,7 +25,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MyAdsActivity : BaseActivity<MyAdsViewModel,ActivitySubscribBinding>() {
-
+    override val viewModel by viewModels<MyAdsViewModel>()
     private val adapter_= MyAdsAdapter()
     private var isLoadingData  =false
 

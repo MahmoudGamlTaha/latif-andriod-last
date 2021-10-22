@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -20,6 +21,7 @@ import com.latifapp.latif.ui.auth.editProfile.EditProfileActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.fav.FavActivity
 import com.latifapp.latif.ui.intrests.IntresetsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.chat.chatHistoryList.ChatHistoryListActivity
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.profile.dialog.LanguageDialogFragment
@@ -30,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity<ProfileViewModel, FragmentProfileBinding>() {
-
+    override val viewModel by viewModels<ProfileViewModel>()
     private val langDialog = LanguageDialogFragment()
 
     override fun attachBaseContext(newBase: Context?) {

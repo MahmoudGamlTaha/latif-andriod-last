@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 open class BaseViewModel(val appPrefsStorage: AppPrefsStorage) : ViewModel() {
+    var generated=false
     private val networkErrorMsgEn = "No Connection !!"
     private val networkErrorMsgAr = "لا يوجد اتصال بالشبكة !!"
     private var language = "en"

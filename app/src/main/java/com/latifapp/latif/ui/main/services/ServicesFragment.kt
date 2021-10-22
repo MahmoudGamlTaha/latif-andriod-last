@@ -3,11 +3,14 @@ package com.latifapp.latif.ui.main.services
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.FragmentServicesBinding
 import com.latifapp.latif.ui.base.BaseFragment
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.pets.PetsAdapter
 import com.latifapp.latif.ui.main.pets.PetsViewModel
 import com.latifapp.latif.utiles.AppConstants
@@ -17,7 +20,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ServicesFragment : BaseFragment<PetsViewModel, FragmentServicesBinding>() {
-
+    override val viewModel by viewModels<PetsViewModel>()
 
     private val adapter_ = ServiceAdapter()
 

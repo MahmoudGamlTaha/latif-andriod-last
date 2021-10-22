@@ -1,5 +1,6 @@
 package com.latifapp.latif.ui.sell
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
+import com.latifapp.latif.R
 import com.latifapp.latif.data.local.AppPrefsStorage
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.ResultWrapper
@@ -14,6 +16,7 @@ import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.CategoriesViewModel
 import com.latifapp.latif.utiles.ExpressionEvaluator
 import com.latifapp.latif.utiles.Utiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@ActivityScoped
+@HiltViewModel
 class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     CategoriesViewModel(appPrefsStorage, repo) {
     public var url: String? = ""
@@ -159,7 +162,8 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
         hashMap: MutableMap<String, Any>,
         CurrentForm: MutableMap<String, Boolean?>,
         CurrentFormRequiredCond: MutableMap<String, String?>,
-        CurrentFormEng: MutableMap<String, String?>
+        CurrentFormEng: MutableMap<String, String?>,
+        context: Context?
     ) {
         submitClick.value=false
 
@@ -181,12 +185,12 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
                     try {
                         val str = hashMap[key]
                         if (str == null || str.toString().trim().isEmpty()) {
-                            errorMsg.value = "The " + CurrentFormEng[key] + " Field is mandatory"
+                            errorMsg.value =  CurrentFormEng[key] +" "+ context?.getString(R.string.is_required)
 
                             return
                         }
                     } catch (e: Exception) {
-                        errorMsg.value = "The " + CurrentFormEng[key] + " Field is mandatory"
+                        errorMsg.value =  CurrentFormEng[key] +" "+ context?.getString(R.string.is_required)
 
                         return
                     }

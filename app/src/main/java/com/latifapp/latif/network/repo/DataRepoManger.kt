@@ -150,11 +150,11 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
         return safeApiCall { apis.activeAd(id, activeAd) }
     }
 
-    override suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>> {
+    override suspend fun register(body: RegisterRequest?): ResultWrapper<ResponseModel<UserModel>> {
         return safeApiCall { apis.register(body) }
     }
 
-    override suspend fun editProfile(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>> {
+    override suspend fun editProfile(body: RegisterRequest?): ResultWrapper<ResponseModel<UserModel>> {
         return safeApiCall { apis.editProfile(body) }
     }
 
@@ -197,5 +197,13 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
 
     override suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>> {
         return safeApiCall { apis.logout(id) }
+    }
+
+    override suspend fun checkout(id: String,type:String?): ResultWrapper<ResponseModel<String>> {
+        return safeApiCall { apis.checkout(id,type) }
+    }
+
+    override suspend fun paymentList(): ResultWrapper<ResponseModel<List<String>>> {
+        return safeApiCall { apis.paymentList() }
     }
 }

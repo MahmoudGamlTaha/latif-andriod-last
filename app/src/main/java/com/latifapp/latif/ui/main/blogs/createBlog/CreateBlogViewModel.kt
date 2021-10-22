@@ -15,6 +15,7 @@ import com.latifapp.latif.data.models.CreateBlogsModel
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CreateBlogViewModel @Inject constructor(
     appPrefsStorage: AppPrefsStorage,
     val repo: DataRepo

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -28,7 +29,7 @@ import java.io.Serializable
 @AndroidEntryPoint
 class BlogDetailsActivity : BaseActivity<BolgDetailsViewModel,ActivityBlogDetailsBinding>(),
     PetImageAdapter.Actions {
-
+    override val viewModel by viewModels<BolgDetailsViewModel>()
     private var phoneNum: String?=""
     private lateinit var callPopUp: PopupWindow
 

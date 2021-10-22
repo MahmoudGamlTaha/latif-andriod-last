@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,7 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.FragmentServicesBinding
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.items.PetsListAdapter
 import com.latifapp.latif.utiles.AppConstants
 import com.latifapp.latif.utiles.Utiles
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ClinicItemsListFragment :BaseFragment<ClinicItemsViewMode, FragmentServicesBinding>() {
+    override val viewModel by viewModels<ClinicItemsViewMode>()
     private var isLoadingData = false
     private lateinit var adapter: PetsListAdapter
     private var category: Int? = null

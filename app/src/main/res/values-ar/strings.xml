@@ -115,4 +115,9 @@
     <string name="users">المستخدمين</string>
     <string name="periodUnit">وحدة الفترة</string>
     <string name="ads_numbers">عدد الاعلانات</string>
+    <string name="successPayment">نجاح عملية الدفع</string>
+    <string name="cancelPayment">الغاء عملية الدفع</string>
+    <string name="errorPayment">لقد حدث خطأ، من فضلك حاول مرة اخرى</string>
+    <string name="payment">الدفع</string>
+    <string name="is_required">يجب ادخاله</string>
 </resources>

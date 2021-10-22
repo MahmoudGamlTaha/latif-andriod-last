@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageView
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +43,7 @@ import java.util.ArrayList
 @AndroidEntryPoint
 class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBinding>(),
     AdapterView.OnItemSelectedListener {
+    override val viewModel by activityViewModels<SellViewModel>()
     private lateinit var typeList: List<AdsTypeModel>
     private var items = arrayOf<String>()
     private var lat = 0.0
@@ -67,7 +70,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         lat = PetsFragment.Latitude_
+        lat = PetsFragment.Latitude_
         lng = PetsFragment.Longitude_
         items = arrayOf<String>(
             getString(R.string.camera),
@@ -85,7 +88,8 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
                         hashMap,
                         CurrentForm,
                         CurrentFormRequiredCond,
-                        CurrentFormEng
+                        CurrentFormEng,
+                        context
                     )
             }
         }
@@ -157,7 +161,8 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
     private fun setCondtions(model_: RequireModel) {
         if (model_?.required == true) {
             CurrentForm[model_.name.toString()] = model_.required
-            CurrentFormEng[model_.name.toString()] = model_.label
+            CurrentFormEng[model_.name.toString()] =
+                if (isEnglish) model_.label else model_.label_ar
             CurrentFormRequiredCond[model_.name.toString()] = model_.requiredcond
             Utiles.log_D("cncnncncncncn11545454s54454554", model_.name)
             Utiles.log_D("cncnncncncncn11545454s54454554", CurrentFormRequiredCond)

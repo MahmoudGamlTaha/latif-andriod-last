@@ -10,7 +10,7 @@ import com.latifapp.latif.ui.base.BaseViewModel
 open class ValidationViewModel (appPrefsStorage: AppPrefsStorage) :
     BaseViewModel(appPrefsStorage){
     val validateLiveData = MutableLiveData<LoginViewModel.SignUpFiled>(null)
-    lateinit var register_request: RegisterRequest
+    var register_request: RegisterRequest?=null
     fun validate(
         name: String,
         email: String,

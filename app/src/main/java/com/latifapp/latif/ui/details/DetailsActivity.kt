@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupWindow
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,6 +29,7 @@ import com.latifapp.latif.databinding.TopOptionMenuBinding
 import com.latifapp.latif.ui.zommingImage.ZoomingImageActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.dialog.ReportDialogFragment
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.ui.main.chat.chatPage.ChatPageActivity
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
@@ -38,6 +40,7 @@ import java.io.Serializable
 @AndroidEntryPoint
 class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>(),
     OnMapReadyCallback, PetImageAdapter.Actions {
+    override val viewModel by viewModels<DetailsViewModel>()
     private var adOwnerId: Int? = 0
     private var adOwnerName: String? = ""
     private var adOwnerPic: String? = ""

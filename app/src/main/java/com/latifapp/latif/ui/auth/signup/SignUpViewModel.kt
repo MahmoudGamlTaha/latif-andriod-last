@@ -8,17 +8,20 @@ import com.latifapp.latif.data.models.CategoryModel
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.main.pets.PetsFragment
+import com.latifapp.latif.utiles.Utiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@ActivityScoped
+@HiltViewModel
 class SignUpViewModel @Inject constructor(
     repo: DataRepo,
     appPrefsStorage: AppPrefsStorage
 ) : CountryViewModel(repo, appPrefsStorage) {
+
     var lat: Double = PetsFragment.Latitude_
     var lag: Double = PetsFragment.Longitude_
 
@@ -28,21 +31,27 @@ class SignUpViewModel @Inject constructor(
     fun register()
             : LiveData<Boolean> {
         val liveData = MutableLiveData<Boolean>(false)
-        loader.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            register_request.latitude=lat
-            register_request.longitude=lag
-            val result = repo.register(register_request)
-            when (result) {
-                is ResultWrapper.Success -> {
-                    setInterst(result.value?.response?.data?.id)
-                    withContext(Dispatchers.Main) {
-                        liveData.value = (true)
+
+        if (register_request == null||register_request?.email.isNullOrEmpty()) {
+            errorMsg.value = if (lang.equals("en")) "Please add correct data" else "من فضلك ادخل بياناتك بشكل صحيح"
+        } else {
+            loader.value = true
+            viewModelScope.launch(Dispatchers.IO) {
+
+                register_request?.latitude = lat
+                register_request?.longitude = lag
+                val result = repo.register(register_request)
+                when (result) {
+                    is ResultWrapper.Success -> {
+                        setInterst(result.value?.response?.data?.id)
+                        withContext(Dispatchers.Main) {
+                            liveData.value = (true)
+                        }
                     }
+                    else -> getErrorMsg(result)
                 }
-                else -> getErrorMsg(result)
+                loader.value = false
             }
-            loader.value = false
         }
         return liveData
     }
@@ -85,7 +94,14 @@ class SignUpViewModel @Inject constructor(
 
     private fun setInterst(id: Int?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repo.setIntrestCategories(interestList,"$id")
+            val result = repo.setIntrestCategories(interestList, "$id")
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        Utiles.log_D("xmmxmxmmxmxmssx", "onCleared")
+    }
+
+
 }

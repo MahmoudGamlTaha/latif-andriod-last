@@ -22,8 +22,7 @@ import javax.inject.Inject
 
 open abstract class BaseFragment<viewmodel : BaseViewModel, viewbinding : ViewBinding>() :
     Fragment(), BaseView<viewbinding> {
-    @Inject
-    lateinit var viewModel: viewmodel
+    abstract val viewModel: viewmodel
     lateinit var binding: viewbinding
     lateinit var navController: NavController
     val lang

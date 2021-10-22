@@ -9,9 +9,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.FragmentLanguageDialogBinding
-import com.latifapp.latif.databinding.FragmentReportDialogBinding
-import com.latifapp.latif.ui.details.DetailsViewModel
-import javax.inject.Inject
+
 
 
 class LanguageDialogFragment : DialogFragment() {

@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -21,6 +22,7 @@ import com.latifapp.latif.databinding.ActivityMainBinding
 import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.filter.filter_form.FilterFormActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.pets.PetsAdapter
 import com.latifapp.latif.ui.main.profile.ProfileActivity
 import com.latifapp.latif.ui.subscribe.subscribList.SubscribeActivity
@@ -37,6 +39,7 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     NavController.OnDestinationChangedListener,
     MenuAdapter.MenuAction, BottomNavItemsAdapter.Action, PetsAdapter.CategoryActions {
+    override val viewModel by viewModels<MainViewModel>()
     private var selectedItemPosition: Int = 0
     private var isMappingDisplay = true
     private val bottomAdapter = BottomNavItemsAdapter(this@MainActivity)

@@ -15,11 +15,13 @@ import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.main.profile.ProfileUserInfoViewModel
 import com.latifapp.latif.utiles.Utiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class LoginViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     ProfileUserInfoViewModel(repo, appPrefsStorage) {
 

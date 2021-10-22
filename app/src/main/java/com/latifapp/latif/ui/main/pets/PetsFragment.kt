@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -28,6 +30,7 @@ import com.latifapp.latif.databinding.CustomMarkserBinding
 import com.latifapp.latif.databinding.FragmentPetsBinding
 import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.home.MainViewModel
 import com.latifapp.latif.ui.main.pets.bottomDialog.BottomDialogFragment
@@ -42,7 +45,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
-
+    override val viewModel by activityViewModels<MainViewModel>()
     private val mapSets = mutableSetOf<AdsModel>()
     private var category: Int? = null
     private var mapFragment: SupportMapFragment? = null

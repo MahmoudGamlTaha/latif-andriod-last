@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,12 +24,15 @@ import com.latifapp.latif.databinding.CallDialogBinding
 import com.latifapp.latif.databinding.ViewAdPopupBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() {
+    override val viewModel by viewModels<ChatViewModel>()
+
     companion object {
         var MSG_LIVE_DATA: MutableLiveData<MsgNotification>? = null
     }
@@ -41,6 +45,7 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Utiles.setLocalization(this, lang)
@@ -62,6 +67,7 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
 
             viewModel.ad_id = model.prod_id
             viewModel.room = model.chat_room
+            viewModel.isFirstTimeToChat = model.chat_room.isNullOrEmpty()
             if (model.chat_room.isNullOrEmpty())
                 viewModel.adOwner_id = model.sender_id
             // setUserInfo(model?.sender_name, model?.sender_avater)
@@ -71,7 +77,6 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
                 "${model.sender_avater}"
             )
         }
-        binding.loader2.visibility = View.VISIBLE
         MSG_LIVE_DATA = MutableLiveData<MsgNotification>(null)
         if (!viewModel.room.isNullOrEmpty())
             getChat()
@@ -112,28 +117,30 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
     }
 
     private fun getChat() {
-        binding.loader2.visibility = View.VISIBLE
-        viewModel.getchatRoomMsgs(msgID).observe(this, Observer {
+        if (!viewModel.room.isNullOrEmpty() && !viewModel.isFirstTimeToChat) {
+            binding.loader2.visibility = View.VISIBLE
+            viewModel.getchatRoomMsgs(msgID).observe(this, Observer {
 
-            if (!it.isNullOrEmpty()) {
-                adapter_.list.addAll(0, it.reversed())
-                adapter_.notifyDataSetChanged()
-                isLoadingData = false
-                if (msgID.isNullOrEmpty())// first page
-                    binding.list.scrollToPosition(adapter_.list.size - 1)
-                else {
-                    val allSize=adapter_.list.size - 1;
-                    val newListSize=it.size
-                    binding.list.scrollToPosition(allSize-newListSize)
+                if (!it.isNullOrEmpty()) {
+                    adapter_.list.addAll(0, it.reversed())
+                    adapter_.notifyDataSetChanged()
+                    isLoadingData = false
+                    if (msgID.isNullOrEmpty())// first page
+                        binding.list.scrollToPosition(adapter_.list.size - 1)
+                    else {
+                        val allSize = adapter_.list.size - 1;
+                        val newListSize = it.size
+                        binding.list.scrollToPosition(allSize - newListSize)
 
+                    }
+
+                    msgID = it.get(it.size - 1).id
                 }
+                if (it != null)
+                    binding.loader2.visibility = View.GONE
 
-                msgID = it.get(it.size - 1).id
-            }
-            if (it != null)
-                binding.loader2.visibility = View.GONE
-
-        })
+            })
+        }
     }
 
     private fun addNewComment(message: String, sender: String) {
@@ -199,7 +206,7 @@ class ChatPageActivity : BaseActivity<ChatViewModel, ActivityChatPageBinding>() 
         binding.sendBtn.setEnabled(true)
         binding.typeMsg.setEnabled(true)
         Utiles.log_D("ncncncncnncn111", "here")
-      //  binding.loader2.visibility = View.GONE
+        //  binding.loader2.visibility = View.GONE
     }
 
     override fun onDestroy() {

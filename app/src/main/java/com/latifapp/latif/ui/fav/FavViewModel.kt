@@ -9,12 +9,14 @@ import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
 import com.latifapp.latif.ui.main.pets.PetsFragment
 import com.latifapp.latif.utiles.Utiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class FavViewModel @Inject constructor(appPrefsStorage: AppPrefsStorage, val repo: DataRepo) :
     BaseViewModel(appPrefsStorage) {
     var page = 0

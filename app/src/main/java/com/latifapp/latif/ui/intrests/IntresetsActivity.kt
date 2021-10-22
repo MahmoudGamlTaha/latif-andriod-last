@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +16,14 @@ import com.latifapp.latif.data.models.CategoryModel
 import com.latifapp.latif.databinding.ActivityIntresetsBinding
 import com.latifapp.latif.ui.auth.signup.fragments.interests.InterestsAdapter
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.sell.SellViewModel
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class IntresetsActivity : BaseActivity<IntrestsViewModel,ActivityIntresetsBinding>() {
+    override val viewModel by viewModels<IntrestsViewModel>()
     private var isLoadingData: Boolean=true
     private val adapter_: InterestsAdapter = InterestsAdapter()
     private var index=0

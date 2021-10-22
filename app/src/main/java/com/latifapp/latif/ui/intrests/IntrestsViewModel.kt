@@ -10,12 +10,14 @@ import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
 import com.latifapp.latif.utiles.Utiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 open class IntrestsViewModel @Inject constructor(appPrefsStorage: AppPrefsStorage, val repo: DataRepo) :
     BaseViewModel(appPrefsStorage) {
 

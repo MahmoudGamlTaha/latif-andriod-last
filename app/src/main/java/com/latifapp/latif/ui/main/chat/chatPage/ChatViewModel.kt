@@ -9,21 +9,25 @@ import com.latifapp.latif.data.models.SendMsgBody
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class ChatViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :
     BaseViewModel(appPrefsStorage) {
     var ad_id = "";
     var adOwner_id: String? = null;
+
     var room: String? = null
         set(value) {
             if (value.isNullOrEmpty())
                 field =null
             else field =value
         }
+    var isFirstTimeToChat:Boolean = false
 
 
     init {
@@ -60,20 +64,21 @@ class ChatViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: App
     fun getchatRoomMsgs(msgID: String?): LiveData<List<ChatResponseModel>> {
         val livedate = MutableLiveData<List<ChatResponseModel>>(null)
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repo.getChatOfRoom(msgID,room)
+                val result = repo.getChatOfRoom(msgID, room)
 
-            loader.value = false
-            when (result) {
-                is ResultWrapper.Success -> {
-                    withContext(Dispatchers.Main) {
-                        livedate.value = result?.value?.response?.data
+                loader.value = false
+                when (result) {
+                    is ResultWrapper.Success -> {
+                        withContext(Dispatchers.Main) {
+                            livedate.value = result?.value?.response?.data
+                        }
                     }
+                    else -> getErrorMsg(result)
                 }
-                else -> getErrorMsg(result)
+
+
             }
 
-
-        }
         return livedate
     }
 }

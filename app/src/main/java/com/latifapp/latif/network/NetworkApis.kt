@@ -10,6 +10,7 @@ interface NetworkApis {
     suspend fun getBlogs(
         @Query("page") page: Int
     ): ResponseModel<List<BlogsModel>>
+
     @GET("api/public/blogs/blog-by-category")
     suspend fun getBlogsWithCategory(
         @Query("id") id: Int?,
@@ -96,12 +97,12 @@ interface NetworkApis {
 
     @POST("api/public/account/registration")
     suspend fun register(
-        @Body model: RegisterRequest
+        @Nullable @Body model: RegisterRequest?
     ): ResponseModel<UserModel>
 
     @PUT("api/account/update")
     suspend fun editProfile(
-        @Body model: RegisterRequest
+        @Nullable @Body model: RegisterRequest?
     ): ResponseModel<UserModel>
 
     @POST("api/public/ads/adActivation")
@@ -127,13 +128,16 @@ interface NetworkApis {
     suspend fun getPolices(): ResponseModel<PolicesModel>
 
     @POST("api/public/interest-categories/create")
-    suspend fun setIntrestCategories(@Body list: MutableList<Int?>,@Query("userId")id:String): ResponseModel<Any>
+    suspend fun setIntrestCategories(
+        @Body list: MutableList<Int?>,
+        @Query("userId") id: String
+    ): ResponseModel<Any>
 
     @GET("api/public/my-interest-categories")
     suspend fun getIntrestCategories(): ResponseModel<List<CategoryItemsModel>>
 
-    @GET("api/public/category/page={page}")
-    suspend fun getAllCategories(@Path("page") page: Int ): ResponseModel<List<CategoryModel>>
+    @GET("api/public/category-interest/page={page}")
+    suspend fun getAllCategories(@Path("page") page: Int): ResponseModel<List<CategoryModel>>
 
     @POST("api/public/chat/snd-msg")
     suspend fun sendMsg(@Body body: SendMsgBody): ResponseModel<String>
@@ -158,5 +162,14 @@ interface NetworkApis {
 
     @POST("api/account/logout")
     suspend fun logout(@Query("user") id: String): ResponseModel<Boolean>
+
+    @GET("api/public/checkout/request")
+    suspend fun checkout(
+        @Query("subs_id") id: String,
+       @Nullable @Query("type") type: String? = null
+    ): ResponseModel<String>
+
+    @GET("api/public/checkout/type/list")
+    suspend fun paymentList(): ResponseModel<List<String>>
 
 }

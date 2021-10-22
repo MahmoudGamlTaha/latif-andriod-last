@@ -23,6 +23,7 @@
         android:id="@+id/editext"
         android:fontFamily="@font/poppins_regular"
         android:textColor="@color/black"
+        style="@style/textStyle"
         android:hint="label"
         android:textSize="14sp"
         android:backgroundTint="@color/yellow_orange"

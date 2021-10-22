@@ -15,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,7 @@ import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivityCreateBlogBinding
 import com.latifapp.latif.databinding.CustomSpinnerLayoutBinding
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.sell.adapters.ImagesAdapter
 import com.latifapp.latif.ui.sell.views.CustomImagesList
 import com.latifapp.latif.ui.sell.views.CustomParentView
@@ -37,6 +39,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class CreateBlogActivity : BaseActivity<CreateBlogViewModel, ActivityCreateBlogBinding>() {
+    override val viewModel by viewModels<CreateBlogViewModel>()
     private val adapter = ImagesAdapter()
     val listOfImages = mutableListOf<String>()
     var blogCategoryID: Int? = null

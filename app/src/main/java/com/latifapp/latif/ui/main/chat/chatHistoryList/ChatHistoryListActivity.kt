@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.latifapp.latif.R
 import com.latifapp.latif.data.models.MsgNotification
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.chat.chatPage.ChatPageActivity
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
@@ -21,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChatHistoryListActivity : BaseActivity<ChatHistoryViewModel,ActivitySubscribBinding>(), ChatHistoryListAdapter.Action {
+    override val viewModel by viewModels<ChatHistoryViewModel>()
     private var isLoadingData: Boolean=false
     private var index: Int=0
     private lateinit var adapter_:ChatHistoryListAdapter

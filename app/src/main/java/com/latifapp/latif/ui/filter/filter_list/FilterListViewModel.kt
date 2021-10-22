@@ -12,6 +12,7 @@ import com.latifapp.latif.data.models.UserAds
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@ActivityScoped
+@HiltViewModel
 class FilterListViewModel @Inject  constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage) :BaseViewModel(appPrefsStorage){
     val flow_ = MutableLiveData<ResponseModel<List<AdsModel>>>()
     fun filter(

@@ -9,11 +9,13 @@ import com.latifapp.latif.data.models.MsgNotification
 import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class ChatHistoryViewModel @Inject constructor(
     appPrefsStorage: AppPrefsStorage,
     val repo: DataRepo

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.latifapp.latif.databinding.FragmentPetsListBinding
 import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.home.MainViewModel
 import com.latifapp.latif.ui.sell.SellActivity
 import com.latifapp.latif.utiles.Utiles
@@ -22,7 +25,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
 
-
+    override val viewModel by activityViewModels<MainViewModel>()
     private var category: Int? = null
     private var isLoadingData = false
 

@@ -14,13 +14,14 @@ import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.auth.signup.CountryViewModel
 import com.latifapp.latif.ui.auth.signup.ValidationViewModel
 import com.latifapp.latif.ui.main.profile.ProfileUserInfoViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@ActivityScoped
+@HiltViewModel
 class EditProfileViewModel @Inject constructor(  repo: DataRepo, appPrefsStorage: AppPrefsStorage):
     CountryViewModel(repo,appPrefsStorage) {
         init {
@@ -30,8 +31,8 @@ class EditProfileViewModel @Inject constructor(  repo: DataRepo, appPrefsStorage
     fun edit(): LiveData<UserModel> {
         val liveData = MutableLiveData<UserModel>(null)
         loader.value = true
-        register_request.id=userID
-        register_request.avatar=avatar
+        register_request?.id=userID
+        register_request?.avatar=avatar
         viewModelScope.launch(Dispatchers.IO) {
             val result = repo.editProfile(register_request)
             when (result) {

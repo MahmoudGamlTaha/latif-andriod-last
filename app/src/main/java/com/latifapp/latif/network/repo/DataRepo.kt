@@ -48,8 +48,8 @@ interface DataRepo {
 
     suspend fun login(loginRequest: LoginRequest): ResultWrapper<LoginResponse>
     suspend fun getUserInfo(): ResultWrapper<ResponseModel<UserModel>>
-    suspend fun register(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>>
-    suspend fun editProfile(body: RegisterRequest): ResultWrapper<ResponseModel<UserModel>>
+    suspend fun register(body: RegisterRequest?): ResultWrapper<ResponseModel<UserModel>>
+    suspend fun editProfile(body: RegisterRequest?): ResultWrapper<ResponseModel<UserModel>>
     suspend fun myAds(page: Int): ResultWrapper<ResponseModel<List<AdsModel>>>
     suspend fun favAds(page: Int): ResultWrapper<ResponseModel<List<FavModel>>>
     suspend fun reportAd(reportedRequestAd: ReportedRequestAd): ResultWrapper<ResponseModel<AdsModel>>
@@ -71,4 +71,6 @@ interface DataRepo {
     suspend fun getCountries(): ResultWrapper<ResponseModel<List<CountryModel>>>
     suspend fun getCities(countyId: String): ResultWrapper<ResponseModel<List<CityModel>>>
     suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>>
+    suspend  fun checkout(id: String,type:String?): ResultWrapper<ResponseModel<String>>
+    suspend  fun paymentList() : ResultWrapper<ResponseModel<List<String>>>
 }

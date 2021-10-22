@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivitySellBinding
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.sell.views.*
 import com.latifapp.latif.utiles.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +23,7 @@ import java.util.*
 @AndroidEntryPoint
 class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
 
-
+    override val viewModel by viewModels<SellViewModel>()
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
@@ -55,7 +57,7 @@ class SellActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
 
     fun setFragment(fragment: Fragment) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.formContainer, fragment)
+        transaction.replace(R.id.formContainer, fragment)
         transaction.commit()
     }
 

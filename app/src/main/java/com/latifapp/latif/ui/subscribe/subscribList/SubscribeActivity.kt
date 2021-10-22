@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.latifapp.latif.R
 import com.latifapp.latif.data.models.SubscribeModel
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.sell.SellViewModel
 import com.latifapp.latif.ui.subscribe.subscribeDetails.SubscribDetailsActivity
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
@@ -21,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class SubscribeActivity : BaseActivity<SubscribeViewModel,ActivitySubscribBinding>() {
-
+    override val viewModel by viewModels<SubscribeViewModel>()
     private var adapter_: SubscribeAdapter?=null
     private var isLoadingData  =false
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
@@ -14,6 +15,7 @@ import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivitySellBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.filter.filter_list.FilterActivity
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.ui.sell.CreationFormFragment
 import com.latifapp.latif.ui.sell.SellViewModel
 import com.latifapp.latif.ui.sell.views.*
@@ -26,7 +28,7 @@ import java.io.Serializable
 
 @AndroidEntryPoint
 class FilterFormActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
-
+    override val viewModel by viewModels<SellViewModel>()
     private var isMap: Boolean? = true
     private var type: String? = ""
     private var filterHasMap: Boolean = false
@@ -86,7 +88,7 @@ class FilterFormActivity : BaseActivity<SellViewModel, ActivitySellBinding>() {
 
     fun setFragment(fragment: Fragment) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.formContainer, fragment)
+        transaction.replace(R.id.formContainer, fragment)
         transaction.commit()
     }
 

@@ -2,39 +2,43 @@ package com.latifapp.latif.ui.auth.signup
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.navigation.Navigation
-import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationServices
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.ActivitySignUpBinding
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.utiles.GpsUtils
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBinding>() {
 
-
+    override val viewModel by viewModels<SignUpViewModel>()
     private var isGpsTurned: Boolean = false
 
-    override fun attachBaseContext(newBase: Context?) {
+     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         Utiles.setLocalization(this, lang)
         Navigation.findNavController(
             this,
             R.id.fragment_container
         )
+            //.popBackStack(R.id.registerFragment, false)
+
         binding.backBtn.setOnClickListener({
             onBackPressed()
         })
@@ -97,5 +101,13 @@ class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBinding>() {
 
     override fun hideLoader() {
         binding.loader.bar.visibility = View.GONE
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isChangingConfigurations()) {
+            //It's an orientation change.
+            Utiles.log_D("kskskksksksks","isChangingConfigurations")
+        }
+
     }
 }

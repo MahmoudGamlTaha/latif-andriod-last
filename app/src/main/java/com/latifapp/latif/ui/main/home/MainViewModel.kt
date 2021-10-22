@@ -12,6 +12,7 @@ import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.ItemsViewModel
 import com.latifapp.latif.utiles.AppConstants
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@ActivityScoped
+@HiltViewModel
 class MainViewModel @Inject constructor( repo: DataRepo,appPrefsStorage: AppPrefsStorage):
 ItemsViewModel(
 appPrefsStorage, repo

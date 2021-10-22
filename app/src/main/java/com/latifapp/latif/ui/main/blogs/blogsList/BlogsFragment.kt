@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.SearchView
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.latifapp.latif.databinding.FragmentBlogsBinding
 import com.latifapp.latif.ui.auth.login.LoginActivity
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.main.blogs.blogsDetails.BlogDetailsActivity
+import com.latifapp.latif.ui.main.blogs.blogsDetails.BolgDetailsViewModel
 import com.latifapp.latif.ui.main.blogs.createBlog.CreateBlogActivity
 import com.latifapp.latif.ui.main.home.MainActivity
 import com.latifapp.latif.ui.main.items.PetsListAdapter
@@ -27,6 +30,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class BlogsFragment : BaseFragment<BlogsViewModel, FragmentBlogsBinding>(),
     PetsCategoryAdapter.CategoryActions {
+    override val viewModel by viewModels<BlogsViewModel>()
     private lateinit var searchview: SearchView
     private var category: Int? = null
     private var isLoadingData: Boolean = true

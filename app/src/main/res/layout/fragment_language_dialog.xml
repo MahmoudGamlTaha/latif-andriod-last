@@ -49,6 +49,7 @@
                    android:buttonTint="@color/sunset_orange"
                    android:fontFamily="@font/poppins_regular"
                    android:textSize="14sp"
+                   style="@style/textStyle"
                    android:textColor="@color/sunset_orange"
                    android:id="@+id/arBtn"/>
                <RadioButton
@@ -58,6 +59,7 @@
                    android:buttonTint="@color/sunset_orange"
                    android:fontFamily="@font/poppins_regular"
                    android:textSize="14sp"
+                   style="@style/textStyle"
                    android:textColor="@color/sunset_orange"
                    android:id="@+id/enBtn"/>
            </RadioGroup>

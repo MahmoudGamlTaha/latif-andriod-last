@@ -8,12 +8,14 @@ import com.latifapp.latif.network.ResultWrapper
 import com.latifapp.latif.network.repo.DataRepo
 import com.latifapp.latif.ui.base.BaseViewModel
 import com.latifapp.latif.utiles.Utiles.onSearchDebounce
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class BlogsViewModel @Inject constructor(val repo: DataRepo, appPrefsStorage: AppPrefsStorage):BaseViewModel(appPrefsStorage) {
     var page = 0
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.latifapp.latif.data.models.AdsModel
 import com.latifapp.latif.databinding.ActivitySubscribBinding
 import com.latifapp.latif.ui.base.BaseActivity
 import com.latifapp.latif.ui.details.DetailsActivity
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.ui.main.items.PetsListAdapter
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Utiles
@@ -21,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class FavActivity : BaseActivity<FavViewModel, ActivitySubscribBinding>() {
-
+    override val viewModel by viewModels<FavViewModel>()
     private val adapter_ = PetsListAdapter()
     private var isLoadingData = false
 

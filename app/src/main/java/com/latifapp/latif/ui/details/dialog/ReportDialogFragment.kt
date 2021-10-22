@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.Nullable
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.latifapp.latif.R
 import com.latifapp.latif.data.models.ReportedReasonsList
 import com.latifapp.latif.databinding.FragmentReportDialogBinding
 import com.latifapp.latif.ui.details.DetailsViewModel
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,8 +30,7 @@ class ReportDialogFragment() : DialogFragment(), AdapterView.OnItemSelectedListe
     private var reasonID: String? = null
     private var otherReason: String? = null
 
-    @Inject
-    lateinit var viewModel: DetailsViewModel
+     val viewModel by activityViewModels<DetailsViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

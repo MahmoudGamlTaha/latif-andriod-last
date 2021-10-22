@@ -19,8 +19,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 open abstract class BaseActivity<viewmodel : BaseViewModel, viewbind : ViewBinding>():AppCompatActivity(),BaseView<viewbind> {
-    @Inject
-    lateinit var viewModel: viewmodel
+    abstract val viewModel: viewmodel
      @Inject
     lateinit var appPrefsStorage: AppPrefsStorage
     public lateinit var binding: viewbind
@@ -35,6 +34,7 @@ open abstract class BaseActivity<viewmodel : BaseViewModel, viewbind : ViewBindi
          super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
      }
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setLocalization(this, lang)

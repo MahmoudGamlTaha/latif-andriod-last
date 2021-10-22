@@ -3,10 +3,12 @@ package com.latifapp.latif.ui.main.clinic
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.latifapp.latif.R
 import com.latifapp.latif.databinding.FragmentClinicBinding
+import com.latifapp.latif.ui.auth.signup.SignUpViewModel
 import com.latifapp.latif.ui.base.BaseFragment
 import com.latifapp.latif.ui.main.pets.PetsAdapter
 import com.latifapp.latif.ui.main.services.ServiceViewModel
@@ -16,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class ClinicFragment : BaseFragment<ServiceViewModel, FragmentClinicBinding>() {
-
+    override val viewModel by activityViewModels<ServiceViewModel>()
     private lateinit var clinicAdapter: ClinicAdapter
 
 

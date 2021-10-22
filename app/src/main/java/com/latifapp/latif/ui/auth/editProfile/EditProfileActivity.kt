@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.latifapp.latif.R
@@ -17,6 +18,7 @@ import com.latifapp.latif.ui.auth.login.LoginViewModel
 import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.city.CityDialog
 import com.latifapp.latif.ui.auth.signup.fragments.regester.dialog.country.CountryDialog
 import com.latifapp.latif.ui.base.BaseActivity
+import com.latifapp.latif.ui.filter.filter_list.FilterListViewModel
 import com.latifapp.latif.utiles.MyContextWrapper
 import com.latifapp.latif.utiles.Permissions
 import com.latifapp.latif.utiles.Utiles
@@ -31,7 +33,7 @@ import java.util.ArrayList
 
 @AndroidEntryPoint
 class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfileBinding>() {
-
+    override val viewModel by viewModels<EditProfileViewModel>()
     private lateinit var items: Array<String>
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
@@ -124,7 +126,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel, ActivityEditProfi
                 viewModel.setCountry(country?.id,if (isEnglish) country?.nameEn else country?.nameAr)
             }
             if (city != null) {
-                viewModel.setCity(city?.id,if (isEnglish)  city?.cityEn else city?.cityAr)
+                viewModel.setCity(city?.id, if (isEnglish) "${city?.cityEn}" else "${city?.cityAr}")
             }
 
             setImageProfile(avatar)

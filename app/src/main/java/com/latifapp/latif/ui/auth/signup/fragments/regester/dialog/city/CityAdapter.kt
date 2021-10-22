@@ -33,7 +33,7 @@ class CityAdapter(
         val model = list.get(position)
         holder.binding.nameTxt.text = if (isEnglish) model.cityEn else model.cityAr
         holder.binding.root.setOnClickListener {
-            actions.select(model.id,if (isEnglish) model.cityEn else model.cityAr)
+            actions.select(model.id, if (isEnglish) "${model.cityEn}" else "${model.cityAr}")
         }
     }
 

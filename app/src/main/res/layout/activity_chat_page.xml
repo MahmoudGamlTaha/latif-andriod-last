@@ -103,6 +103,7 @@
             android:background="@drawable/edittext_bg"
             android:minHeight="40dp"
             android:layout_weight="1"
+            style="@style/textStyle"
             android:elevation="1dp"
             android:inputType="textMultiLine"
             android:hint="@string/typeMsg"
