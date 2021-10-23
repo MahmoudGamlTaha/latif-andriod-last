@@ -33,15 +33,23 @@ open class PetsListAdapter : RecyclerView.Adapter<PetsListAdapter.MyViewHolder>(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val model = list.get(position)
-        holder.binding.petName.text = "${model.name}"
+        var name_len:Int = "${model.name}"?.length
+        var threedots:String = ""
+        if(name_len > 30){
+            name_len = 30
+            threedots = "..."
+        }
+        holder.binding.petName.text = "${model.name}"?.substring(0, name_len )+ threedots
         holder.binding.dateTxt.text = "${model.created_at}"
         holder.binding.priceTxt.text = "${model.price} EGP"
-        var length = "${model.short_description}"?.length - 1
+        var length:Int = "${model.short_description}"?.length
+        threedots = ""
         if(length > 30){
             length = 30
+            threedots = "..."
         }
         Utiles.log_D("length short", length)
-        holder.binding.locTxt.text = "${model.short_description}"?.substring(0, length)+"..."
+        holder.binding.locTxt.text = "${model.short_description}"?.substring(0, length)+threedots
         holder.binding.cityTxt.text="${model.city}"
 
         var ads_type: String? =null

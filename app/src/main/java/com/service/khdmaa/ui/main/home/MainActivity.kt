@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -16,11 +17,14 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.common.internal.Objects
 import com.service.khdmaa.R
+import com.service.khdmaa.data.models.MsgNotification
 import com.service.khdmaa.databinding.ActivityMainBinding
 import com.service.khdmaa.ui.auth.login.LoginActivity
 import com.service.khdmaa.ui.base.BaseActivity
 import com.service.khdmaa.ui.filter.filter_form.FilterFormActivity
+import com.service.khdmaa.ui.main.chat.chatPage.ChatPageActivity
 import com.service.khdmaa.ui.main.pets.PetsAdapter
 import com.service.khdmaa.ui.main.profile.ProfileActivity
 import com.service.khdmaa.ui.subscribe.subscribList.SubscribeActivity
@@ -97,6 +101,16 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
                 // selectedItem(selectedItemPosition)
             }
+        }
+        if(intent.extras?.get("chat") != null){
+              val chatIntent = Intent(this, ChatPageActivity::class.java)
+              var body = intent.extras?.get("chat")
+            Toast.makeText(this, "be", Toast.LENGTH_LONG)
+              if( body is MsgNotification?) {
+                  Toast.makeText(this, "bet", Toast.LENGTH_LONG)
+                  chatIntent.putExtra("model", body)
+                  startActivity(chatIntent)
+              }
         }
     }
 
