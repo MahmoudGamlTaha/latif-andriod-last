@@ -32,6 +32,7 @@ class ZomingImagesAdapter(val images: List<String>?) :
             Glide.with(holder.itemView.context).load(imagePath)
                 .error(R.drawable.ic_image)
                 .placeholder(R.drawable.ic_image).into(holder.binding.image)
+
         }else holder.binding.image.setImageResource(R.drawable.ic_image)
     }
 
