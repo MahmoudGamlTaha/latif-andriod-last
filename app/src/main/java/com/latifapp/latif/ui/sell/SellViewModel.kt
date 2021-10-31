@@ -23,6 +23,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -114,46 +118,31 @@ class SellViewModel @Inject constructor(repo: DataRepo, appPrefsStorage: AppPref
         return responseOfSubmit
     }
 
-    fun uploadImage(path: String): LiveData<String> {
+    fun uploadImage(path: String, Module:String): LiveData<String> {
         val livedata = MutableLiveData<String>()
-        val requestId: String =
-            MediaManager.get().upload(path).callback(object : UploadCallback {
-                override fun onStart(requestId: String) {
-                    // your code here
-                    loader.value = true
+        val file= File(path)
+        val imagePart = MultipartBody.Part.createFormData("file",
+                                     file.name,RequestBody.create(MediaType.parse("image/*"), file))
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val result = repo.UploadFiles(imagePart,Module)
+            when (result) {
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        if (result.value.response.data is List<*>) {
+                            val a: List<String> =
+                                result.value.response.data!!.filterIsInstance<String>()
+
+                            livedata.value = a.get(0);
+                        }
+                        Utiles.log_D("dnndndndndnnd555522", "${result.value.response.data}")
+                    }
                 }
-
-                override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
-                    Log.d("11nononProgress", requestId)
-                }
-
-                override fun onSuccess(requestId: String, resultData: Map<*, *>?) {
-                    // your code here
-                    Log.d("11nononSuccess", requestId + " " + resultData)
-                    livedata.value = resultData?.get("url").toString()
-                    loader.value = false
-                }
-
-                override fun onError(requestId: String, error: ErrorInfo) {
-                    // your code here
-                    Log.d("11nononError", requestId + " " + error.description)
-                    livedata.value = "-1"
-                    errorMsg.value = "try again"
-                    loader.value = false
-
-                }
-
-                override fun onReschedule(requestId: String, error: ErrorInfo) {
-                    // your code here
-                    Log.d("11nonReschedule", requestId + " " + error.description)
-                    livedata.value = "-1"
-                    errorMsg.value = "try again"
-                    loader.value = false
-
-                }
-            })
-                .dispatch()
-
+                else -> getErrorMsg(result)
+            }
+            loader.value = false
+        }
         return livedata
     }
 

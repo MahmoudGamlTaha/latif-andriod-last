@@ -2,6 +2,7 @@ package com.latifapp.latif.network.repo
 
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.ResultWrapper
+import okhttp3.MultipartBody
 import retrofit2.http.Query
 
 interface DataRepo {
@@ -73,4 +74,5 @@ interface DataRepo {
     suspend fun logout(id: String): ResultWrapper<ResponseModel<Boolean>>
     suspend  fun checkout(id: String,type:String?): ResultWrapper<ResponseModel<String>>
     suspend  fun paymentList() : ResultWrapper<ResponseModel<List<String>>>
+    suspend fun UploadFiles(file: MultipartBody.Part, module: String): ResultWrapper<ResponseModel<Any>>
 }

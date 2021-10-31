@@ -4,6 +4,7 @@ import com.example.postsapplication.network.NetworkApis
 import com.latifapp.latif.data.models.*
 import com.latifapp.latif.network.*
 import com.latifapp.latif.utiles.Utiles
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
@@ -205,5 +206,8 @@ class DataRepoManger @Inject constructor(val apis: NetworkApis) : DataRepo {
 
     override suspend fun paymentList(): ResultWrapper<ResponseModel<List<String>>> {
         return safeApiCall { apis.paymentList() }
+    }
+    override suspend fun UploadFiles(file: MultipartBody.Part, module: String): ResultWrapper<ResponseModel<Any>>{
+        return safeApiCall { apis.UploadFiles(file,module) }
     }
 }
