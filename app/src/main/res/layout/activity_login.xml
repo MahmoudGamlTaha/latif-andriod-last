@@ -33,6 +33,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35" />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="263dp" />
+
     <EditText
         android:id="@+id/usernameEx"
         android:layout_width="0dp"
@@ -100,8 +108,8 @@
         android:text="@string/signUp"
         android:textAllCaps="false"
         android:textColor="@color/sunset_orange"
-        android:textSize="15sp"
-        android:fontFamily="@font/poppins_regular"
+        android:textSize="18sp"
+        android:fontFamily="@font/poppins_bold"
         app:layout_constraintEnd_toEndOf="@id/usernameEx"
         app:layout_constraintStart_toStartOf="@id/usernameEx"
         app:layout_constraintTop_toBottomOf="@id/loginBtn" />

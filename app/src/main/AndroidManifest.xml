@@ -113,14 +113,14 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.myapp.UploadListner" />
-
         <meta-data
             android:name="cloudinaryCallbackService"
             android:value="com.myapp.UploadListner" />
         <meta-data
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://784911186423683:9CYslgAjFjt0mgAc7R0SrjCUGd0@highcoder" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebookAppId"/>
     </application>
 
 </manifest>

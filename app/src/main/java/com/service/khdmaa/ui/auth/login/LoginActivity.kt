@@ -3,9 +3,16 @@ package com.service.khdmaa.ui.auth.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.service.khdmaa.R
 import com.service.khdmaa.data.local.PreferenceConstants.Companion.Lang_PREFS
 import com.service.khdmaa.databinding.ActivityLoginBinding
@@ -19,15 +26,33 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import net.openid.appauth.TokenRequest
 
 @AndroidEntryPoint
 class LoginActivity :BaseActivity<LoginViewModel,ActivityLoginBinding>() {
-
+    lateinit var callbackManager: CallbackManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Utiles.setLocalization(this, lang)
+        /////
+        callbackManager = CallbackManager.Factory.create()
+        val loginButton = findViewById<LoginButton>(R.id.login_button)
+        loginButton.setReadPermissions(listOf("public_profile", "email"))
+        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+            override fun onSuccess(loginResult: LoginResult?) {
+                Log.d("TAG", "Success Login")
+                // Get User's Info
+            }
 
+            override fun onCancel() {
+                Toast.makeText(this@LoginActivity, "Login Cancelled", Toast.LENGTH_SHORT)
+            }
 
+            override fun onError(exception: FacebookException) {
+                Toast.makeText(this@LoginActivity, exception.message, Toast.LENGTH_LONG)
+            }
+        })
+        ///
 
         viewModel.validateLiveData.observe(this, Observer {
             if (it !=null){
@@ -77,4 +102,5 @@ class LoginActivity :BaseActivity<LoginViewModel,ActivityLoginBinding>() {
     override fun hideLoader() {
         binding.loader.bar.visibility = View.GONE
     }
+
 }

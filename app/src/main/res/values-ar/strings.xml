@@ -125,4 +125,6 @@
     <string name="OTHERS">اخرى</string>
     <string name="advertise">اعلن</string>
     <string name="commerical">تجاري</string>
+    <string name="facebookApiSecret">1585a77ebf9bebf871b02d309ed262d3</string>
+    <string name="facebookAppId">444394653697349</string>
 </resources>
