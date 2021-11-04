@@ -75,11 +75,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         setBottomBarNav()
 
         navigation.addOnDestinationChangedListener(this)
+
         setMenu()
         searchBtn.setOnClickListener {
             val intent = Intent(this, FilterFormActivity::class.java)
             intent.putExtra("type", type)
-            intent.putExtra("isMap", isMappingDisplay)
+            intent.putExtra("isMap", false)
             startActivity(intent)
         }
 
@@ -97,17 +98,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
                 onBackPressed()
-
-
                 // selectedItem(selectedItemPosition)
             }
         }
         if(intent.extras?.get("chat") != null){
               val chatIntent = Intent(this, ChatPageActivity::class.java)
               var body = intent.extras?.get("chat")
-            Toast.makeText(this, "be", Toast.LENGTH_LONG)
               if( body is MsgNotification?) {
-                  Toast.makeText(this, "bet", Toast.LENGTH_LONG)
                   chatIntent.putExtra("model", body)
                   startActivity(chatIntent)
               }
@@ -117,8 +114,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
         largeIcon.scaleX = 1.2f
         largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.6f
-        smallView.scaleY = 0.6f
+        smallView.scaleX = 0.9f
+        smallView.scaleY = 0.9f
     }
 
     private fun setTopBar() {
