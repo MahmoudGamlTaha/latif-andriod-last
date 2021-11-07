@@ -2,8 +2,8 @@
     <string name="app_name">5dmaa.com</string>
     <string name="user_name">رقم الموبايل</string>
     <string name="password">كلمة المرور</string>
-    <string name="login">تسجيل الدخول</string>
-    <string name="signUp">تسجيل حساب</string>
+    <string name="login">دخول</string>
+    <string name="signUp">إنشاء حساب جديد</string>
     <string name="interests">اهتمامك</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -125,8 +125,8 @@
     <string name="OTHERS">اخرى</string>
     <string name="advertise">اعلن</string>
     <string name="commerical">تجاري</string>
-    <string name="facebookApiSecret">1585a77ebf9bebf871b02d309ed262d3</string>
-    <string name="facebookAppId">444394653697349</string>
+    <string name="facebook_app_id">444394653697349</string>
+    <string name="fb_login_protocol_scheme">fb444394653697349</string>
     <string name="accessLocationMsg">السماح لخدمة بالموقع؟</string>
     <string name="wellcom">تواصل الان</string>
 </resources>
