@@ -103,8 +103,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     }
 
 
-    private fun getPetsList() {
-        var distance = 50_000f
+    private fun getMedicalList() {
+
+        var distance = Utiles.distance
         if (latitude_map != 0.0) {
             // get distance
             val loc1 = Location("loc1")
@@ -120,7 +121,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
             latitude_map = Latitude_
             longitude_map = Longitude_
         }
-        if (distance >= 50_000)
+        if (distance >= Utiles.distance)
             viewModel.page = 0
         else {
             if (listOfPetsIsEmpty)
@@ -195,6 +196,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 Permissions.locationManifestPermissionsList,
                 0
             )
+
         } else {
             if (ActivityCompat.checkSelfPermission(
                     this.requireContext(),
@@ -213,10 +215,11 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 // for ActivityCompat#requestPermissions for more details.
               return@OnMapReadyCallback
             }
-            mMap?.setMyLocationEnabled(true)
+
             //setupmap()
 
         }
+        mMap?.setMyLocationEnabled(true)
 
         mMap?.setOnCameraIdleListener {
             var latLng = mMap?.cameraPosition?.target
@@ -226,7 +229,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 getCityName_(latLng)
                  runBlocking {
                      val job = launch {
-                         getPetsList()
+                         getMedicalList()
                      }
                  }
 
@@ -243,8 +246,6 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                     val city = it.replace("Governorate", "")
                     if ((activity as MainActivity).toolBarTitle.text.equals(city) == false) {
                         Changed = true;
-
-
                     }
                     (activity as MainActivity).toolBarTitle.text = city
 
@@ -257,7 +258,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     fun setLPetsLocations(list: Set<AdsModel>) {
         val  mutex:Semaphore =  Semaphore(0);
         if (mMap != null) {
-            activity?.runOnUiThread(Runnable {
+            activity?.runOnUiThread(Runnable() {
                 list.forEach { adsModel ->
                     mMap?.getMarker(adsModel, requireContext(), layoutInflater)
                     mMap?.setOnMarkerClickListener { marker ->
@@ -277,6 +278,8 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 }
                mutex.release()
             })
+
+
         }
 
     }
@@ -357,7 +360,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
         mapSets.clear()
         viewModel.page = -1
         listOfPetsIsEmpty=false
-        getPetsList()
+        getMedicalList()
     }
 
 

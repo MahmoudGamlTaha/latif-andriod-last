@@ -18,6 +18,7 @@ import java.util.*
 object Utiles {
 
     var LANGUAGE:String="ar"
+    var distance = 80_000f
     fun log_D(key: Any, value: Any?) {
         Log.d("$key", "$value")
     }

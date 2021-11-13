@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -113,7 +115,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         val check = intent.extras?.get("click_action")
         if(check!= null && check.toString().equals("DetailsActivity")){
             val prod_id = intent.extras?.get("prod_id")
-            if(prod_id != null) {
+            if(prod_id != null || prod_id!= 0){
             val detailsIntent = Intent(this, DetailsActivity::class.java)
                 detailsIntent.putExtra("ID", prod_id.toString().toInt())
                 startActivity(detailsIntent)
@@ -122,10 +124,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     }
 
     fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
-        largeIcon.scaleX = 1.2f
-        largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.9f
-        smallView.scaleY = 0.9f
+        largeIcon.scaleX = 0.2f
+        largeIcon.scaleY = 0.2f
+
+        smallView.scaleX = 1.4f
+        smallView.scaleY = 1.4f
+        if(smallView.isGone){
+            smallView.visibility = View.VISIBLE
+        }
+        largeIcon.visibility = View.GONE
     }
 
     private fun setTopBar() {
