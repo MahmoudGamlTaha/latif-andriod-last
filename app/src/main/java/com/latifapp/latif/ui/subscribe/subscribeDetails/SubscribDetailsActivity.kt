@@ -145,7 +145,7 @@ class SubscribDetailsActivity : BaseActivity<SubscribeDetailsViewModel, Activity
          val checkoutSettings = CheckoutSettings(
              checkoutId,
              paymentBrands,
-             Connect.ProviderMode.TEST
+             Connect.ProviderMode.LIVE
          )
         checkoutSettings.shopperResultUrl = "com.latifapp.latif://result"
 
