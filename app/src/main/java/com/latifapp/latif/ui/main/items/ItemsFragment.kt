@@ -106,8 +106,13 @@ class ItemsFragment : BaseFragment<MainViewModel, FragmentPetsListBinding>() {
             viewModel.getItems(itemsType, category).collect {
                 if (it != null) {
                     adapter.list = it as MutableList<AdsModel>
-                    if (it.isNotEmpty())
+                    if (it.isNotEmpty()){
                         isLoadingData = false
+                        binding.swipeRefresh.visibility = View.VISIBLE
+                    }
+                    else if (it.isEmpty()){
+                        binding.linarTextAd.visibility = View.VISIBLE
+                    }
                 }
                 binding.swipeRefresh.setRefreshing(false)
             }

@@ -87,14 +87,16 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             setScaleView(listeBtn, mapBtn)
             if (isMappingDisplay) {
                 isMappingDisplay = false
+                listeBtn.visibility = GONE
+                mapBtn.visibility = VISIBLE
                 selectedItem(selectedItemPosition)
             }
-
         }
         binding.mapBtn.setOnClickListener {
-
             setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
+                listeBtn.visibility = VISIBLE
+                mapBtn.visibility = GONE
                 onBackPressed()
 
 

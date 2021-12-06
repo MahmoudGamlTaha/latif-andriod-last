@@ -93,8 +93,8 @@ class SubscribDetailsActivity : BaseActivity<SubscribeDetailsViewModel, Activity
             ExtraModel(
                 name = getString(R.string.periodInDays),
                 name_ar = getString(R.string.periodInDays),
-                value = "${it.periodInDays} ${it.periodUnit}",
-                value_ar = "${it.periodInDays} ${it.periodUnit}"
+                value = it.periodInDays,
+                value_ar = it.periodInDays
             )
         )
         extra.add(

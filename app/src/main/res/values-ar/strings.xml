@@ -5,6 +5,7 @@
     <string name="login">تسجيل الدخول</string>
     <string name="signUp">تسجيل حساب</string>
     <string name="interests">اهتمامك</string>
+    <string name="noadshere">لا يوجد اعلانات</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">الاسم</string>

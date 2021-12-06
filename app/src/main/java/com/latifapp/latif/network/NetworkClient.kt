@@ -27,6 +27,7 @@ import javax.net.ssl.X509TrustManager
 @InstallIn(SingletonComponent::class)
 object NetworkClient {
     val BASE_URL = "http://194.163.180.99:8070/"
+    // val BASE_URL = "http://latifapp.herokuapp.com/"
      private val TIMEOUT_MIN = 2
 
 
