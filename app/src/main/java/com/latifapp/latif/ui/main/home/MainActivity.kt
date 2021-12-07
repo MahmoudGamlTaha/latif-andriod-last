@@ -82,9 +82,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             startActivity(intent)
         }
 
-        setScaleView(mapBtn, listeBtn)
+       // setScaleView(mapBtn, listeBtn)
         binding.listeBtn.setOnClickListener {
-            setScaleView(listeBtn, mapBtn)
+           // setScaleView(listeBtn, mapBtn)
             if (isMappingDisplay) {
                 isMappingDisplay = false
                 listeBtn.visibility = GONE
@@ -93,7 +93,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             }
         }
         binding.mapBtn.setOnClickListener {
-            setScaleView(mapBtn, listeBtn)
+           // setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
                 listeBtn.visibility = VISIBLE
                 mapBtn.visibility = GONE
@@ -105,12 +105,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         }
     }
 
-    fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
-        largeIcon.scaleX = 1.2f
-        largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.6f
-        smallView.scaleY = 0.6f
-    }
+//    fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
+//        largeIcon.scaleX = 1.2f
+//        largeIcon.scaleY = 1.2f
+//        smallView.scaleX = 0.6f
+//        smallView.scaleY = 0.6f
+//    }
 
     private fun setTopBar() {
         binding.categoryList.apply {
@@ -164,7 +164,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun onBackPressed() {
         super.onBackPressed()
         isMappingDisplay = true
-        setScaleView(mapBtn, listeBtn)
+        //setScaleView(mapBtn, listeBtn)
     }
 
     override fun onDestinationChanged(
@@ -179,13 +179,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 bottomAdapter.show(selectedItemPosition)
                 isMappingDisplay = true
                 displayCategoriesAndFilter(true)
-                setScaleView(mapBtn, listeBtn)
+              //  setScaleView(mapBtn, listeBtn)
             }
             R.id.items_fragments -> {
                 bottomAdapter.show(selectedItemPosition)
                 isMappingDisplay = false
                 displayCategoriesAndFilter(true)
-                setScaleView(listeBtn,mapBtn)
+              //  setScaleView(listeBtn,mapBtn)
             }
             R.id.blogs_fragments -> {
                 bottomAdapter.show(4)
