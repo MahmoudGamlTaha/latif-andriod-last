@@ -28,7 +28,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="69dp"
         android:background="@drawable/bottom_curve_bg"
         android:layout_below="@id/toolbar"
         android:id="@+id/view55"
@@ -49,17 +49,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view55"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
-        android:background="@drawable/edittext_bg"
         android:id="@+id/togelContainer"
         >
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
             android:src="@drawable/ic_loc"
             android:tint="@color/sunset_orange"
             android:id="@+id/mapBtn"
@@ -67,10 +66,10 @@
             />
         <View
             android:layout_width="5dp"
-            android:layout_height="1dp"/>
+            android:layout_height="3dp"/>
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/toggel"
             android:tint="@color/sunset_orange"
             android:id="@+id/listeBtn"

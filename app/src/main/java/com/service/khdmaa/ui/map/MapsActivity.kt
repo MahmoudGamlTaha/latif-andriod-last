@@ -27,6 +27,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -62,7 +63,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (!Permissions.checkLocationPermissions(this)) {
             Permissions.showPermissionsDialog(
                 this,
-                "Request Location permission Is Needed",
+                getString(R.string.accessLocationMsg),
                 Permissions.locationManifestPermissionsList,
                 0
             )

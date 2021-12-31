@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -23,6 +25,7 @@ import com.service.khdmaa.data.models.MsgNotification
 import com.service.khdmaa.databinding.ActivityMainBinding
 import com.service.khdmaa.ui.auth.login.LoginActivity
 import com.service.khdmaa.ui.base.BaseActivity
+import com.service.khdmaa.ui.details.DetailsActivity
 import com.service.khdmaa.ui.filter.filter_form.FilterFormActivity
 import com.service.khdmaa.ui.main.chat.chatPage.ChatPageActivity
 import com.service.khdmaa.ui.main.pets.PetsAdapter
@@ -75,11 +78,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         setBottomBarNav()
 
         navigation.addOnDestinationChangedListener(this)
+
         setMenu()
         searchBtn.setOnClickListener {
             val intent = Intent(this, FilterFormActivity::class.java)
             intent.putExtra("type", type)
-            intent.putExtra("isMap", isMappingDisplay)
+            intent.putExtra("isMap", false)
             startActivity(intent)
         }
 
@@ -97,28 +101,38 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
                 onBackPressed()
-
-
                 // selectedItem(selectedItemPosition)
             }
         }
         if(intent.extras?.get("chat") != null){
               val chatIntent = Intent(this, ChatPageActivity::class.java)
               var body = intent.extras?.get("chat")
-            Toast.makeText(this, "be", Toast.LENGTH_LONG)
               if( body is MsgNotification?) {
-                  Toast.makeText(this, "bet", Toast.LENGTH_LONG)
                   chatIntent.putExtra("model", body)
                   startActivity(chatIntent)
               }
         }
+        val check = intent.extras?.get("click_action")
+        if(check!= null && check.toString().equals("DetailsActivity")){
+            val prod_id = intent.extras?.get("prod_id")
+            if(prod_id != null || prod_id!= 0){
+            val detailsIntent = Intent(this, DetailsActivity::class.java)
+                detailsIntent.putExtra("ID", prod_id.toString().toInt())
+                startActivity(detailsIntent)
+            }
+        }
     }
 
     fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
-        largeIcon.scaleX = 1.2f
-        largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.6f
-        smallView.scaleY = 0.6f
+        largeIcon.scaleX = 0.2f
+        largeIcon.scaleY = 0.2f
+
+        smallView.scaleX = 1.4f
+        smallView.scaleY = 1.4f
+        if(smallView.isGone){
+            smallView.visibility = View.VISIBLE
+        }
+        largeIcon.visibility = View.GONE
     }
 
     private fun setTopBar() {

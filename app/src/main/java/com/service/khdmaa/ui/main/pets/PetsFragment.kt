@@ -1,7 +1,9 @@
 package com.service.khdmaa.ui.main.pets
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -10,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -38,6 +41,9 @@ import com.service.khdmaa.utiles.MapsUtiles.getMarker
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.Semaphore
 
 
 @AndroidEntryPoint
@@ -66,6 +72,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
         if (mapFragment == null) {
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
             mapFragment?.getMapAsync(callback)
+
             Utiles.setMyLocationPositionInBottom(mapFragment?.view)
             binding.sellBtn.setOnClickListener {
                 if (AppPrefsStorage.token.isNullOrEmpty())
@@ -74,8 +81,6 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                     startActivity(Intent(activity, SellActivity::class.java))
             }
             getTypeOfCategorAndItems()
-
-
         }
     }
 
@@ -98,8 +103,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     }
 
 
-    private fun getPetsList() {
-        var distance = 50_000f
+    private fun getMedicalList() {
+
+        var distance = Utiles.distance
         if (latitude_map != 0.0) {
             // get distance
             val loc1 = Location("loc1")
@@ -115,7 +121,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
             latitude_map = Latitude_
             longitude_map = Longitude_
         }
-        if (distance >= 50_000)
+        if (distance >= Utiles.distance)
             viewModel.page = 0
         else {
             if (listOfPetsIsEmpty)
@@ -148,7 +154,12 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                     Utiles.log_D("ncncncnncncncn", "${list.size}")
                     Utiles.log_D("ncncncnncncncn", "${it.size}")
                     if (!list.isEmpty()) {
-                        setLPetsLocations(list)
+                        runBlocking {
+                            val job = launch {
+                                setLPetsLocations(list)
+                            }
+                        }
+
                     }
                 }
             }
@@ -173,7 +184,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
 
     }
 
-    @SuppressLint("MissingPermission")
+    //@SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
 
         mMap = googleMap
@@ -185,10 +196,30 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 Permissions.locationManifestPermissionsList,
                 0
             )
+
         } else {
-            mMap?.setMyLocationEnabled(true)
+            if (ActivityCompat.checkSelfPermission(
+                    this.requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this.requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+              return@OnMapReadyCallback
+            }
+
             //setupmap()
+
         }
+        mMap?.setMyLocationEnabled(true)
 
         mMap?.setOnCameraIdleListener {
             var latLng = mMap?.cameraPosition?.target
@@ -196,7 +227,12 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                 Latitude_ = latLng.latitude
                 Longitude_ = latLng.longitude
                 getCityName_(latLng)
-                getPetsList()
+                 runBlocking {
+                     val job = launch {
+                         getMedicalList()
+                     }
+                 }
+
             }
         }
     }
@@ -210,8 +246,6 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                     val city = it.replace("Governorate", "")
                     if ((activity as MainActivity).toolBarTitle.text.equals(city) == false) {
                         Changed = true;
-
-
                     }
                     (activity as MainActivity).toolBarTitle.text = city
 
@@ -222,8 +256,9 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
     }
 
     fun setLPetsLocations(list: Set<AdsModel>) {
+        val  mutex:Semaphore =  Semaphore(0);
         if (mMap != null) {
-            activity?.runOnUiThread(Runnable {
+            activity?.runOnUiThread(Runnable() {
                 list.forEach { adsModel ->
                     mMap?.getMarker(adsModel, requireContext(), layoutInflater)
                     mMap?.setOnMarkerClickListener { marker ->
@@ -241,8 +276,10 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
                         true
                     }
                 }
-
+               mutex.release()
             })
+
+
         }
 
     }
@@ -323,7 +360,7 @@ class PetsFragment : BaseFragment<MainViewModel, FragmentPetsBinding>() {
         mapSets.clear()
         viewModel.page = -1
         listOfPetsIsEmpty=false
-        getPetsList()
+        getMedicalList()
     }
 
 

@@ -310,13 +310,13 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
             if (!Permissions.checkLocationPermissions(requireActivity())) {
                 Permissions.showPermissionsDialog(
                     requireActivity(),
-                    "Request Location permission Is Needed",
+                    getString(R.string.accessLocationMsg),
                     Permissions.locationManifestPermissionsList,
                     0
                 )
             } else {
 
-                startActivityForResult(
+               this.startActivityForResult(
                     Intent(requireActivity(), MapsActivity::class.java),
                     Permissions.MapRequest
                 )

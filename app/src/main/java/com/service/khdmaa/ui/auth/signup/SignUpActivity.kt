@@ -7,7 +7,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.navigation.Navigation
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationServices
 import com.service.khdmaa.R
@@ -24,12 +26,36 @@ class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBinding>() {
 
 
     private var isGpsTurned: Boolean = false
+    private var FirstName:String=""
+    private var LastName:String=""
+    private var FBID:String=""
+    private var email:String=""
+
+
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        try {
+            this.FirstName= intent.getStringExtra("FirstName")!!
+            LastName=intent.getStringExtra("LastName")!!
+            FBID=intent.getStringExtra("FbId")!!
+            email=intent.getStringExtra("email")!!
+        }catch (e:Exception){
+              e.printStackTrace()
+        }
+        val Name = findViewById<EditText>(R.id.nameEx)
+        Name.setText(this.FirstName+" "+LastName)
+        val emailT = findViewById<EditText>(R.id.emailEx)
+        emailT.setText(email)
+
+
+
+
+
+
         Utiles.setLocalization(this, lang)
         Navigation.findNavController(
             this,

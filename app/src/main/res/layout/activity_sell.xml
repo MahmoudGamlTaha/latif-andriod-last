@@ -64,7 +64,7 @@
                 android:layout_margin="20dp"
                 android:textSize="15sp"
                 android:textAllCaps="false"
-                android:text="@string/submit"
+                android:text="@string/advertise"
                 android:visibility="gone"
                 />
         </RelativeLayout>

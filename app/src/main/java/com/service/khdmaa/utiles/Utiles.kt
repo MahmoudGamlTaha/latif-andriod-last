@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
+import com.service.khdmaa.R
 import com.service.khdmaa.data.local.AppPrefsStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -17,12 +18,13 @@ import java.util.*
 object Utiles {
 
     var LANGUAGE:String="ar"
+    var distance = 80_000f
     fun log_D(key: Any, value: Any?) {
         Log.d("$key", "$value")
     }
 
     fun setMyLocationPositionInBottom(mMapView: View?) {
-        val view1 = mMapView?.findViewById("1".toInt()) as View
+        val view1 = mMapView?.findViewById(R.id.map) as View
         val locationButton: View =
             (view1
                 .getParent() as View).findViewById("2".toInt())

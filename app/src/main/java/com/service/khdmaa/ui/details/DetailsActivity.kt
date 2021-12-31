@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,10 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.service.khdmaa.R
-import com.service.khdmaa.data.models.ExtraModel
-import com.service.khdmaa.data.models.ImagesModel
-import com.service.khdmaa.data.models.MsgNotification
-import com.service.khdmaa.data.models.UserModel
+import com.service.khdmaa.data.models.*
 import com.service.khdmaa.databinding.ActivityDetailsBinding
 import com.service.khdmaa.databinding.CallDialogBinding
 import com.service.khdmaa.databinding.TopOptionMenuBinding
@@ -49,7 +47,9 @@ class DetailsActivity() : BaseActivity<DetailsViewModel, ActivityDetailsBinding>
     private lateinit var topMenuPopUp: PopupWindow
     private lateinit var callPopUp: PopupWindow
     private var id: Int? = null
-
+    companion object {
+        var MSG_LIVE_DATA: MutableLiveData<NewsNotification>? = null
+    }
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
     }
