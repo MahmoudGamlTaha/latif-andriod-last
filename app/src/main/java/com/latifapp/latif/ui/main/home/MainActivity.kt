@@ -82,34 +82,40 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             startActivity(intent)
         }
 
-        setScaleView(mapBtn, listeBtn)
+        setScaleView( listeBtn,mapBtn )
         binding.listeBtn.setOnClickListener {
-            setScaleView(listeBtn, mapBtn)
-            if (isMappingDisplay) {
-                isMappingDisplay = false
-                listeBtn.visibility = GONE
-                mapBtn.visibility = VISIBLE
+
+           // onBackPressed()
+            isMappingDisplay = false
+           // if (isMappingDisplay) {
+           //     setScaleView( mapBtn,listeBtn )
+
+              //  listeBtn.visibility = GONE
+                //mapBtn.visibility = VISIBLE
                 selectedItem(selectedItemPosition)
-            }
+            setScaleView(mapBtn, listeBtn)
+           // }
         }
         binding.mapBtn.setOnClickListener {
-            setScaleView(mapBtn, listeBtn)
-            if (!isMappingDisplay) {
-                listeBtn.visibility = VISIBLE
-                mapBtn.visibility = GONE
-                onBackPressed()
 
-
+            if (!isMappingDisplay &&  mapBtn.visibility == VISIBLE) {
+               // listeBtn.visibility = VISIBLE
+              //  mapBtn.visibility = GONE
+                onBackPressed();
                 // selectedItem(selectedItemPosition)
             }
+            isMappingDisplay = true
+            setScaleView(listeBtn,mapBtn)
         }
     }
 
     fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
-        largeIcon.scaleX = 1.2f
-        largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.6f
-        smallView.scaleY = 0.6f
+        largeIcon.scaleX = 0.6f
+        largeIcon.scaleY = 0.6f
+        largeIcon.visibility = VISIBLE
+        smallView.visibility = GONE
+       // smallView.scaleX = 0.6f
+        //smallView.scaleY = 0.6f
     }
 
     private fun setTopBar() {

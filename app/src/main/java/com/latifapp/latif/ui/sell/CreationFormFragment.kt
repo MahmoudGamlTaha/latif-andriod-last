@@ -455,7 +455,7 @@ class CreationFormFragment : BaseFragment<SellViewModel, FragmentCreationFormBin
         if (!Permissions.checkCameraPermissions(requireActivity())) {
             Permissions.showPermissionsDialog(
                 requireActivity(),
-                "External Storage  Permission Is Needed",
+                getString(R.string.require_external),
                 Permissions.cameraManifestPermissionsList,
                 Permissions.galleryRequest
             )

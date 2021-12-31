@@ -121,4 +121,5 @@
     <string name="errorPayment">لقد حدث خطأ، من فضلك حاول مرة اخرى</string>
     <string name="payment">الدفع</string>
     <string name="is_required">يجب ادخاله</string>
+    <string name="require_external">"الوصول للذاكرة مطلوب"</string>
 </resources>
