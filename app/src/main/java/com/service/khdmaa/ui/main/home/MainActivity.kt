@@ -83,24 +83,24 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             startActivity(intent)
         }
 
-        setScaleView(mapBtn, listeBtn)
+        setScaleView(listeBtn,mapBtn)
         binding.listeBtn.setOnClickListener {
-            setScaleView(listeBtn, mapBtn)
-            if (isMappingDisplay) {
+
+           // if (isMappingDisplay) {
                 isMappingDisplay = false
                 selectedItem(selectedItemPosition)
-            }
-
+           // }
+            setScaleView(mapBtn,listeBtn)
         }
         binding.mapBtn.setOnClickListener {
-
-            setScaleView(mapBtn, listeBtn)
             if (!isMappingDisplay) {
                 onBackPressed()
 
 
                 // selectedItem(selectedItemPosition)
             }
+            isMappingDisplay = true
+            setScaleView(listeBtn,mapBtn)
         }
         if(intent.extras?.get("chat") != null){
               val chatIntent = Intent(this, ChatPageActivity::class.java)
@@ -117,8 +117,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     fun setScaleView(largeIcon: ImageView, smallView: ImageView) {
         largeIcon.scaleX = 1.2f
         largeIcon.scaleY = 1.2f
-        smallView.scaleX = 0.6f
-        smallView.scaleY = 0.6f
+        largeIcon.visibility = VISIBLE
+      //  smallView.scaleX = 0.6f
+       // smallView.scaleY = 0.6f
+        smallView.visibility = GONE
     }
 
     private fun setTopBar() {
