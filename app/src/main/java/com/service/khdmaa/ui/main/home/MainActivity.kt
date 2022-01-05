@@ -23,6 +23,7 @@ import com.service.khdmaa.data.models.MsgNotification
 import com.service.khdmaa.databinding.ActivityMainBinding
 import com.service.khdmaa.ui.auth.login.LoginActivity
 import com.service.khdmaa.ui.base.BaseActivity
+import com.service.khdmaa.ui.details.DetailsActivity
 import com.service.khdmaa.ui.filter.filter_form.FilterFormActivity
 import com.service.khdmaa.ui.main.chat.chatPage.ChatPageActivity
 import com.service.khdmaa.ui.main.pets.PetsAdapter
@@ -73,7 +74,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         )
         setTopBar()
         setBottomBarNav()
-
+        if(intent.extras?.get("chat") != null){
+            val chatIntent = Intent(this, ChatPageActivity::class.java)
+            var body = intent.extras?.get("chat")
+            if( body is MsgNotification?) {
+                chatIntent.putExtra("model", body)
+                startActivity(chatIntent)
+            }
+        }
+        val check = intent.extras?.get("click_action")
+        if(check!= null && check.toString().equals("DetailsActivity")){
+            val prod_id = intent.extras?.get("prod_id")
+            if(prod_id != null || prod_id!= 0){
+                val detailsIntent = Intent(this, DetailsActivity::class.java)
+                detailsIntent.putExtra("ID", prod_id.toString().toInt())
+                startActivity(detailsIntent)
+            }
+        }
         navigation.addOnDestinationChangedListener(this)
         setMenu()
         searchBtn.setOnClickListener {

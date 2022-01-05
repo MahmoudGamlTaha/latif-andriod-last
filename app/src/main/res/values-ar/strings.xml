@@ -125,4 +125,5 @@
     <string name="OTHERS">اخرى</string>
     <string name="advertise">اعلن</string>
     <string name="commerical">تجاري</string>
+    <string name="Location_need_perm">السماح بالوصول للموقع؟</string>
 </resources>

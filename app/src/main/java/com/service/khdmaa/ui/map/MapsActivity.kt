@@ -62,7 +62,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (!Permissions.checkLocationPermissions(this)) {
             Permissions.showPermissionsDialog(
                 this,
-                "Request Location permission Is Needed",
+                getString(R.string.Location_need_perm),
                 Permissions.locationManifestPermissionsList,
                 0
             )
