@@ -13,6 +13,8 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.service.khdmaa.data.models.MsgNotification
+import com.service.khdmaa.data.models.NewsNotification
+import com.service.khdmaa.ui.details.DetailsActivity
 import com.service.khdmaa.ui.main.chat.chatPage.ChatPageActivity
 import com.service.khdmaa.ui.main.chat.chatPage.ChatPageActivity.Companion.MSG_LIVE_DATA
 import com.service.khdmaa.utiles.Utiles
@@ -40,39 +42,71 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         var body = ""
         try {
             val jsonObject = JSONObject(data)
-            title = jsonObject["sender_name"].toString()
-            body = jsonObject["message"].toString()
-            val sender_avater = jsonObject["sender_avater"].toString()
-            val prod_id = jsonObject["prod_id"].toString()
-            val chat_room = jsonObject["chat_room"].toString()
-            val prod_name = jsonObject["prod_name"].toString()
-            val sender_id = jsonObject["sender_id"].toString()
+            val check = jsonObject["click_action"];
+            if(check.equals("DetailsActivity")) {
+                val message = jsonObject["message"].toString()
+                val prod_name = jsonObject["prod_name"].toString()
+                val sender_avater = jsonObject["image"].toString()
+                val click_action = jsonObject["click_action"].toString()
+                val prod_id = jsonObject["prod_id"].toString()
+                if(prod_id != null) {
+                    val intent = Intent(this, DetailsActivity::class.java)
+                    intent.putExtra("ID", prod_id.toInt())
+                    pendingIntent = PendingIntent.getActivity(
+                        this, 1,
+                        intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                }
+                val newsBody = NewsNotification(
+                    message = message,
+                    image = sender_avater,
+                    click_action = click_action,
+                    prod_name = prod_name,
+                    prod_id = prod_id
 
-            val body = MsgNotification(
-                sender_name = title,
-                message = body,
-                sender_avater = sender_avater,
-                prod_id = prod_id,
-                chat_room = chat_room,
-                prod_name = prod_name,
-                sender_id = sender_id
-            )
+                )
+                body = message
+                title = getString(R.string.wellcom)
+                GlobalScope.launch {
+                    withContext(Dispatchers.Main) {
+
+                        DetailsActivity.MSG_LIVE_DATA?.value = newsBody
+                    }
+                }
+            }else {
+                title = jsonObject["sender_name"].toString()
+                body = jsonObject["message"].toString()
+                val sender_avater = jsonObject["sender_avater"].toString()
+                val prod_id = jsonObject["prod_id"].toString()
+                val chat_room = jsonObject["chat_room"].toString()
+                val prod_name = jsonObject["prod_name"].toString()
+                val sender_id = jsonObject["sender_id"].toString()
+
+                val body = MsgNotification(
+                    sender_name = title,
+                    message = body,
+                    sender_avater = sender_avater,
+                    prod_id = prod_id,
+                    chat_room = chat_room,
+                    prod_name = prod_name,
+                    sender_id = sender_id
+                )
 
 
-            val intent = Intent(this, ChatPageActivity::class.java)
-            intent.putExtra("model", body)
-            pendingIntent = PendingIntent.getActivity(
-                this, 1,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT
-            )
+                val intent = Intent(this, ChatPageActivity::class.java)
+                intent.putExtra("model", body)
+                pendingIntent = PendingIntent.getActivity(
+                    this, 1,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
-            GlobalScope.launch {
-                withContext(Dispatchers.Main) {
+                GlobalScope.launch {
+                    withContext(Dispatchers.Main) {
 
-                    MSG_LIVE_DATA?.value = body
+                        MSG_LIVE_DATA?.value = body
+                    }
                 }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("nbnbnbnbnbnnbnnb2", e.toString())
@@ -95,6 +129,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationBuilder = NotificationCompat.Builder(this, Notification_channelID)
         notificationBuilder.setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_ALL)
+
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setWhen(System.currentTimeMillis())
             .setSmallIcon(R.mipmap.ic_launcher)

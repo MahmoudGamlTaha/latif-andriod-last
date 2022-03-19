@@ -51,7 +51,9 @@ class SignUpActivity : BaseActivity<SignUpViewModel, ActivitySignUpBinding>() {
         if (!isGpsTurned)
             turnGPSOn()
     }
-
+   override  fun checkReg() : Boolean{
+       return false;
+   }
     private fun turnGPSOn() {
         if (!Permissions.checkLocationPermissions(this)) {
             Permissions.showPermissionsDialog(

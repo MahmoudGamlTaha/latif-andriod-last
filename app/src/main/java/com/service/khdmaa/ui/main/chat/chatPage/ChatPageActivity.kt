@@ -73,8 +73,13 @@ Toast.makeText(this, model.sender_name,Toast.LENGTH_LONG)
         }
         binding.loader2.visibility = View.VISIBLE
         MSG_LIVE_DATA = MutableLiveData<MsgNotification>(null)
-        if (!viewModel.room.isNullOrEmpty())
+        if (!viewModel.room.isNullOrEmpty()){
+            Thread(Runnable {
+
+            })
             getChat()
+        }
+
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }

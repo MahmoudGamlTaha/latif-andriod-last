@@ -34,6 +34,9 @@ open abstract class BaseActivity<viewmodel : BaseViewModel, viewbind : ViewBindi
     override fun attachBaseContext(newBase: Context?) {
          super.attachBaseContext(MyContextWrapper.wrap(newBase, Utiles.LANGUAGE))
      }
+     open fun  checkReg() :Boolean{
+        return true
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -49,7 +52,7 @@ open abstract class BaseActivity<viewmodel : BaseViewModel, viewbind : ViewBindi
             })
 
             viewModel.loginAgain_.observe(this@BaseActivity, Observer {
-                if (it != null && it)
+                if (checkReg() && it != null && it)
                     startActivity(Intent(this, LoginActivity::class.java))
             })
 

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.internal.Objects
 import com.service.khdmaa.R
 import com.service.khdmaa.data.models.MsgNotification
+import com.service.khdmaa.data.models.NewsNotification
 import com.service.khdmaa.databinding.ActivityMainBinding
 import com.service.khdmaa.ui.auth.login.LoginActivity
 import com.service.khdmaa.ui.base.BaseActivity
@@ -82,13 +83,19 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 startActivity(chatIntent)
             }
         }
-        val check = intent.extras?.get("click_action")
-        if(check!= null && check.toString().equals("DetailsActivity")){
-            val prod_id = intent.extras?.get("prod_id")
-            if(prod_id != null || prod_id!= 0){
-                val detailsIntent = Intent(this, DetailsActivity::class.java)
-                detailsIntent.putExtra("ID", prod_id.toString().toInt())
-                startActivity(detailsIntent)
+       
+        val check = intent.extras?.get("details")
+
+        if(check!= null){
+            Toast.makeText(this, "first", Toast.LENGTH_LONG)
+            if(check is NewsNotification) {
+                Toast.makeText(this, check.prod_id, Toast.LENGTH_LONG)
+                val prod_id = check.prod_id
+                if (prod_id != null && prod_id.toInt() != 0) {
+                    val detailsIntent = Intent(this, DetailsActivity::class.java)
+                    detailsIntent.putExtra("ID", prod_id.toString().toInt())
+                    startActivity(detailsIntent)
+                }
             }
         }
         navigation.addOnDestinationChangedListener(this)
@@ -124,7 +131,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
               var body = intent.extras?.get("chat")
             Toast.makeText(this, "be", Toast.LENGTH_LONG)
               if( body is MsgNotification?) {
-                  Toast.makeText(this, "bet", Toast.LENGTH_LONG)
                   chatIntent.putExtra("model", body)
                   startActivity(chatIntent)
               }
