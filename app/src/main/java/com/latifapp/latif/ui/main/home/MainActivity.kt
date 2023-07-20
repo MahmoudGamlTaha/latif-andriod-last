@@ -70,6 +70,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             this,
             R.id.fragment_container
         )
+
         setTopBar()
         setBottomBarNav()
 
@@ -183,15 +184,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         when (destination.id) {
             R.id.pets_fragments -> {
                 bottomAdapter.show(selectedItemPosition)
-                isMappingDisplay = true
+              //  isMappingDisplay = true
                 displayCategoriesAndFilter(true)
-                setScaleView(mapBtn, listeBtn)
+             //   setScaleView(mapBtn, listeBtn)
             }
             R.id.items_fragments -> {
                 bottomAdapter.show(selectedItemPosition)
-                isMappingDisplay = false
+            //    isMappingDisplay = false
                 displayCategoriesAndFilter(true)
-                setScaleView(listeBtn,mapBtn)
+            //    setScaleView(listeBtn,mapBtn)
             }
             R.id.blogs_fragments -> {
                 bottomAdapter.show(4)
